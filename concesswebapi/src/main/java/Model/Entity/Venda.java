@@ -8,5 +8,6 @@ public class Venda {
     private String aprovada;
 
     private Vendedor vendedor;
+    private Cliente cliente;
     private ModeloVeiculo modeloVeiculo;
 }

@@ -7,7 +7,7 @@ public class AgendamentoTestDrive {
     private String dataEntegue;
     private String horaEntregue;
 
-    private AgendamentoTestDrive agendamentoTestDrive;
+    private Vendedor vendedor;
     private Cliente cliente;
     private Veiculo veiculo;
 }

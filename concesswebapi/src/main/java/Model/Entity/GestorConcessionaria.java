@@ -1,7 +1,7 @@
 package Model.Entity;
 
-public class Vendedor extends Funcionario{
+public class GestorConcessionaria {
 
+    private Gestor gestor;
     private Concessionaria concessionaria;
 }
-

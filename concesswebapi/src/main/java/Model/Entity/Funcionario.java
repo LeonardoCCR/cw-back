@@ -4,4 +4,5 @@ public class Funcionario extends PessoaFisica {
 
     private String cargo;
 
+    private Empresa empresa;
 }

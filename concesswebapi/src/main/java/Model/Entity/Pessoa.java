@@ -2,6 +2,7 @@ package Model.Entity;
 
 public class Pessoa {
 
+
     private String telefone;
     private String email;
     private String logradouro;

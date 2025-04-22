@@ -1,7 +1,20 @@
 package Model.Entity;
 
-public class Empresa extends PessoaJuridica{
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
-    private Funcionario funcionarios;
+import javax.persistence.*;
+import java.util.List;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@Entity
+public class Empresa extends PessoaJuridica {
+
+    @OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL)
+    private List<Funcionario> funcionarios;
 }

@@ -2,6 +2,7 @@ package Model.Entity;
 
 public class ItensVenda {
 
+
     private float descontoParcial;
 
     private Venda venda;

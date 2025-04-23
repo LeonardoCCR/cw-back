@@ -1,6 +1,20 @@
 package Model.Entity;
 
-public class Concessionaria extends PessoaJuridica{
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@Entity
+public class Concessionaria extends PessoaJuridica {
+
+    @ManyToOne
+    @JoinColumn(name = "empresa_id")
     private Empresa empresa;
 }

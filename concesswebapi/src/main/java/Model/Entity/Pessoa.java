@@ -1,7 +1,20 @@
 package Model.Entity;
 
-public class Pessoa {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@MappedSuperclass
+public abstract class Pessoa {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
     private String telefone;
     private String email;

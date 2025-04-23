@@ -10,7 +10,7 @@ import javax.persistence.Entity;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class Cliente {
+public class  Cliente extends PessoaFisica {
 
     private String dataNascimento;
 }

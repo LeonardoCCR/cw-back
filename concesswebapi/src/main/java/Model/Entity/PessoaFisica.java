@@ -15,7 +15,6 @@ import javax.persistence.MappedSuperclass;
 
 public abstract class PessoaFisica extends Pessoa{
 
-
     private String nome;
     private String cpf;
     private String login;

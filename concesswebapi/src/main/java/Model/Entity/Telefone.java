@@ -1,6 +1,5 @@
 package Model.Entity;
 
-
 public class Telefone {
 
     private Pessoa Pessoa;

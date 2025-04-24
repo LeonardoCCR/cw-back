@@ -15,6 +15,7 @@ import java.util.List;
 @Entity
 public class Empresa extends PessoaJuridica {
 
-    @OneToMany(mappedBy = "empresa", cascade = CascadeType.ALL)
-    private List<Funcionario> funcionarios;
+    //não tem listas aqui, marco usa anotações @ManyToOne para referenciar 1 para n
+    @ManyToOne
+    private AdmEmpresa admEmpresa;
 }

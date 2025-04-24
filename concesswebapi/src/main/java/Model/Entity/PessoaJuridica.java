@@ -12,6 +12,7 @@ import javax.persistence.MappedSuperclass;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @MappedSuperclass
+
 public abstract class PessoaJuridica extends Pessoa {
 
     private String razaoSocial;

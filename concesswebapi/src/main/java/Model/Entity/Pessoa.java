@@ -14,8 +14,8 @@ public abstract class Pessoa {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
 
+    private long id;
     private String telefone;
     private String email;
     private String logradouro;

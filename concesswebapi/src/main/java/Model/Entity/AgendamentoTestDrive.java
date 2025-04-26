@@ -23,5 +23,6 @@ public class AgendamentoTestDrive {
     @ManyToOne
     private Cliente cliente;
 
+    @ManyToOne
     private Veiculo veiculo;
 }

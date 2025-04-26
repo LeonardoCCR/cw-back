@@ -28,8 +28,6 @@ public class ModeloVeiculo {
     @ManyToOne
     private TipoVeiculo tipoVeiculo;
 
-    @ManytoOne
+    @ManyToOne
     private Modelo modelo;
-
-    private VeiculoUsado veiculoUsado;
 }

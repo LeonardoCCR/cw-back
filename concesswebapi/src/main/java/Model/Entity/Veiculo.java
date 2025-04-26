@@ -6,12 +6,13 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import java.util.ArrayList;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@MappedSuperclass
-
-import java.util.ArrayList;
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 
 public class Veiculo {
 

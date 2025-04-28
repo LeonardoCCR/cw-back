@@ -11,7 +11,6 @@ import javax.persistence.Entity;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class AdmSuporte extends PessoaFisica{
 
 }

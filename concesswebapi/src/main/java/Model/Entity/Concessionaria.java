@@ -19,7 +19,4 @@ public class Concessionaria extends PessoaJuridica {
 
     @ManyToOne
     private Empresa empresa;
-
-
-
 }

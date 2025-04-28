@@ -3,6 +3,7 @@ package Model.Entity;
 
 import javax.persistence.ManyToOne;
 
+
 public class GestorConcessionaria {
 
     @ManyToOne

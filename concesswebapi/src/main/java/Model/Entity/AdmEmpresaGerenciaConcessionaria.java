@@ -2,6 +2,7 @@ package Model.Entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -13,9 +14,13 @@ import javax.persistence.*;
 
 public class AdmEmpresaGerenciaConcessionaria {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @EqualsAndHashCode.Include
     private Long id;
+
 
     @ManyToOne
     private AdmEmpresa admEmpresa;

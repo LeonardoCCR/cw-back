@@ -17,6 +17,7 @@ import javax.persistence.*;
 
 public abstract class Pessoa {
 
+    @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 

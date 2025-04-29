@@ -15,8 +15,6 @@ import javax.persistence.*;
 public class Concessionaria extends PessoaJuridica {
 
 
-    @JoinColumn(name = "empresa_id")
-
     @ManyToOne
     private Empresa empresa;
 }

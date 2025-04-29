@@ -5,14 +5,18 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.MappedSuperclass;
 
 @EqualsAndHashCode(callSuper = true)
-@MappedSuperclass
+//@MappedSuperclass
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 
 public abstract class PessoaFisica extends Pessoa{
 

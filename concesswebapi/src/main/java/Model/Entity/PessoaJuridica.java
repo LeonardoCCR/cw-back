@@ -5,6 +5,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.MappedSuperclass;
 
 
@@ -12,7 +15,10 @@ import javax.persistence.MappedSuperclass;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@MappedSuperclass
+//@MappedSuperclass
+
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 
 public abstract class PessoaJuridica extends Pessoa {
 

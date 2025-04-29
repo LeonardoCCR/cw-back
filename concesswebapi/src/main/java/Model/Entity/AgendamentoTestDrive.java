@@ -12,6 +12,10 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class AgendamentoTestDrive {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
     private String dataAgendada;
     private String horaAgendada;
     private String dataEntegue;

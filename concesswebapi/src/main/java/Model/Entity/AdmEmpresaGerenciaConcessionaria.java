@@ -18,7 +18,7 @@ public class AdmEmpresaGerenciaConcessionaria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    @EqualsAndHashCode.Include
+   @EqualsAndHashCode.Include
     private Long id;
 
 

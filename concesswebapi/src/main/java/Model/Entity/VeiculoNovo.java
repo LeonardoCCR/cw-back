@@ -10,8 +10,6 @@ import javax.persistence.*;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 
 public class VeiculoNovo extends Veiculo {
 }

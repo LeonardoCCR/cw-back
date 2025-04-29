@@ -12,9 +12,18 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class ItensVenda {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private float descontoParcial;
+
+    @ManyToOne
     private Venda venda;
+
+    @ManyToOne
     private ModeloVeiculo modeloVeiculo;
+
+    @OneToOne
     private Veiculo veiculo;
 }

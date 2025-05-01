@@ -1,10 +1,11 @@
-package Model.Entity;
+package com.example.concesswebapi.Model.Entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -12,7 +13,9 @@ import javax.persistence.Entity;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class  Cliente extends PessoaFisica {
+public class Vendedor extends Funcionario{
 
-    private String dataNascimento;
+    @ManyToOne
+    private Concessionaria concessionaria;
 }
+

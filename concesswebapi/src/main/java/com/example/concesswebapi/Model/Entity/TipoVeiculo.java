@@ -1,4 +1,4 @@
-package Model.Entity;
+package com.example.concesswebapi.Model.Entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,8 +18,9 @@ public abstract class TipoVeiculo {
 
     @EqualsAndHashCode.Include
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String categoria;
 }
+

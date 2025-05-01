@@ -1,19 +1,20 @@
-package Model.Entity;
+package com.example.concesswebapi.Model.Entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 
+@EqualsAndHashCode(callSuper = true)
+@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-@Entity
-public class Concessionaria extends PessoaJuridica {
 
+public class AdmEmpresa extends PessoaFisica{
 
     @ManyToOne
     private Empresa empresa;

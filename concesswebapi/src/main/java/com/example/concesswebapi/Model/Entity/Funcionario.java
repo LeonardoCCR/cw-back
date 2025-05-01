@@ -1,4 +1,4 @@
-package Model.Entity;
+package com.example.concesswebapi.Model.Entity;
 
 
 import lombok.AllArgsConstructor;
@@ -10,11 +10,12 @@ import javax.persistence.*;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class Funcionario extends PessoaFisica {
+public abstract class Funcionario extends PessoaFisica {
 
     private String cargo;
 

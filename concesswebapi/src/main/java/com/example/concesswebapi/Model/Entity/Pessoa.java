@@ -1,4 +1,4 @@
-package Model.Entity;
+package com.example.concesswebapi.Model.Entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +11,6 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-//@MappedSuperclass
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 

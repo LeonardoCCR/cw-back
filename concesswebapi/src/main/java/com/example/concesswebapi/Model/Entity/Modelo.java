@@ -1,30 +1,24 @@
-package Model.Entity;
+package com.example.concesswebapi.Model.Entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 
-public class AdmEmpresaGerenciaConcessionaria {
-
+public class Modelo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
-   @EqualsAndHashCode.Include
     private Long id;
 
+    private String modelo;
 
     @ManyToOne
-    private AdmEmpresa admEmpresa;
-
-    @ManyToOne
-    private Concessionaria concessionaria;
+    private Fabricante fabricante;
 }

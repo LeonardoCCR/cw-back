@@ -1,8 +1,7 @@
-package Model.Entity;
+package com.example.concesswebapi.Model.Entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -11,24 +10,23 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
-public class Venda {
+public class AgendamentoTestDrive {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
-    private String data;
-    private String formaPag;
-    private String descontoTotal;
-    private String aprovada;
+    private String dataAgendada;
+    private String horaAgendada;
+    private String dataEntegue;
+    private String horaEntregue;
 
     @ManyToOne
     private Vendedor vendedor;
-
+    
     @ManyToOne
     private Cliente cliente;
 
     @ManyToOne
-    private ModeloVeiculo modeloVeiculo;
+    private Veiculo veiculo;
 }

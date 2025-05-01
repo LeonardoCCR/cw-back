@@ -1,21 +1,18 @@
-package Model.Entity;
+package com.example.concesswebapi.Model.Entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.Entity;
 
-@Entity
 @EqualsAndHashCode(callSuper = true)
+@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class Carro extends TipoVeiculo {
+public class  Cliente extends PessoaFisica {
 
-    private float motorizacao;
-    private float tramsissao;
-    private float potencia;
+    private String dataNascimento;
 }

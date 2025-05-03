@@ -24,6 +24,7 @@ public class ModeloVeiculo {
     private String fotoModelo;
     private boolean requerTestDrive;
     private Integer qtdEstoqueVenda;
+    private Integer qtdEstoque;
 
     @ManyToOne
     private TipoVeiculo tipoVeiculo;

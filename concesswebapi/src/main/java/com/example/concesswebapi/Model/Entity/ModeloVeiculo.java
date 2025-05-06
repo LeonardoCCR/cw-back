@@ -22,7 +22,6 @@ public class ModeloVeiculo {
     private String anoFabricacao;
     private float precoBase;
     private String fotoModelo;
-    private boolean requerTestDrive;
     private Integer qtdEstoqueVenda;
     private Integer qtdEstoque;
 

@@ -21,8 +21,6 @@ public abstract class Pessoa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private long id;
-    private String telefone;
-    private String email;
     private String logradouro;
     private String numero;
     private String bairro;

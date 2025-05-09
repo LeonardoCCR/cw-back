@@ -19,8 +19,13 @@ public abstract class Pessoa {
     @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private long id;
+
+    private String email1;
+    private String email2;
+    private String telefone1;
+    private String telefone2;
+
     private String logradouro;
     private String numero;
     private String bairro;

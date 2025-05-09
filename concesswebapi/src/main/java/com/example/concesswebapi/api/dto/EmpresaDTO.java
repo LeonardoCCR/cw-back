@@ -14,10 +14,12 @@ public class EmpresaDTO {
     private Long id;
     private String razaoSocial;
     private String cnpj;
-    private Long idTelefone;
-    private String telefone;
-    private Long idEmail;
-    private String email;
+
+    private String email1;
+    private String email2;
+    private String telefone1;
+    private String telefone2;
+
     private String logradouro;
     private String numero;
     private String complemento;
@@ -27,8 +29,6 @@ public class EmpresaDTO {
     public static EmpresaDTO create(Empresa empresa) {
         ModelMapper modelMapper = new ModelMapper();
         EmpresaDTO dto = modelMapper.map(empresa, EmpresaDTO.class);
-        //dto.email = empresa.getEmails().getEmail();
-        //dto.telefone = empresa.getTelefone().getNumero();
         return dto;
     }
 

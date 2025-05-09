@@ -14,7 +14,7 @@ import javax.persistence.Entity;
 @AllArgsConstructor
 public class Moto extends TipoVeiculo {
 
-    private float qtdMarcha;
+    private Integer qtdMarcha;
     private String tipoPartida;
     private String tipoMotor;
     private float cilindrada;

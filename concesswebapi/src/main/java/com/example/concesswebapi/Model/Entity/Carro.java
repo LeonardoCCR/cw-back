@@ -15,7 +15,7 @@ import javax.persistence.Entity;
 
 public class Carro extends TipoVeiculo {
 
-    private float motorizacao;
-    private float tramsissao;
+    private String motorizacao;
+    private String transmissao;
     private float potencia;
 }

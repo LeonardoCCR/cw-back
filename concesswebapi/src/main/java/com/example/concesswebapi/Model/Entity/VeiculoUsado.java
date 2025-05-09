@@ -21,4 +21,5 @@ public class VeiculoUsado extends Veiculo {
     private String laudoVistoria;
     private String documentacao;
     private String sinistroAcidente;
+    private String manutencao;
 }

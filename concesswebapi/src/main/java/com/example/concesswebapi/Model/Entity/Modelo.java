@@ -17,7 +17,7 @@ public class Modelo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String modelo;
+    private String nome;
 
     @ManyToOne
     private Fabricante fabricante;

@@ -1,4 +1,7 @@
 package com.example.concesswebapi.Model.repository;
 
-public interface VeiculoRepository {
-}
+import com.example.concesswebapi.Model.Entity.Veiculo;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface VeiculoRepository extends JpaRepository<Veiculo, Long> {}
+

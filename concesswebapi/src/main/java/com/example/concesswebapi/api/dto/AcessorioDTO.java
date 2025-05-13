@@ -16,9 +16,7 @@ public class AcessorioDTO {
 
     public static AcessorioDTO create(Acessorio acessorio) {
         ModelMapper modelMapper = new ModelMapper();
-        AcessorioDTO dto = modelMapper.map(acessorio, AcessorioDTO.class);
-        dto.descricao = acessorio.getDescricao();
 
-        return dto;
+        return modelMapper.map(acessorio, AcessorioDTO.class);
     }
 }

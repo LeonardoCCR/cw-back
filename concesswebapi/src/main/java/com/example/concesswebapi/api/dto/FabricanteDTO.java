@@ -16,8 +16,7 @@ public class FabricanteDTO {
 
     public static FabricanteDTO create(Fabricante fabricante) {
         ModelMapper modelMapper = new ModelMapper();
-        FabricanteDTO dto = modelMapper.map(fabricante, FabricanteDTO.class);
-        dto.nome = fabricante.getNome();
-        return dto;
+
+        return modelMapper.map(fabricante, FabricanteDTO.class);
     }
 }

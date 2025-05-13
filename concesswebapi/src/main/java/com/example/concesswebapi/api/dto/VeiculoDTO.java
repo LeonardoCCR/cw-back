@@ -41,15 +41,9 @@ public class VeiculoDTO {
     public static VeiculoDTO create(Veiculo veiculo) {
         ModelMapper modelMapper = new ModelMapper();
         VeiculoDTO dto = modelMapper.map(veiculo, VeiculoDTO.class);
-        dto.id = veiculo.getId();
-        dto.chassi = veiculo.getChassi();
-        dto.fotos = veiculo.getFotos();
         dto.nomeModelo = veiculo.getModeloVeiculo().getModelo().getNome();
         dto.nomeFabricante = veiculo.getModeloVeiculo().getModelo().getFabricante().getNome();
         dto.nomeConcessionaria = veiculo.getConcessionaria().getRazaoSocial();
-        dto.precoAtual = veiculo.getPrecoAtual();
-        dto.cor = veiculo.getCor();
-        dto.garantia = veiculo.getGarantia();
         dto.categoria = veiculo.getModeloVeiculo().getTipoVeiculo().getCategoria();
 
         if (veiculo instanceof VeiculoUsado) {

@@ -12,13 +12,13 @@ import org.modelmapper.ModelMapper;
 
 public class ModeloDTO {
 
+    private Long id;
     private String nome;
     private String nomeFabricante;
 
     public static ModeloDTO create(Modelo modelo) {
         ModelMapper modelMapper = new ModelMapper();
         ModeloDTO dto = modelMapper.map(modelo, ModeloDTO.class);
-        dto.nome = modelo.getNome();
         dto.nomeFabricante = modelo.getFabricante().getNome();
 
         return dto;

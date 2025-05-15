@@ -19,7 +19,7 @@ public abstract class Pessoa {
     @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     private String email1;
     private String email2;

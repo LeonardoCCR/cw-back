@@ -16,14 +16,13 @@ public class ModeloVeiculo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    //carro == true; moto == false
-    private boolean tipo;
+    private String tipo;
     private String anoFabricacao;
     private float precoBase;
     private String fotoModelo;
     private Integer qtdEstoqueVenda;
     private Integer qtdEstoque;
+    private String permiteTestDrive;
 
     @ManyToOne
     private TipoVeiculo tipoVeiculo;

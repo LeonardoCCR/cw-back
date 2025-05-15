@@ -26,8 +26,7 @@ public abstract class Veiculo {
     private String chassi;
     private float precoAtual;
     private String cor;
-    //novo == true; usado == false
-    private boolean condicao;
+    private String condicao;
     //vendido == true; em estoque == false
     private boolean vendido;
     private String garantia;

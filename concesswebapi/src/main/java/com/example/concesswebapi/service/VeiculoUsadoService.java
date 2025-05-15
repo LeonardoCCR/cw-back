@@ -31,6 +31,7 @@ public class VeiculoUsadoService {
     @Transactional
     public VeiculoUsado salvar(VeiculoUsado veiculoUsado) {
         ValidadorVeiculo.validarCamposVeiculo(veiculoUsado);
+        validar(veiculoUsado);
         return repository.save(veiculoUsado);
     }
 

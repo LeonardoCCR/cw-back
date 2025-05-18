@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -27,4 +28,6 @@ public class Venda {
 
     @ManyToOne
     private Cliente cliente;
+
+
 }

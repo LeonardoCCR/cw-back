@@ -9,5 +9,4 @@ import javax.persistence.Entity;
 @Data
 
 public class Gestor extends Funcionario{
-
 }

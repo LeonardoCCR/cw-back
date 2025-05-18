@@ -3,15 +3,16 @@ package com.example.concesswebapi.service;
 import com.example.concesswebapi.Model.Entity.Vendedor;
 import com.example.concesswebapi.Model.repository.VendedorRepository;
 import com.example.concesswebapi.exception.RegraNegocioException;
+import com.example.concesswebapi.util.ValidadorFuncionario;
 import com.example.concesswebapi.util.ValidadorPessoaFisica;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.Objects;
 import java.util.Optional;
 
 import java.util.List;
 //repository << vendedor repository <<  jpa repository << métodos consulta/alteração e conexão bd
+
 @Service
 public class VendedorService {
 
@@ -42,7 +43,7 @@ public class VendedorService {
     }
 
     public void validar(Vendedor vendedor){
-        ValidadorPessoaFisica.validarCamposPessoaFisica(vendedor);
+        ValidadorFuncionario.validarCamposFuncionario(vendedor);
 
         if( vendedor.getConcessionaria() == null || vendedor.getConcessionaria().getId() == null || vendedor.getConcessionaria().getId() == 0){
              throw new RegraNegocioException("Campo concessionária inválido");

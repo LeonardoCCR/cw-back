@@ -20,7 +20,7 @@ public class AdmEmpresaService {
         this.repository = repository;
     }
 
-    public List<AdmEmpresa> getAdmEmpresa(){
+    public List<AdmEmpresa> getAdmsEmpresas(){
         return repository.findAll();
     }
 

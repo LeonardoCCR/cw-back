@@ -17,5 +17,5 @@ public class Carro extends TipoVeiculo {
 
     private String motorizacao;
     private String transmissao;
-    private float potencia;
+    private Double potencia;
 }

@@ -59,9 +59,9 @@ public class CarroService {
         return campo == null || campo.trim().isEmpty();
     }
 
-    public static boolean verificaValor(float valor)
+    public static boolean verificaValor(Double valor)
     {
-        return valor <= 0;
+        return valor == null || valor <= 0;
     }
 }
 

@@ -17,5 +17,5 @@ public class Moto extends TipoVeiculo {
     private Integer qtdMarcha;
     private String tipoPartida;
     private String tipoMotor;
-    private float cilindrada;
+    private Integer cilindrada;
 }

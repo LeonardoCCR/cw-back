@@ -15,7 +15,7 @@ import javax.persistence.*;
 
 public class VeiculoUsado extends Veiculo {
 
-    private float quilometragem;
+    private Double quilometragem;
     private String dataUltimaRevisao;
     private String contatoProprietario;
     private String laudoVistoria;

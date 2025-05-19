@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 @Data
@@ -24,7 +25,7 @@ public abstract class Veiculo {
     private Long id;
 
     private String chassi;
-    private float precoAtual;
+    private BigDecimal precoAtual;
     private String cor;
     private String condicao;
     //vendido == true; em estoque == false

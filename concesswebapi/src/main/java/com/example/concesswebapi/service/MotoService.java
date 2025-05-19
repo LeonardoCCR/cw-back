@@ -53,15 +53,18 @@ public class MotoService {
         if (verificaValor(moto.getCilindrada())) {
             throw new RegraNegocioException("Cilindrada inválida");
         }
+        if (verificaNullVazio(moto.getCategoria())) {
+            throw new RegraNegocioException("Categoria inválida");
+        }
     }
 
     public boolean verificaNullVazio(String campo) {
         return campo == null || campo.trim().isEmpty();
     }
 
-    public static boolean verificaValor(float valor)
+    public static boolean verificaValor(Integer valor)
     {
-        return valor <= 0;
+        return valor == null || valor <= 0;
     }
 }
 

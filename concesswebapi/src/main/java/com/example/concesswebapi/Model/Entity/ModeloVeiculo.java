@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Data
@@ -18,7 +19,7 @@ public class ModeloVeiculo {
     private Long id;
     private String tipo;
     private String anoFabricacao;
-    private float precoBase;
+    private BigDecimal precoBase;
     private String fotoModelo;
     private Integer qtdEstoqueVenda;
     private Integer qtdEstoque;

@@ -67,8 +67,8 @@ public class VeiculoUsadoService {
         return campo == null || campo.trim().isEmpty();
     }
 
-    public boolean verificaValor(float valor)
+    public boolean verificaValor(Double valor)
     {
-        return valor <= 0;
+        return valor == null;
     }
 }

@@ -26,6 +26,7 @@ public class VendedorDTO {
     private String bairro;
     private String cep;
     private String uf;
+
     private Long idConcessionaria;
     private String concessionaria;
 

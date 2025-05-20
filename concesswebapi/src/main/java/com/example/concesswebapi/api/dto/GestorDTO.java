@@ -23,6 +23,7 @@ public class GestorDTO {
     private String email1;
     private String email2;
 
+
     private String logradouro;
     private String numero;
     private String bairro;

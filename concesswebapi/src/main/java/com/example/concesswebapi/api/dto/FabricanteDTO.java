@@ -16,7 +16,6 @@ public class FabricanteDTO {
 
     public static FabricanteDTO create(Fabricante fabricante) {
         ModelMapper modelMapper = new ModelMapper();
-
         return modelMapper.map(fabricante, FabricanteDTO.class);
     }
 }

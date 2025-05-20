@@ -12,6 +12,7 @@ import org.modelmapper.ModelMapper;
 
 public class AdmSuporteDTO {
 
+        private Long id;
         private String nome;
         private String cpf;
         private String login;
@@ -21,6 +22,7 @@ public class AdmSuporteDTO {
         private String email2;
         private String telefone1;
         private String telefone2;
+
 
         private String logradouro;
         private String numero;

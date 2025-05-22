@@ -23,14 +23,14 @@ public class VeiculoDTO {
     private float precoAtual;
     private String cor;
     private String garantia;
-    private float quilometragem;
+    private Double quilometragem;
     private String documentacao;
     private String manutencao;
     private String laudoVistoria;
     private String dataUltimaRevisao;
     private String categoria;
     private String motorizacao;
-    private float potencia;
+    private Double potencia;
     private String transmissao;
     private String tipoMotor;
     private float cilindrada;

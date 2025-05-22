@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Data
@@ -16,7 +17,7 @@ public class ItensVenda {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private float descontoParcial;
+    private BigDecimal descontoParcial;
 
     @ManyToOne
     private Venda venda;

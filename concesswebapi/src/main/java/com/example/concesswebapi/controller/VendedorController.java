@@ -6,12 +6,18 @@ import com.example.concesswebapi.Model.Entity.Vendedor;
 import com.example.concesswebapi.api.dto.VendedorDTO;
 import com.example.concesswebapi.service.ConcessionariaService;
 import com.example.concesswebapi.service.VendedorService;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@RestController
+@RequestMapping("/api/v1/vendedores")
+@RequiredArgsConstructor
 public class VendedorController {
 
     public final VendedorService service;
@@ -31,7 +37,6 @@ public class VendedorController {
                 vendedor.setConcessionaria(concessionaria.get());//metodo do Optional
             }
         }
-
         return vendedor;
     }
 

@@ -44,7 +44,6 @@ public class VeiculoDTO {
         dto.nomeModelo = veiculo.getModeloVeiculo().getModelo().getNome();
         dto.nomeFabricante = veiculo.getModeloVeiculo().getModelo().getFabricante().getNome();
         dto.nomeConcessionaria = veiculo.getConcessionaria().getRazaoSocial();
-        dto.categoria = veiculo.getModeloVeiculo().getTipoVeiculo().getCategoria();
 
         if (veiculo instanceof VeiculoUsado) {
             dto.quilometragem = ((VeiculoUsado) veiculo).getQuilometragem();
@@ -61,12 +60,14 @@ public class VeiculoDTO {
            dto.motorizacao = ((Carro) tipoVeiculo).getMotorizacao();
            dto.potencia = ((Carro) tipoVeiculo).getPotencia();
            dto.transmissao = ((Carro)tipoVeiculo).getTransmissao();
+           dto.categoria = ((Carro) tipoVeiculo).getCategoria();
         }
         else if(tipoVeiculo instanceof Moto){
             dto.qtdMarcha = ((Moto) tipoVeiculo).getQtdMarcha();
             dto.tipoPartida = ((Moto) tipoVeiculo).getTipoPartida();
             dto.tipoMotor = ((Moto) tipoVeiculo).getTipoMotor();
             dto.cilindrada = ((Moto) tipoVeiculo).getCilindrada();
+            dto.categoria = ((Moto) tipoVeiculo).getCategoria();
         }
 
         return dto;

@@ -31,9 +31,6 @@ public class ValidadorVeiculo {
         if (verificaNullVazio(veiculo.getConcessionaria().getRazaoSocial())) {
             throw new RegraNegocioException("Concessionária inválida");
         }
-        if (verificaNullVazio(veiculo.getModeloVeiculo().getTipoVeiculo().getCategoria())) {
-            throw new RegraNegocioException("Categoria inválida");
-        }
     }
 
     public static boolean verificaNullVazio(String campo) {

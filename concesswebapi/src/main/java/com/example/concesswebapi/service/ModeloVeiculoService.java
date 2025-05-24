@@ -46,9 +46,6 @@ public class ModeloVeiculoService {
         if (verificaPreco((modeloVeiculo.getPrecoBase()))) {
             throw new RegraNegocioException("Preço base inválido");
         }
-        if (verificaNullVazio(modeloVeiculo.getTipo())) {
-            throw new RegraNegocioException("Tipo inválido");
-        }
         if (verificaValor((modeloVeiculo.getQtdEstoque()))) {
             throw new RegraNegocioException("Quantidade de estoque inválida");
         }

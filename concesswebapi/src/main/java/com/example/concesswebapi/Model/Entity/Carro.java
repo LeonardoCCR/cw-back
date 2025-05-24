@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
@@ -12,10 +13,12 @@ import javax.persistence.Entity;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@DiscriminatorValue("Carro")
 
 public class Carro extends TipoVeiculo {
 
     private String motorizacao;
     private String transmissao;
     private Double potencia;
+    private String categoria;
 }

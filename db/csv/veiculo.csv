@@ -1,8 +1,8 @@
 "id","chassi","condicao","cor","fotos","garantia","preco_atual","vendido","concessionaria_id","modelo_veiculo_id"
-"1","12345678910","Novo","Branco",NULL,"Em vigência","120.00",False,NULL,NULL
-"2","1112131718","Novo","Preto",NULL,"Garantia de fábrica","150.00",False,NULL,NULL
-"3","1920212223","Usado","Vermelho",NULL,"Expirada","90.00",False,NULL,NULL
-"4","2425262830","Usado","Preto",NULL,"Expirada","110.00",False,NULL,NULL
-"5","3132343536","Novo","Branco",NULL,"Garantia de fábrica","140.00",True,NULL,NULL
-"6","3738394041","Novo","Preto",NULL,"Em vigência","70.00",False,NULL,NULL
-"7","4243444546","Novo","Vermelho",NULL,"Garantia de concessionária","100.00",True,NULL,NULL
+"1","12345678910","Novo","Branco",NULL,"Em vigência","120.00",False,NULL,"3"
+"2","1112131718","Novo","Preto",NULL,"Garantia de fábrica","150.00",False,NULL,"2"
+"3","1920212223","Usado","Vermelho",NULL,"Expirada","90.00",False,NULL,"5"
+"4","2425262830","Usado","Preto",NULL,"Expirada","110.00",False,NULL,"4"
+"5","3132343536","Novo","Preto",NULL,"Garantia de fábrica","300.00",False,NULL,"1"
+"6","3738394041","Novo","Preto",NULL,"Em vigência","70.00",False,NULL,"2"
+"7","4243444546","Novo","Vermelho",NULL,"Garantia de concessionária","100.00",True,NULL,"3"

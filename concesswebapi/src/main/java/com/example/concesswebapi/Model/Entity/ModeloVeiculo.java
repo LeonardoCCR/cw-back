@@ -17,7 +17,6 @@ public class ModeloVeiculo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String tipo;
     private String anoFabricacao;
     private BigDecimal precoBase;
     private String fotoModelo;

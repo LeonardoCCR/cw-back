@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.modelmapper.ModelMapper;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 @Data
@@ -20,9 +21,10 @@ public class VeiculoDTO {
     private String nomeModelo;
     private String nomeFabricante;
     private String nomeConcessionaria;
-    private float precoAtual;
+    private BigDecimal precoAtual;
     private String cor;
     private String garantia;
+    private String condicao;
     private Double quilometragem;
     private String documentacao;
     private String manutencao;
@@ -33,7 +35,7 @@ public class VeiculoDTO {
     private Double potencia;
     private String transmissao;
     private String tipoMotor;
-    private float cilindrada;
+    private Integer cilindrada;
     private Integer qtdMarcha;
     private String tipoPartida;
     private String sinistroAcidente;

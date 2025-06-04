@@ -20,7 +20,7 @@ public class Venda {
 
     private String data;
     private String formaPag;
-    private float descontoTotal;
+    private Double descontoTotal;
     private String aprovada;
 
     @ManyToOne
@@ -28,6 +28,4 @@ public class Venda {
 
     @ManyToOne
     private Cliente cliente;
-
-
 }

@@ -1,6 +1,5 @@
 package com.example.concesswebapi.controller;
 
-
 import com.example.concesswebapi.Model.Entity.Concessionaria;
 import com.example.concesswebapi.Model.Entity.Vendedor;
 import com.example.concesswebapi.api.dto.VendedorDTO;

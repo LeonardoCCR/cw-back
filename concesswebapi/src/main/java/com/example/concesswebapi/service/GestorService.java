@@ -24,9 +24,7 @@ public class GestorService {
         return repository.findAll();
     }
 
-    public Optional<Gestor> getGestorById(Long id){
-        return repository.findById(id);
-    }
+    public Optional<Gestor> getGestorById(Long id) { return repository.findById(id); }
 
     @Transactional
     public Gestor salvar(Gestor gestor){

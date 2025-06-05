@@ -1,6 +1,8 @@
 package com.example.concesswebapi.service;
 
 import com.example.concesswebapi.Model.Entity.VeiculoTemAcessorio;
+import com.example.concesswebapi.Model.repository.AcessorioRepository;
+import com.example.concesswebapi.Model.repository.VeiculoRepository;
 import com.example.concesswebapi.Model.repository.VeiculoTemAcessorioRepository;
 import com.example.concesswebapi.exception.RegraNegocioException;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,8 @@ import java.util.Optional;
 public class VeiculoTemAcessorioService {
 
     private VeiculoTemAcessorioRepository repository;
+    private VeiculoRepository veiculoRepository;
+    private AcessorioRepository acessorioRepository;
 
     public VeiculoTemAcessorioService(VeiculoTemAcessorioRepository repository) {
         this.repository = repository;
@@ -41,15 +45,18 @@ public class VeiculoTemAcessorioService {
 
     public void validar(VeiculoTemAcessorio veiculoTemAcessorio)
     {
-        if (verificaValor(veiculoTemAcessorio.getAcessorio().getId())) {
+        if (veiculoTemAcessorio.getAcessorio() == null || veiculoTemAcessorio.getAcessorio().getId() == null) {
             throw new RegraNegocioException("Acessório inválido");
         }
-        if (verificaValor(veiculoTemAcessorio.getVeiculo().getId())) {
+        if (veiculoTemAcessorio.getVeiculo() ==  null || veiculoTemAcessorio.getVeiculo().getId() == null) {
             throw new RegraNegocioException("Veículo inválido");
         }
-    }
 
-    public boolean verificaValor(Long campo) {
-        return campo == null;
+        boolean existeVeiculo = veiculoRepository.existsById(veiculoTemAcessorio.getVeiculo().getId());
+        boolean existeAcessorio = acessorioRepository.existsById(veiculoTemAcessorio.getAcessorio().getId());
+
+        if (!existeVeiculo || !existeAcessorio) {
+            throw new RegraNegocioException("Veículo ou acessório não encontrado");
+        }
     }
 }

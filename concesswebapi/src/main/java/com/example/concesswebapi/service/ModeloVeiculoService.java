@@ -2,6 +2,7 @@ package com.example.concesswebapi.service;
 
 import com.example.concesswebapi.Model.Entity.ModeloVeiculo;
 import com.example.concesswebapi.Model.repository.ModeloVeiculoRepository;
+import com.example.concesswebapi.Model.repository.TipoVeiculoRepository;
 import com.example.concesswebapi.exception.RegraNegocioException;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +14,8 @@ import java.util.Optional;
 public class ModeloVeiculoService {
 
     private ModeloVeiculoRepository repository;
+    private TipoVeiculoRepository tipoVeiculoRepository;
+    private ModeloVeiculoRepository modeloVeiculoRepository;
 
     public ModeloVeiculoService(ModeloVeiculoRepository repository) {
         this.repository = repository;
@@ -55,6 +58,27 @@ public class ModeloVeiculoService {
         if (verificaNullVazio(modeloVeiculo.getFotoModelo())) {
             throw new RegraNegocioException("Foto inválida");
         }
+        if (modeloVeiculo.getTipoVeiculo() == null || modeloVeiculo.getTipoVeiculo().getId() == null){
+            throw new RegraNegocioException("Tipo de veículo inválido");
+        }
+        else{
+            boolean existe = tipoVeiculoRepository.existsById(modeloVeiculo.getTipoVeiculo().getId());
+
+            if (!existe) {
+                throw new RegraNegocioException("Tipo de veículo não encontrado");
+            }
+        }
+        if (modeloVeiculo.getModelo() == null || modeloVeiculo.getModelo().getId() == null){
+            throw new RegraNegocioException("Modelo inválido");
+        }
+        else{
+            boolean existe = modeloVeiculoRepository.existsById(modeloVeiculo.getModelo().getId());
+
+            if (!existe) {
+                throw new RegraNegocioException("Modelo não encontrado");
+            }
+        }
+
     }
 
     public boolean verificaNullVazio(String campo) {

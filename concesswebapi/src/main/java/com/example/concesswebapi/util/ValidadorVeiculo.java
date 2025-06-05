@@ -2,11 +2,14 @@ package com.example.concesswebapi.util;
 
 import com.example.concesswebapi.Model.Entity.Veiculo;
 import com.example.concesswebapi.Model.Entity.VeiculoTemAcessorio;
+import com.example.concesswebapi.Model.repository.ModeloVeiculoRepository;
 import com.example.concesswebapi.exception.RegraNegocioException;
 
 import java.math.BigDecimal;
 
 public class ValidadorVeiculo {
+
+    private static ModeloVeiculoRepository modeloVeiculoRepository;
 
     public static void validarCamposVeiculo(Veiculo veiculo)
     {
@@ -30,6 +33,15 @@ public class ValidadorVeiculo {
         }
         if (verificaNullVazio(veiculo.getConcessionaria().getRazaoSocial())) {
             throw new RegraNegocioException("Concessionária inválida");
+        }
+        if (veiculo.getModeloVeiculo() == null || veiculo.getModeloVeiculo().getId() == null) {
+            throw new RegraNegocioException("Modelo de veículo inválido");
+        }
+
+        boolean existe = modeloVeiculoRepository.existsById(veiculo.getModeloVeiculo().getId());
+
+        if (!existe) {
+            throw new RegraNegocioException("Modelo de veículo não encontrado");
         }
     }
 

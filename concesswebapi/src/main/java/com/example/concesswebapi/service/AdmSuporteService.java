@@ -19,11 +19,11 @@ public class AdmSuporteService {
         this.repository = repository;
     }
 
-    public List<AdmSuporte> getAdmSuporte(){
+    public List<AdmSuporte> getAdmsSuporte(){
         return repository.findAll();
     }
 
-    public Optional<AdmSuporte> getAdmEmpresaById(Long id) {
+    public Optional<AdmSuporte> getAdmSuporteById(Long id) {
         return repository.findById(id);
     }
 

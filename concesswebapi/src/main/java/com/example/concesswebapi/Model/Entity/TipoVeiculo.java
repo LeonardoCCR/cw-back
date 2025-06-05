@@ -12,7 +12,6 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Entity
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@DiscriminatorColumn(name = "tipo", discriminatorType = DiscriminatorType.STRING)
 @Inheritance(strategy = InheritanceType.JOINED)
 
 public abstract class TipoVeiculo {
@@ -21,5 +20,7 @@ public abstract class TipoVeiculo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private String tipo;
 }
 

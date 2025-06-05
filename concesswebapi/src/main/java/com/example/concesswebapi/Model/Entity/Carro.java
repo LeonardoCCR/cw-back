@@ -13,7 +13,6 @@ import javax.persistence.Entity;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@DiscriminatorValue("Carro")
 
 public class Carro extends TipoVeiculo {
 

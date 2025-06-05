@@ -1,49 +1,52 @@
 package com.example.concesswebapi.controller;
 
 import com.example.concesswebapi.Model.Entity.Venda;
-import com.example.concesswebapi.api.dto.VendaDTO;
-import com.example.concesswebapi.service.ClienteService;
 import com.example.concesswebapi.service.VendaService;
-import com.example.concesswebapi.service.VendedorService;
-import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
+import com.example.concesswebapi.exception.RegraNegocioException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/vendas")
-@RequiredArgsConstructor
 public class VendaController {
 
     private final VendaService vendaService;
-    private final VendedorService vendedorService;
-    private final ClienteService clienteService;
+
+    public VendaController(VendaService vendaService) {
+        this.vendaService = vendaService;
+    }
 
     @GetMapping
-    public ResponseEntity<List<VendaDTO>> getAll() {
-        List<Venda> vendas = vendaService.getAll();
-        List<VendaDTO> dtos = vendas.stream()
-                .map(VendaDTO::create)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(dtos);
+    public ResponseEntity<List<Venda>> listar() {
+        List<Venda> vendas = vendaService.getVendas();
+        return ResponseEntity.ok(vendas);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable("id") Long id) {
-        Optional<Venda> venda = vendaService.getById(id);
-        if (!venda.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Venda não encontrada");
-        }
-        return ResponseEntity.ok(VendaDTO.create(venda.get()));
+    public ResponseEntity<Venda> buscar(@PathVariable Long id) {
+        return vendaService.getVendaById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
-    public Venda converter(VendaDTO dto){
-        ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(dto, Venda.class);
+    @PostMapping
+    public ResponseEntity<?> salvar(@RequestBody Venda venda) {
+        try {
+            Venda vendaSalva = vendaService.salvar(venda);
+            return new ResponseEntity<>(vendaSalva, HttpStatus.CREATED);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> excluir(@PathVariable Long id) {
+        return vendaService.getVendaById(id).map(venda -> {
+            vendaService.excluir(venda);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }).orElseGet(() -> new ResponseEntity<>("Venda não encontrada", HttpStatus.NOT_FOUND));
     }
 }

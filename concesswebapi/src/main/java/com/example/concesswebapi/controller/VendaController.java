@@ -32,21 +32,4 @@ public class VendaController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping
-    public ResponseEntity<?> salvar(@RequestBody Venda venda) {
-        try {
-            Venda vendaSalva = vendaService.salvar(venda);
-            return new ResponseEntity<>(vendaSalva, HttpStatus.CREATED);
-        } catch (RegraNegocioException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> excluir(@PathVariable Long id) {
-        return vendaService.getVendaById(id).map(venda -> {
-            vendaService.excluir(venda);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }).orElseGet(() -> new ResponseEntity<>("Venda não encontrada", HttpStatus.NOT_FOUND));
-    }
 }

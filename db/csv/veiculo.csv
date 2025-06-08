@@ -1,5 +1,5 @@
 "id","chassi","condicao","cor","fotos","garantia","preco_atual","vendido","concessionaria_id","modelo_veiculo_id"
-"1","12345678910","Novo","Branco",NULL,"Em vigência","120.00",False,"7","3"
+"1","12345678910","Novo","Branco",NULL,"Em vigência","120.00",False,"2","3"
 "2","1112131718","Novo","Preto",NULL,"Garantia de fábrica","150.00",False,"8","2"
 "3","1920212223","Usado","Vermelho",NULL,"Expirada","90.00",False,"5","5"
 "4","2425262830","Usado","Preto",NULL,"Expirada","110.00",False,"6","4"

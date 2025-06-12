@@ -7,6 +7,7 @@ import com.example.concesswebapi.exception.RegraNegocioException;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class VeiculoService {
@@ -25,6 +26,21 @@ public class VeiculoService {
         veiculos.addAll(veiculoUsadoService.getVeiculosUsados());
         return veiculos;
     }
+
+    public Optional<Veiculo> getVeiculoById(Long id) {
+        Optional<VeiculoNovo> veiculoNovo = veiculoNovoService.getVeiculoNovoById(id);
+        if (veiculoNovo.isPresent()) {
+            return Optional.of(veiculoNovo.get());
+        }
+
+        Optional<VeiculoUsado> veiculoUsado = veiculoUsadoService.getVeiculoUsadoById(id);
+        if (veiculoUsado.isPresent()) {
+            return Optional.of(veiculoUsado.get());
+        }
+
+        return Optional.empty();
+    }
+
 
     public Veiculo salvar(Veiculo veiculo) {
         if (veiculo instanceof VeiculoNovo) {

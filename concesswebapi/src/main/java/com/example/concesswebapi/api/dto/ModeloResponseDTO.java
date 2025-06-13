@@ -10,15 +10,15 @@ import org.modelmapper.ModelMapper;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class ModeloDTO {
+public class ModeloResponseDTO {
 
     private Long id;
     private String nome;
     private String nomeFabricante;
 
-    public static ModeloDTO create(Modelo modelo) {
+    public static ModeloResponseDTO create(Modelo modelo) {
         ModelMapper modelMapper = new ModelMapper();
-        ModeloDTO dto = modelMapper.map(modelo, ModeloDTO.class);
+        ModeloResponseDTO dto = modelMapper.map(modelo, ModeloResponseDTO.class);
         dto.nomeFabricante = modelo.getFabricante().getNome();
 
         return dto;

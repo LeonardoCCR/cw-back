@@ -2,7 +2,7 @@ package com.example.concesswebapi.controller;
 
 import com.example.concesswebapi.Model.Entity.*;
 import com.example.concesswebapi.Model.Entity.Veiculo;
-import com.example.concesswebapi.api.dto.VeiculoDTO;
+import com.example.concesswebapi.api.dto.VeiculoResponseDTO;
 import com.example.concesswebapi.exception.RegraNegocioException;
 import com.example.concesswebapi.service.VeiculoService;
 import org.modelmapper.ModelMapper;
@@ -29,8 +29,10 @@ public class VeiculoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Veiculo>> listarTodos() {
-        return ResponseEntity.ok(veiculoService.listarTodos());
+    public ResponseEntity listarTodos() {
+
+        List<Veiculo> veiculos = veiculoService.listarTodos();
+        return ResponseEntity.ok(veiculos.stream().map(VeiculoResponseDTO::create).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
@@ -39,10 +41,11 @@ public class VeiculoController {
         if (veiculo.isEmpty()) {
             return new ResponseEntity("Veiculo não encontrado", HttpStatus.NOT_FOUND);
         }
-        return ResponseEntity.ok(veiculo.map(VeiculoDTO::create));
+
+        return ResponseEntity.ok(veiculo.map(VeiculoResponseDTO::create));
     }
 
-    private Veiculo converter(VeiculoDTO dto) {
+    private Veiculo converter(VeiculoResponseDTO dto) {
         if ("novo".equalsIgnoreCase(dto.getCondicao())) {
             return modelMapper.map(dto, VeiculoNovo.class);
         } else if ("usado".equalsIgnoreCase(dto.getCondicao())) {

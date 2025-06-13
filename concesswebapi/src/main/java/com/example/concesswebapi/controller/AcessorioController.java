@@ -1,8 +1,7 @@
 package com.example.concesswebapi.controller;
 
 import com.example.concesswebapi.Model.Entity.*;
-import com.example.concesswebapi.api.dto.AcessorioDTO;
-import com.example.concesswebapi.api.dto.VeiculoDTO;
+import com.example.concesswebapi.api.dto.AcessorioResponseDTO;
 import com.example.concesswebapi.service.AcessorioService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/acessorios")
@@ -27,8 +27,10 @@ public class AcessorioController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Acessorio>> listarTodos() {
-        return ResponseEntity.ok(acessorioService.getAcessorios());
+    public ResponseEntity listarTodos() {
+
+        List<Acessorio> acessorios = acessorioService.getAcessorios();
+        return ResponseEntity.ok(acessorios.stream().map(AcessorioResponseDTO::create).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
@@ -37,10 +39,10 @@ public class AcessorioController {
         if (acessorio.isEmpty()) {
             return new ResponseEntity("Acessorio não encontrado", HttpStatus.NOT_FOUND);
         }
-        return ResponseEntity.ok(acessorio.map(AcessorioDTO::create));
+        return ResponseEntity.ok(acessorio.map(AcessorioResponseDTO::create));
     }
 
-    private Acessorio converter(AcessorioDTO dto) {
+    private Acessorio converter(AcessorioResponseDTO dto) {
         return modelMapper.map(dto, Acessorio.class);
     }
 }

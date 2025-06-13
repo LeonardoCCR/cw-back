@@ -10,13 +10,13 @@ import org.modelmapper.ModelMapper;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class AcessorioDTO {
+public class AcessorioResponseDTO {
 
     private String descricao;
 
-    public static AcessorioDTO create(Acessorio acessorio) {
+    public static AcessorioResponseDTO create(Acessorio acessorio) {
         ModelMapper modelMapper = new ModelMapper();
 
-        return modelMapper.map(acessorio, AcessorioDTO.class);
+        return modelMapper.map(acessorio, AcessorioResponseDTO.class);
     }
 }

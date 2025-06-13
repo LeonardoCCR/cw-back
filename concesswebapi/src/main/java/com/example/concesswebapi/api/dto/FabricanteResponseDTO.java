@@ -10,12 +10,12 @@ import org.modelmapper.ModelMapper;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class FabricanteDTO {
+public class FabricanteResponseDTO {
 
     private String nome;
 
-    public static FabricanteDTO create(Fabricante fabricante) {
+    public static FabricanteResponseDTO create(Fabricante fabricante) {
         ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(fabricante, FabricanteDTO.class);
+        return modelMapper.map(fabricante, FabricanteResponseDTO.class);
     }
 }

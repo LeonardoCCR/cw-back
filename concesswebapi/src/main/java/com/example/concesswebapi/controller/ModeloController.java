@@ -1,21 +1,17 @@
 package com.example.concesswebapi.controller;
 
 import com.example.concesswebapi.Model.Entity.Modelo;
-import com.example.concesswebapi.Model.Entity.Modelo;
-import com.example.concesswebapi.api.dto.AcessorioDTO;
-import com.example.concesswebapi.api.dto.ModeloDTO;
-import com.example.concesswebapi.api.dto.VeiculoDTO;
+import com.example.concesswebapi.api.dto.ModeloResponseDTO;
+import com.example.concesswebapi.exception.RegraNegocioException;
 import com.example.concesswebapi.service.ModeloService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/modelos")
@@ -29,8 +25,10 @@ public class ModeloController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Modelo>> listarTodos() {
-        return ResponseEntity.ok(modeloService.getModelos());
+    public ResponseEntity listarTodos() {
+
+        List<Modelo> modelos = modeloService.getModelos();
+        return ResponseEntity.ok(modelos.stream().map(ModeloResponseDTO::create).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
@@ -39,10 +37,10 @@ public class ModeloController {
         if (modelo.isEmpty()) {
             return new ResponseEntity("Modelo não encontrado", HttpStatus.NOT_FOUND);
         }
-        return ResponseEntity.ok(modelo.map(ModeloDTO::create));
+        return ResponseEntity.ok(modelo.map(ModeloResponseDTO::create));
     }
 
-    private Modelo converter(ModeloDTO dto) {
+    private Modelo converter(ModeloResponseDTO dto) {
         return modelMapper.map(dto, Modelo.class);
     }
 }

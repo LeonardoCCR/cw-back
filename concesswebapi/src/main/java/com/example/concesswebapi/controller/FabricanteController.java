@@ -1,10 +1,7 @@
 package com.example.concesswebapi.controller;
 
 import com.example.concesswebapi.Model.Entity.Fabricante;
-import com.example.concesswebapi.Model.Entity.Fabricante;
-import com.example.concesswebapi.api.dto.AcessorioDTO;
-import com.example.concesswebapi.api.dto.FabricanteDTO;
-import com.example.concesswebapi.api.dto.VeiculoDTO;
+import com.example.concesswebapi.api.dto.FabricanteResponseDTO;
 import com.example.concesswebapi.service.FabricanteService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -16,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/fabricantes")
@@ -29,8 +27,9 @@ public class FabricanteController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Fabricante>> listarTodos() {
-        return ResponseEntity.ok(fabricanteService.getFabricantes());
+    public ResponseEntity listarTodos() {
+        List<Fabricante> fabricantes = fabricanteService.getFabricantes();
+        return ResponseEntity.ok(fabricantes.stream().map(FabricanteResponseDTO::create).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
@@ -39,10 +38,10 @@ public class FabricanteController {
         if (fabricante.isEmpty()) {
             return new ResponseEntity("Fabricante não encontrado", HttpStatus.NOT_FOUND);
         }
-        return ResponseEntity.ok(fabricante.map(FabricanteDTO::create));
+        return ResponseEntity.ok(fabricante.map(FabricanteResponseDTO::create));
     }
 
-    private Fabricante converter(FabricanteDTO dto) {
+    private Fabricante converter(FabricanteResponseDTO dto) {
         return modelMapper.map(dto, Fabricante.class);
     }
 }

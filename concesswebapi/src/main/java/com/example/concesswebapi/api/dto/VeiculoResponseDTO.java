@@ -13,7 +13,7 @@ import java.util.ArrayList;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class VeiculoDTO {
+public class VeiculoResponseDTO {
 
     private Long id;
     private String chassi;
@@ -40,9 +40,9 @@ public class VeiculoDTO {
     private String tipoPartida;
     private String sinistroAcidente;
 
-    public static VeiculoDTO create(Veiculo veiculo) {
+    public static VeiculoResponseDTO create(Veiculo veiculo) {
         ModelMapper modelMapper = new ModelMapper();
-        VeiculoDTO dto = modelMapper.map(veiculo, VeiculoDTO.class);
+        VeiculoResponseDTO dto = modelMapper.map(veiculo, VeiculoResponseDTO.class);
         dto.nomeModelo = veiculo.getModeloVeiculo().getModelo().getNome();
         dto.nomeFabricante = veiculo.getModeloVeiculo().getModelo().getFabricante().getNome();
         dto.nomeConcessionaria = veiculo.getConcessionaria().getRazaoSocial();

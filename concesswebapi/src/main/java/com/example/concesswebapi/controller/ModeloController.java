@@ -1,8 +1,11 @@
 package com.example.concesswebapi.controller;
 
+import com.example.concesswebapi.Model.Entity.Fabricante;
 import com.example.concesswebapi.Model.Entity.Modelo;
+import com.example.concesswebapi.api.dto.ModeloRequestDTO;
 import com.example.concesswebapi.api.dto.ModeloResponseDTO;
 import com.example.concesswebapi.exception.RegraNegocioException;
+import com.example.concesswebapi.service.FabricanteService;
 import com.example.concesswebapi.service.ModeloService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -18,10 +21,13 @@ import java.util.stream.Collectors;
 public class ModeloController {
 
     private final ModeloService modeloService;
+    private final FabricanteService fabricanteService;
     private final ModelMapper modelMapper = new ModelMapper();
 
-    public ModeloController(ModeloService modeloService) {
+    public ModeloController(ModeloService modeloService, FabricanteService fabricanteService) {
+
         this.modeloService = modeloService;
+        this.fabricanteService = fabricanteService;
     }
 
     @GetMapping
@@ -40,7 +46,31 @@ public class ModeloController {
         return ResponseEntity.ok(modelo.map(ModeloResponseDTO::create));
     }
 
-    private Modelo converter(ModeloResponseDTO dto) {
-        return modelMapper.map(dto, Modelo.class);
+    @PostMapping()
+    public ResponseEntity post(@RequestBody ModeloRequestDTO dto) {
+        try {
+            Modelo modelo = converter(dto);
+            modeloService.salvar(modelo);
+            return new ResponseEntity(modelo, HttpStatus.CREATED);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    private Modelo converter(ModeloRequestDTO dto) {
+
+        Modelo modelo = new Modelo();
+        modelo.setNome(dto.getNome());
+
+        if (dto.getFabricanteId() == null) {
+            throw new RegraNegocioException("Fabricante inválida");
+        }
+
+        Fabricante fabricante = fabricanteService.getFabricanteById(dto.getFabricanteId())
+                .orElseThrow(() -> new RegraNegocioException("Fabricante não encontrada"));
+
+        modelo.setFabricante(fabricante);
+
+        return modelo;
     }
 }

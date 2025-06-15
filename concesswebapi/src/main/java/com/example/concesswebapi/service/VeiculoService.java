@@ -5,6 +5,7 @@ import com.example.concesswebapi.Model.Entity.VeiculoNovo;
 import com.example.concesswebapi.Model.Entity.VeiculoUsado;
 import com.example.concesswebapi.exception.RegraNegocioException;
 import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -50,5 +51,4 @@ public class VeiculoService {
         }
         throw new RegraNegocioException("Tipo de veículo inválido");
     }
-
 }

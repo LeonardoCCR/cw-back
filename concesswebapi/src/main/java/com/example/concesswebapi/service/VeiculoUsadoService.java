@@ -1,9 +1,11 @@
 package com.example.concesswebapi.service;
 
 import com.example.concesswebapi.Model.Entity.VeiculoUsado;
+import com.example.concesswebapi.Model.repository.ModeloRepository;
 import com.example.concesswebapi.exception.RegraNegocioException;
 import com.example.concesswebapi.Model.repository.VeiculoUsadoRepository;
 import com.example.concesswebapi.util.ValidadorVeiculo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,10 +16,16 @@ import java.util.Optional;
 @Service
 public class VeiculoUsadoService {
 
-    private VeiculoUsadoRepository repository;
+    @Autowired
+    private ValidadorVeiculo validadorVeiculo;
 
-    public VeiculoUsadoService(VeiculoUsadoRepository repository) {
+    private VeiculoUsadoRepository repository;
+    private ModeloRepository modeloRepository;
+
+    public VeiculoUsadoService(VeiculoUsadoRepository repository, ModeloRepository modeloRepository) {
+
         this.repository = repository;
+        this.modeloRepository = modeloRepository; // Inicialização do modeloRepository, se necessário
     }
 
     public List<VeiculoUsado> getVeiculosUsados() {
@@ -30,7 +38,7 @@ public class VeiculoUsadoService {
 
     @Transactional
     public VeiculoUsado salvar(VeiculoUsado veiculoUsado) {
-        ValidadorVeiculo.validarCamposVeiculo(veiculoUsado);
+        validadorVeiculo.validarCamposVeiculo(veiculoUsado);
         validar(veiculoUsado);
         return repository.save(veiculoUsado);
     }
@@ -46,19 +54,22 @@ public class VeiculoUsadoService {
         if (verificaValor(veiculo.getQuilometragem())) {
             throw new RegraNegocioException("Quilometragem inválida");
         }
-        if (verificaNullVazio(veiculo.getDataUltimaRevisao())) {
+        if (verificaNullVazio(veiculo.getDataUltimaRevisao()) || verificaNumero(veiculo.getDataUltimaRevisao())) {
             throw new RegraNegocioException("Data da última revisão inválida");
         }
-        if (verificaNullVazio(veiculo.getLaudoVistoria())) {
+        if (verificaNullVazio(veiculo.getLaudoVistoria()) || verificaNumero(veiculo.getLaudoVistoria())) {
             throw new RegraNegocioException("Laudo da vistoria inválido");
         }
-        if (verificaNullVazio(veiculo.getDocumentacao())) {
+        if (verificaNullVazio(veiculo.getDocumentacao()) || verificaNumero(veiculo.getDocumentacao())) {
             throw new RegraNegocioException("Documentação inválida");
         }
-        if (verificaNullVazio(veiculo.getManutencao())) {
+        if (verificaNullVazio(veiculo.getManutencao()) || verificaNumero(veiculo.getManutencao())) {
             throw new RegraNegocioException("Manutenção inválida");
         }
-        if (verificaNullVazio(veiculo.getManutencao())) {
+        if (verificaNullVazio(veiculo.getManutencao()) || verificaNumero(veiculo.getManutencao())) {
+            throw new RegraNegocioException("Sinistro de acidente inválido");
+        }
+        if(verificaNullVazio(veiculo.getSinistroAcidente()) || verificaNumero(veiculo.getSinistroAcidente())) {
             throw new RegraNegocioException("Sinistro de acidente inválido");
         }
     }
@@ -70,5 +81,9 @@ public class VeiculoUsadoService {
     public boolean verificaValor(Double valor)
     {
         return valor == null;
+    }
+
+    public boolean verificaNumero(String campo) {
+        return campo.matches("-?\\d+(\\.\\d+)?");
     }
 }

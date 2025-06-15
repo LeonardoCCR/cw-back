@@ -1,0 +1,7 @@
+id,cliente_id,vendedor_id,desconto_total,aprovada,data,forma_pag
+1,21,17,150.00,sim,2024-06-01,PIX
+2,22,18,200.50,não,2024-06-05,Cartão
+3,23,19,0.00,sim,2024-06-10,Boleto
+4,24,20,75.25,sim,2024-06-12,Cartão
+5,21,18,120.00,não,2024-06-13,PIX
+

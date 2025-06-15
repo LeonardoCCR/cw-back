@@ -1,0 +1,7 @@
+id,desconto_parcial,modelo_veiculo_id,veiculo_id,venda_id
+1,10.50,3,1,1
+2,,2,2,2
+3,5.00,1,5,3
+4,,4,4,4
+5,0,5,3,5
+

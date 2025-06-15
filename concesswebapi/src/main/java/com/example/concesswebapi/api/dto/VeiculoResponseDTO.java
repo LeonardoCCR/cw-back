@@ -25,11 +25,19 @@ public class VeiculoResponseDTO {
     private String cor;
     private String garantia;
     private String condicao;
+    private String anoFabricacao;
+    private BigDecimal precoBase;
+    private String fotoModelo;
+    private Integer qtdEstoqueVenda;
+    private Integer qtdEstoque;
+    private String permiteTestDrive;
     private Double quilometragem;
     private String documentacao;
     private String manutencao;
     private String laudoVistoria;
     private String dataUltimaRevisao;
+    private String numeroProprietario;
+    private String sinistroAcidente;
     private String categoria;
     private String motorizacao;
     private Double potencia;
@@ -38,7 +46,6 @@ public class VeiculoResponseDTO {
     private Integer cilindrada;
     private Integer qtdMarcha;
     private String tipoPartida;
-    private String sinistroAcidente;
 
     public static VeiculoResponseDTO create(Veiculo veiculo) {
         ModelMapper modelMapper = new ModelMapper();
@@ -46,6 +53,12 @@ public class VeiculoResponseDTO {
         dto.nomeModelo = veiculo.getModeloVeiculo().getModelo().getNome();
         dto.nomeFabricante = veiculo.getModeloVeiculo().getModelo().getFabricante().getNome();
         dto.nomeConcessionaria = veiculo.getConcessionaria().getRazaoSocial();
+        dto.anoFabricacao = veiculo.getModeloVeiculo().getAnoFabricacao();
+        dto.precoBase = veiculo.getModeloVeiculo().getPrecoBase();
+        dto.fotoModelo = veiculo.getModeloVeiculo().getFotoModelo();
+        dto.qtdEstoqueVenda = veiculo.getModeloVeiculo().getQtdEstoqueVenda();
+        dto.qtdEstoque = veiculo.getModeloVeiculo().getQtdEstoque();
+        dto.permiteTestDrive = veiculo.getModeloVeiculo().getPermiteTestDrive();
 
         if (veiculo instanceof VeiculoUsado) {
             dto.quilometragem = ((VeiculoUsado) veiculo).getQuilometragem();

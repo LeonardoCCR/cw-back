@@ -41,16 +41,16 @@ public class CarroService {
 
     public void validar(Carro carro)
     {
-        if (verificaNullVazio(carro.getMotorizacao())) {
+        if (verificaNullVazio(carro.getMotorizacao()) || verificaNumero(carro.getMotorizacao())) {
             throw new RegraNegocioException("Motorização inválida");
         }
-        if (verificaNullVazio(carro.getTransmissao())) {
+        if (verificaNullVazio(carro.getTransmissao()) || verificaNumero(carro.getTransmissao())) {
             throw new RegraNegocioException("Transmissão inválida");
         }
         if (verificaValor(carro.getPotencia())) {
             throw new RegraNegocioException("Potência inválida");
         }
-        if (verificaNullVazio(carro.getCategoria())) {
+        if (verificaNullVazio(carro.getCategoria()) || verificaNumero(carro.getCategoria())) {
             throw new RegraNegocioException("Categoria inválida");
         }
     }
@@ -62,6 +62,11 @@ public class CarroService {
     public static boolean verificaValor(Double valor)
     {
         return valor == null || valor <= 0;
+    }
+
+    public boolean verificaNumero(String campo)
+    {
+        return campo.matches("-?\\d+(\\.\\d+)?") ;
     }
 }
 

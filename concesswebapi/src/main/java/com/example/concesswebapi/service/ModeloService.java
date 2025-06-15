@@ -31,30 +31,29 @@ public class ModeloService {
     }
 
     @Transactional
-    public Modelo salvar(Modelo modelo) {
+    public Modelo salvar(Modelo modelo)
+    {
         validar(modelo);
         return repository.save(modelo);
     }
 
     @Transactional
-    public void excluir(Modelo modelo) {
+    public void excluir(Modelo modelo)
+    {
         Objects.requireNonNull(modelo.getId());
         repository.delete(modelo);
     }
 
     public void validar(Modelo modelo)
     {
-        if (verificaNullVazio(modelo.getNome())) {
+        if (verificaNullVazio(modelo.getNome()))
+        {
             throw new RegraNegocioException("Nome de modelo inválido");
         }
-        if (modelo.getFabricante() == null || modelo.getFabricante().getId() == null) {
-            throw new RegraNegocioException("Fabricante inválida");
-        }
 
-        boolean existe = fabricanteRepository.existsById(modelo.getFabricante().getId());
-
-        if (!existe) {
-            throw new RegraNegocioException("Fabricante não encontrada");
+        if(verificaNumero(modelo.getNome()))
+        {
+            throw new RegraNegocioException("O nome do modelo não pode ser um número");
         }
     }
 
@@ -62,8 +61,8 @@ public class ModeloService {
         return campo == null || campo.trim().isEmpty();
     }
 
-    public static boolean verificaValor(Fabricante valor)
+    public boolean verificaNumero(String campo)
     {
-        return valor == null;
+        return campo.matches("-?\\d+(\\.\\d+)?");
     }
 }

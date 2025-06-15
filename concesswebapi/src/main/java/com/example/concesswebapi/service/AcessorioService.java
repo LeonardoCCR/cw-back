@@ -44,10 +44,20 @@ public class AcessorioService {
         if (verificaNullVazio(acessorio.getDescricao())) {
             throw new RegraNegocioException("Descrição inválida");
         }
+
+        if(verificaNumero(acessorio.getDescricao()))
+        {
+            throw new RegraNegocioException("O valor não pode ser um número");
+        }
     }
 
     public boolean verificaNullVazio(String campo) {
         return campo == null || campo.trim().isEmpty();
+    }
+
+    public boolean verificaNumero(String campo)
+    {
+       return campo.matches("-?\\d+(\\.\\d+)?") ;
     }
 }
 

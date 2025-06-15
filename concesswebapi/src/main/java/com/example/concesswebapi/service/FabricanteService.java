@@ -44,9 +44,19 @@ public class FabricanteService {
         if (verificaNullVazio(fabricante.getNome())) {
             throw new RegraNegocioException("Fabricante inválida");
         }
+
+        if(verificaNumero(fabricante.getNome()))
+        {
+            throw new RegraNegocioException("O nome da fabricante não pode ser um número");
+        }
     }
 
     public boolean verificaNullVazio(String campo) {
         return campo == null || campo.trim().isEmpty();
+    }
+
+    public boolean verificaNumero(String campo)
+    {
+        return campo.matches("-?\\d+(\\.\\d+)?") ;
     }
 }

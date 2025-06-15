@@ -1,9 +1,11 @@
 package com.example.concesswebapi.service;
 
 import com.example.concesswebapi.Model.Entity.ModeloVeiculo;
+import com.example.concesswebapi.Model.repository.ModeloRepository;
 import com.example.concesswebapi.Model.repository.ModeloVeiculoRepository;
 import com.example.concesswebapi.Model.repository.TipoVeiculoRepository;
 import com.example.concesswebapi.exception.RegraNegocioException;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
@@ -11,14 +13,15 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+@Service
 public class ModeloVeiculoService {
 
     private ModeloVeiculoRepository repository;
-    private TipoVeiculoRepository tipoVeiculoRepository;
-    private ModeloVeiculoRepository modeloVeiculoRepository;
+    private ModeloRepository modeloRepository;
 
-    public ModeloVeiculoService(ModeloVeiculoRepository repository) {
+    public ModeloVeiculoService(ModeloVeiculoRepository repository, ModeloRepository modeloRepository) {
         this.repository = repository;
+        this.modeloRepository = modeloRepository;
     }
 
     public List<ModeloVeiculo> getModelosVeiculo() {
@@ -41,8 +44,7 @@ public class ModeloVeiculoService {
         repository.delete(modeloVeiculo);
     }
 
-    public void validar(ModeloVeiculo modeloVeiculo)
-    {
+    public void validar(ModeloVeiculo modeloVeiculo) {
         if (verificaNullVazio(modeloVeiculo.getAnoFabricacao())) {
             throw new RegraNegocioException("Ano de fabricação inválido");
         }
@@ -55,24 +57,21 @@ public class ModeloVeiculoService {
         if (verificaValor((modeloVeiculo.getQtdEstoqueVenda()))) {
             throw new RegraNegocioException("Quantidade de estoque inválida");
         }
-        if (verificaNullVazio(modeloVeiculo.getFotoModelo())) {
-            throw new RegraNegocioException("Foto inválida");
-        }
-        if (modeloVeiculo.getTipoVeiculo() == null || modeloVeiculo.getTipoVeiculo().getId() == null){
+//        if (verificaNullVazio(modeloVeiculo.getFotoModelo())) {
+//            throw new RegraNegocioException("Foto inválida");
+//        }
+        if (modeloVeiculo.getTipoVeiculo() == null) {
             throw new RegraNegocioException("Tipo de veículo inválido");
         }
-        else{
-            boolean existe = tipoVeiculoRepository.existsById(modeloVeiculo.getTipoVeiculo().getId());
+        if(verificaNullVazio(modeloVeiculo.getPermiteTestDrive()))
+        {
+            throw new RegraNegocioException("O campo referente ao test-drive é obrigatório");
+        }
 
-            if (!existe) {
-                throw new RegraNegocioException("Tipo de veículo não encontrado");
-            }
-        }
-        if (modeloVeiculo.getModelo() == null || modeloVeiculo.getModelo().getId() == null){
+        if (modeloVeiculo.getModelo() == null || modeloVeiculo.getModelo().getId() == null) {
             throw new RegraNegocioException("Modelo inválido");
-        }
-        else{
-            boolean existe = modeloVeiculoRepository.existsById(modeloVeiculo.getModelo().getId());
+        } else {
+            boolean existe = modeloRepository.existsById(modeloVeiculo.getModelo().getId());
 
             if (!existe) {
                 throw new RegraNegocioException("Modelo não encontrado");
@@ -85,13 +84,11 @@ public class ModeloVeiculoService {
         return campo == null || campo.trim().isEmpty();
     }
 
-    public static boolean verificaValor(Integer valor)
-    {
+    public static boolean verificaValor(Integer valor) {
         return valor == null;
     }
 
-    public static boolean verificaPreco(BigDecimal preco)
-    {
+    public static boolean verificaPreco(BigDecimal preco) {
         return preco == null || preco.compareTo(BigDecimal.ZERO) <= 0;
     }
 }

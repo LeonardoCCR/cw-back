@@ -3,6 +3,7 @@ package com.example.concesswebapi.service;
 import com.example.concesswebapi.Model.Entity.VeiculoNovo;
 import com.example.concesswebapi.Model.repository.VeiculoNovoRepository;
 import com.example.concesswebapi.util.ValidadorVeiculo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,6 +13,9 @@ import java.util.Optional;
 
 @Service
 public class VeiculoNovoService {
+
+    @Autowired
+    private ValidadorVeiculo validadorVeiculo;
 
     private VeiculoNovoRepository repository;
 
@@ -29,7 +33,7 @@ public class VeiculoNovoService {
 
     @Transactional
     public VeiculoNovo salvar(VeiculoNovo veiculoNovo) {
-        ValidadorVeiculo.validarCamposVeiculo(veiculoNovo);
+        validadorVeiculo.validarCamposVeiculo(veiculoNovo);
         return repository.save(veiculoNovo);
     }
 

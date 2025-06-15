@@ -1,15 +1,13 @@
 package com.example.concesswebapi.Model.Entity;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
+@ToString(callSuper = true)
 @Inheritance(strategy = InheritanceType.JOINED)
 @Data
 @NoArgsConstructor

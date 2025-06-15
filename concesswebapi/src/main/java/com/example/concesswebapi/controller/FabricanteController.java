@@ -1,15 +1,13 @@
 package com.example.concesswebapi.controller;
 
 import com.example.concesswebapi.Model.Entity.Fabricante;
-import com.example.concesswebapi.api.dto.FabricanteResponseDTO;
+import com.example.concesswebapi.api.dto.FabricanteDTO;
+import com.example.concesswebapi.exception.RegraNegocioException;
 import com.example.concesswebapi.service.FabricanteService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,7 +27,7 @@ public class FabricanteController {
     @GetMapping
     public ResponseEntity listarTodos() {
         List<Fabricante> fabricantes = fabricanteService.getFabricantes();
-        return ResponseEntity.ok(fabricantes.stream().map(FabricanteResponseDTO::create).collect(Collectors.toList()));
+        return ResponseEntity.ok(fabricantes.stream().map(FabricanteDTO::create).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
@@ -38,10 +36,23 @@ public class FabricanteController {
         if (fabricante.isEmpty()) {
             return new ResponseEntity("Fabricante não encontrado", HttpStatus.NOT_FOUND);
         }
-        return ResponseEntity.ok(fabricante.map(FabricanteResponseDTO::create));
+        return ResponseEntity.ok(fabricante.map(FabricanteDTO::create));
     }
 
-    private Fabricante converter(FabricanteResponseDTO dto) {
+    @PostMapping()
+    public ResponseEntity post(@RequestBody FabricanteDTO dto) {
+        try {
+            Fabricante fabricante = converter(dto);
+            fabricanteService.salvar(fabricante);
+            return new ResponseEntity(fabricante, HttpStatus.CREATED);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    private Fabricante converter(FabricanteDTO dto) {
+
+        ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(dto, Fabricante.class);
     }
 }

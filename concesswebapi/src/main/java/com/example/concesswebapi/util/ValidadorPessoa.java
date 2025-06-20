@@ -49,5 +49,4 @@ public class ValidadorPessoa {
     public static boolean verificaNullVazio(String campo) {
         return campo == null || campo.trim().isEmpty();
     }
-    //.equals("") produz o mesmo resultado
 }

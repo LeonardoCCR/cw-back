@@ -5,63 +5,55 @@ import com.example.concesswebapi.Model.repository.VendaRepository;
 import com.example.concesswebapi.exception.RegraNegocioException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.Objects;
-import java.util.Optional;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class VendaService {
 
-    private VendaRepository repository;
+    private final VendaRepository repository;
 
-    public VendaService(VendaRepository repository) { this.repository = repository; }
+    public VendaService(VendaRepository repository) {
+        this.repository = repository;
+    }
 
-    public List<Venda> getVendas(){
+    public List<Venda> getVendas() {
         return repository.findAll();
     }
 
-    public Optional<Venda> getVendaById(Long id) { return repository.findById(id); }
+    public Optional<Venda> getVendaById(Long id) {
+        return repository.findById(id);
+    }
 
     @Transactional
-    public Venda salvar(Venda venda){
+    public Venda salvar(Venda venda) {
         validar(venda);
         return repository.save(venda);
     }
 
     @Transactional
-    public void excluir(Venda venda){
-        Objects.requireNonNull(venda.getId());
+    public void excluir(Venda venda) {
+        Objects.requireNonNull(venda.getId(), "ID da venda não pode ser nulo.");
         repository.delete(venda);
     }
 
-    public void validar(Venda venda)
-    {
-        if (verificaNullVazio(venda.getData())) {
-            throw new RegraNegocioException("Data inválida");
+    public void validar(Venda venda) {
+        if (venda.getData() == null || venda.getData().trim().isEmpty()) {
+            throw new RegraNegocioException("Data inválida.");
         }
-        if (verificaNullVazio(venda.getFormaPag())) {
-            throw new RegraNegocioException("Forma de Pagamento inválida");
+        if (venda.getFormaPag() == null || venda.getFormaPag().trim().isEmpty()) {
+            throw new RegraNegocioException("Forma de pagamento inválida.");
         }
-        if (verificaValor(venda.getDescontoTotal())) {
-            throw new RegraNegocioException("Desconto Total inválido");
+        if (venda.getDescontoTotal() == null || venda.getDescontoTotal() < 0) {
+            throw new RegraNegocioException("Desconto inválido.");
         }
-        if (verificaNullVazio(venda.getAprovada())) {
-            throw new RegraNegocioException("Status de Aprovado inválido");
+        if (venda.getCliente() == null || venda.getCliente().getId() == null) {
+            throw new RegraNegocioException("Cliente inválido.");
         }
-        if(venda.getVendedor() == null || venda.getVendedor().getId() == null || venda.getVendedor().getId() == 0){
-            throw new RegraNegocioException("Campo Vendedor inválido");
+        if (venda.getVendedor() == null || venda.getVendedor().getId() == null) {
+            throw new RegraNegocioException("Vendedor inválido.");
         }
-        if(venda.getCliente() == null || venda.getCliente().getId() == null || venda.getCliente().getId() == 0){
-            throw new RegraNegocioException("Campo Cliente inválido");
-        }
-    }
-
-    public boolean verificaNullVazio(String campo) {
-        return campo == null || campo.trim().isEmpty();
-    }
-
-    public boolean verificaValor(Double valor) {
-        return valor == null || valor < 0;
     }
 }

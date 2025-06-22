@@ -1,17 +1,16 @@
 package com.example.concesswebapi.controller;
 
 
+
 import com.example.concesswebapi.Model.Entity.Gestor;
 import com.example.concesswebapi.api.dto.GestorDTO;
+import com.example.concesswebapi.exception.RegraNegocioException;
 import com.example.concesswebapi.service.GestorService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 import java.util.List;
@@ -39,12 +38,25 @@ public class GestorController {
         }
         return ResponseEntity.ok(entidade.map(GestorDTO::create));
     }
+
+    @PutMapping("{id}")
+    public ResponseEntity atualizar(@PathVariable("id") Long id, GestorDTO dto) {
+        if (!service.getGestorById(id).isPresent()) {
+            return new ResponseEntity("Gestor não encontrado", HttpStatus.NOT_FOUND);
+        }
+        try {
+            Gestor gestor = converter(dto);
+            gestor.setId(id);
+            service.salvar(gestor);
+            return ResponseEntity.ok(gestor);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     public Gestor converter(GestorDTO dto){
 
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(dto, Gestor.class);
     }
-
-
-
 }

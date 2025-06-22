@@ -1,16 +1,16 @@
 package com.example.concesswebapi.controller;
 
 import com.example.concesswebapi.Model.Entity.Empresa;
-import com.example.concesswebapi.api.dto.EmpresaDTO;
+import com.example.concesswebapi.api.dto.EmpresaRequestDTO;
+import com.example.concesswebapi.api.dto.EmpresaResponseDTO;
+import com.example.concesswebapi.exception.RegraNegocioException;
 import com.example.concesswebapi.service.EmpresaService;
-import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import org.modelmapper.ModelMapper;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,29 +18,70 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/empresas")
-@RequiredArgsConstructor
 public class EmpresaController {
 
-    public final EmpresaService service;
+    private final EmpresaService service;
+    private final ModelMapper modelMapper = new ModelMapper();
 
-    @GetMapping()
-    public ResponseEntity get() {
+    public EmpresaController(EmpresaService service) { this.service = service; }
+
+    @GetMapping
+    public ResponseEntity<List<EmpresaResponseDTO>> get() {
         List<Empresa> empresas = service.getEmpresa();
-        return ResponseEntity.ok(empresas.stream().map(EmpresaDTO::create).collect(Collectors.toList()));
+        List<EmpresaResponseDTO> dtoList = empresas.stream()
+                .map(EmpresaResponseDTO::create)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(dtoList);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity get(@PathVariable("id") Long id) {
+    public ResponseEntity<?> get(@PathVariable Long id) {
         Optional<Empresa> empresa = service.getEmpresaById(id);
-        if (!empresa.isPresent()) {
-            return new ResponseEntity("Aluno não encontrado", HttpStatus.NOT_FOUND);
+        if (empresa.isEmpty()) {
+            return new ResponseEntity<>("Empresa não encontrada", HttpStatus.NOT_FOUND);
         }
-        return ResponseEntity.ok(empresa.map(EmpresaDTO::create));
+        return ResponseEntity.ok(EmpresaResponseDTO.create(empresa.get()));
     }
 
-    public Empresa converter(EmpresaDTO dto){
-        ModelMapper modelMapper = new ModelMapper();
+    @PostMapping
+    public ResponseEntity<?> post(@RequestBody EmpresaRequestDTO dto) {
+        try {
+            Empresa empresa = converterParaEntidade(dto);
+            empresa = service.salvar(empresa);
+            return new ResponseEntity<>(EmpresaResponseDTO.create(empresa), HttpStatus.CREATED);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody EmpresaRequestDTO dto) {
+        Optional<Empresa> optional = service.getEmpresaById(id);
+        if (optional.isEmpty()) {
+            return new ResponseEntity<>("Empresa não encontrada", HttpStatus.NOT_FOUND);
+        }
+        try {
+            Empresa empresaExistente = optional.get();
+            Empresa empresaAtualizada = converterParaEntidade(dto);
+            empresaAtualizada.setId(empresaExistente.getId());
+            empresaAtualizada = service.salvar(empresaAtualizada);
+            return ResponseEntity.ok(EmpresaResponseDTO.create(empresaAtualizada));
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> excluir(@PathVariable Long id) {
+        Optional<Empresa> optional = service.getEmpresaById(id);
+        if (optional.isEmpty()) {
+            return new ResponseEntity<>("Empresa não encontrada", HttpStatus.NOT_FOUND);
+        }
+        service.excluir(optional.get());
+        return ResponseEntity.noContent().build();
+    }
+
+    private Empresa converterParaEntidade(EmpresaRequestDTO dto) {
         return modelMapper.map(dto, Empresa.class);
     }
-
 }

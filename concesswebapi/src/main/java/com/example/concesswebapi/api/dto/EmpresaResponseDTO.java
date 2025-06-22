@@ -1,6 +1,5 @@
 package com.example.concesswebapi.api.dto;
 
-import com.example.concesswebapi.Model.Entity.Concessionaria;
 import com.example.concesswebapi.Model.Entity.Empresa;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,7 +9,7 @@ import org.modelmapper.ModelMapper;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ConcessionariaDTO {
+public class EmpresaResponseDTO {
 
     private Long id;
     private String razaoSocial;
@@ -25,12 +24,11 @@ public class ConcessionariaDTO {
     private String numero;
     private String complemento;
     private String bairro;
-    private String cep;
     private String uf;
+    private String cep;
 
-    public static ConcessionariaDTO create(Concessionaria concessionaria) {
+    public static EmpresaResponseDTO create(Empresa empresa) {
         ModelMapper modelMapper = new ModelMapper();
-         ConcessionariaDTO dto = modelMapper.map(concessionaria, ConcessionariaDTO.class);
-         return dto;
+        return modelMapper.map(empresa, EmpresaResponseDTO.class);
     }
 }

@@ -2,12 +2,13 @@ package com.example.concesswebapi.controller;
 
 import com.example.concesswebapi.Model.Entity.Cliente;
 import com.example.concesswebapi.Model.Entity.Concessionaria;
-import com.example.concesswebapi.api.dto.ClienteDTO;
-import com.example.concesswebapi.api.dto.ConcessionariaDTO;
+import com.example.concesswebapi.Model.Entity.Empresa;
+import com.example.concesswebapi.api.dto.ConcessionariaRequestDTO;
+import com.example.concesswebapi.api.dto.ConcessionariaResponseDTO;
 import com.example.concesswebapi.exception.RegraNegocioException;
 import com.example.concesswebapi.service.ConcessionariaService;
-import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
+import com.example.concesswebapi.service.EmpresaService;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,43 +19,94 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/concessionarias")
-@RequiredArgsConstructor
 public class ConcessionariaController {
 
-    public final ConcessionariaService service;
+    private final ConcessionariaService concessionariaService;
+    private final EmpresaService empresaService;
 
-    @GetMapping()
-    public ResponseEntity get() {
-        List<Concessionaria> concessionarias = service.getConcessionaria();
-        return ResponseEntity.ok(concessionarias.stream().map(ConcessionariaDTO::create).collect(Collectors.toList()));
+    public ConcessionariaController(ConcessionariaService concessionariaService, EmpresaService empresaService) {
+        this.concessionariaService = concessionariaService;
+        this.empresaService = empresaService;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ConcessionariaResponseDTO>> get() {
+        List<Concessionaria> lista = concessionariaService.getConcessionaria();
+        List<ConcessionariaResponseDTO> dtoList = lista.stream()
+                .map(ConcessionariaResponseDTO::create)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(dtoList);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity get(@PathVariable("id") Long id) {
-        Optional<Concessionaria> concessionaria = service.getConcessionariaById(id);
-        if (!concessionaria.isPresent()) {
-            return new ResponseEntity("Concessionaria não encontrada", HttpStatus.NOT_FOUND);
+    public ResponseEntity<?> get(@PathVariable("id") Long id) {
+        Optional<Concessionaria> optional = concessionariaService.getConcessionariaById(id);
+        if (optional.isEmpty()) {
+            return new ResponseEntity<>("Concessionaria não encontrada", HttpStatus.NOT_FOUND);
         }
-        return ResponseEntity.ok(concessionaria.map(ConcessionariaDTO::create));
+        return ResponseEntity.ok(ConcessionariaResponseDTO.create(optional.get()));
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity atualizar(@PathVariable("id") Long id, ConcessionariaDTO dto) {
-        if (!service.getConcessionariaById(id).isPresent()) {
-            return new ResponseEntity("Cliente não encontrado", HttpStatus.NOT_FOUND);
-        }
+    @PostMapping
+    public ResponseEntity<?> post(@RequestBody ConcessionariaRequestDTO dto) {
         try {
             Concessionaria concessionaria = converter(dto);
-            concessionaria.setId(id);
-            service.salvar(concessionaria);
-            return ResponseEntity.ok(concessionaria);
+            concessionaria.setId(null);
+            concessionariaService.salvar(concessionaria);
+            return new ResponseEntity<>(ConcessionariaResponseDTO.create(concessionaria), HttpStatus.CREATED);
         } catch (RegraNegocioException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    public Concessionaria converter(ConcessionariaDTO dto){
-        ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(dto, Concessionaria.class);
+    @PutMapping("/{id}")
+    public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody ConcessionariaRequestDTO dto) {
+        Optional<Concessionaria> optional = concessionariaService.getConcessionariaById(id);
+        if (optional.isEmpty()) {
+            return new ResponseEntity<>("Concessionaria não encontrada", HttpStatus.NOT_FOUND);
+        }
+
+        try {
+            Concessionaria concessionariaExistente = optional.get();
+            Concessionaria atualizada = converter(dto);
+            atualizada.setId(concessionariaExistente.getId());
+            concessionariaService.salvar(atualizada);
+            return ResponseEntity.ok(ConcessionariaResponseDTO.create(atualizada));
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> excluir(@PathVariable Long id) {
+        Optional<Concessionaria> optional = concessionariaService.getConcessionariaById(id);
+        if (optional.isEmpty()) {
+            return new ResponseEntity<>("Concessionaria não encontrada", HttpStatus.NOT_FOUND);
+        }
+        concessionariaService.excluir(optional.get());
+        return ResponseEntity.noContent().build();
+    }
+
+    private Concessionaria converter(ConcessionariaRequestDTO dto) {
+        Concessionaria concessionaria = new Concessionaria();
+
+        concessionaria.setRazaoSocial(dto.getRazaoSocial());
+        concessionaria.setCnpj(dto.getCnpj());
+        concessionaria.setTelefone1(dto.getTelefone1());
+        concessionaria.setTelefone2(dto.getTelefone2());
+        concessionaria.setEmail1(dto.getEmail1());
+        concessionaria.setEmail2(dto.getEmail2());
+        concessionaria.setLogradouro(dto.getLogradouro());
+        concessionaria.setNumero(dto.getNumero());
+        concessionaria.setComplemento(dto.getComplemento());
+        concessionaria.setBairro(dto.getBairro());
+        concessionaria.setCep(dto.getCep());
+        concessionaria.setUf(dto.getUf());
+
+        Empresa empresa = empresaService.getEmpresaById(dto.getEmpresaId())
+                .orElseThrow(() -> new RegraNegocioException("Empresa não encontrada"));
+        concessionaria.setEmpresa(empresa);
+
+        return concessionaria;
     }
 }

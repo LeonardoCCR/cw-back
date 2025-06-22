@@ -1,10 +1,10 @@
 package com.example.concesswebapi.service;
 
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import com.example.concesswebapi.util.ValidadorPessoaJuridica;
 import com.example.concesswebapi.Model.Entity.Concessionaria;
 import com.example.concesswebapi.Model.repository.ConcessionariaRepository;
+import com.example.concesswebapi.util.ValidadorPessoaJuridica;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -13,7 +13,7 @@ import java.util.Optional;
 @Service
 public class ConcessionariaService {
 
-    private ConcessionariaRepository repository;
+    private final ConcessionariaRepository repository;
 
     public ConcessionariaService(ConcessionariaRepository repository) {
         this.repository = repository;
@@ -35,7 +35,7 @@ public class ConcessionariaService {
 
     @Transactional
     public void excluir(Concessionaria concessionaria) {
-        Objects.requireNonNull(concessionaria.getId());
+        Objects.requireNonNull(concessionaria.getId(), "Id da concessionaria não pode ser nulo");
         repository.delete(concessionaria);
     }
 

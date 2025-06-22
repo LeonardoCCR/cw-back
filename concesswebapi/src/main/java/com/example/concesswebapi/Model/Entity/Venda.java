@@ -5,13 +5,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class Venda {
 
     @Id
@@ -24,8 +22,11 @@ public class Venda {
     private String aprovada;
 
     @ManyToOne
-    private Vendedor vendedor;
+    @JoinColumn(name = "cliente_id")
+    private Cliente cliente;
 
     @ManyToOne
-    private Cliente cliente;
+    @JoinColumn(name = "vendedor_id")
+    private Vendedor vendedor;
 }
+

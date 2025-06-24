@@ -12,6 +12,7 @@ import org.modelmapper.ModelMapper;
 
 public class AcessorioDTO {
 
+    private Long id;
     private String descricao;
 
     public static AcessorioDTO create(Acessorio acessorio) {

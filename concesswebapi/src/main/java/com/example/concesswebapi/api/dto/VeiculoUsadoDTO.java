@@ -1,7 +1,6 @@
 package com.example.concesswebapi.api.dto;
 
 import com.example.concesswebapi.Model.Entity.Veiculo;
-import com.example.concesswebapi.Model.Entity.VeiculoNovo;
 import com.example.concesswebapi.Model.Entity.VeiculoUsado;
 import com.example.concesswebapi.exception.RegraNegocioException;
 import lombok.AllArgsConstructor;
@@ -11,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class VeiculoUsadoRequestDTO {
+public class VeiculoUsadoDTO {
 
     private Double quilometragem;
     private String documentacao;
@@ -21,7 +20,7 @@ public class VeiculoUsadoRequestDTO {
     private String sinistroAcidente;
     private String contatoProprietario;
 
-    public VeiculoUsado converter(VeiculoUsadoRequestDTO dto, VeiculoUsado veiculo) {
+    public VeiculoUsado converter(VeiculoUsadoDTO dto, VeiculoUsado veiculo) {
 
         if(dto == null)
         {
@@ -37,5 +36,19 @@ public class VeiculoUsadoRequestDTO {
         veiculo.setSinistroAcidente(dto.getSinistroAcidente());
 
         return veiculo;
+    }
+
+    public static VeiculoUsadoDTO create(VeiculoUsado veiculo) {
+
+        VeiculoUsadoDTO dto = new VeiculoUsadoDTO();
+
+        dto.quilometragem = veiculo.getQuilometragem();
+        dto.documentacao = veiculo.getDocumentacao();
+        dto.manutencao = veiculo.getManutencao();
+        dto.laudoVistoria = veiculo.getLaudoVistoria();
+        dto.dataUltimaRevisao = veiculo.getDataUltimaRevisao();
+        dto.sinistroAcidente = veiculo.getSinistroAcidente();
+
+        return dto;
     }
 }

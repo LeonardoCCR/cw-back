@@ -2,7 +2,6 @@ package com.example.concesswebapi.controller;
 
 import com.example.concesswebapi.Model.Entity.Cliente;
 import com.example.concesswebapi.Model.Entity.Concessionaria;
-import com.example.concesswebapi.Model.Entity.Empresa;
 import com.example.concesswebapi.api.dto.ConcessionariaRequestDTO;
 import com.example.concesswebapi.api.dto.ConcessionariaResponseDTO;
 import com.example.concesswebapi.exception.RegraNegocioException;
@@ -12,6 +11,8 @@ import com.example.concesswebapi.service.EmpresaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import org.modelmapper.ModelMapper;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +24,7 @@ public class ConcessionariaController {
 
     private final ConcessionariaService concessionariaService;
     private final EmpresaService empresaService;
+    private final ModelMapper modelMapper = new ModelMapper();
 
     public ConcessionariaController(ConcessionariaService concessionariaService, EmpresaService empresaService) {
         this.concessionariaService = concessionariaService;
@@ -88,25 +90,7 @@ public class ConcessionariaController {
     }
 
     private Concessionaria converter(ConcessionariaRequestDTO dto) {
-        Concessionaria concessionaria = new Concessionaria();
-
-        concessionaria.setRazaoSocial(dto.getRazaoSocial());
-        concessionaria.setCnpj(dto.getCnpj());
-        concessionaria.setTelefone1(dto.getTelefone1());
-        concessionaria.setTelefone2(dto.getTelefone2());
-        concessionaria.setEmail1(dto.getEmail1());
-        concessionaria.setEmail2(dto.getEmail2());
-        concessionaria.setLogradouro(dto.getLogradouro());
-        concessionaria.setNumero(dto.getNumero());
-        concessionaria.setComplemento(dto.getComplemento());
-        concessionaria.setBairro(dto.getBairro());
-        concessionaria.setCep(dto.getCep());
-        concessionaria.setUf(dto.getUf());
-
-        Empresa empresa = empresaService.getEmpresaById(dto.getEmpresaId())
-                .orElseThrow(() -> new RegraNegocioException("Empresa não encontrada"));
-        concessionaria.setEmpresa(empresa);
-
-        return concessionaria;
+        return modelMapper.map(dto, Concessionaria.class);
     }
+
 }

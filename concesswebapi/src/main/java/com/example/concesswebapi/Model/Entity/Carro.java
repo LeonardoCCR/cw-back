@@ -1,5 +1,7 @@
 package com.example.concesswebapi.Model.Entity;
 
+import com.example.concesswebapi.api.dto.CarroDTO;
+import com.example.concesswebapi.api.dto.VeiculoUsadoDTO;
 import lombok.*;
 
 import javax.persistence.DiscriminatorValue;

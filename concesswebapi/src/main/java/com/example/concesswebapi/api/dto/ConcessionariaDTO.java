@@ -1,17 +1,14 @@
+// Request DTO (para receber dados do cliente)
 package com.example.concesswebapi.api.dto;
 
-import com.example.concesswebapi.Model.Entity.Empresa;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.modelmapper.ModelMapper;
+import lombok.AllArgsConstructor;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class EmpresaResponseDTO {
-
-    private Long id;
+public class ConcessionariaDTO {
     private String razaoSocial;
     private String cnpj;
 
@@ -24,11 +21,8 @@ public class EmpresaResponseDTO {
     private String numero;
     private String complemento;
     private String bairro;
-    private String uf;
     private String cep;
+    private String uf;
 
-    public static EmpresaResponseDTO create(Empresa empresa) {
-        ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(empresa, EmpresaResponseDTO.class);
-    }
+    private Long empresaId;
 }

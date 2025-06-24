@@ -5,19 +5,17 @@ import com.example.concesswebapi.Model.Entity.Funcionario;
 import com.example.concesswebapi.exception.RegraNegocioException;
 
 
-
-
 public class ValidadorFuncionario {
 
-    public static void validarCamposFuncionario( Funcionario funcionario){
+    public static void validarCamposFuncionario(Funcionario funcionario) {
 
         ValidadorPessoaFisica.validarCamposPessoaFisica(funcionario);
 
-        if(ValidadorPessoa.verificaNullVazio(funcionario.getCargo())){
+        if (ValidadorPessoa.verificaNullVazio(funcionario.getCargo())) {
             throw new RegraNegocioException("Campo cargo inválido");
         }
 
-        if(funcionario.getEmpresa() == null || funcionario.getEmpresa().getId() ==null ||funcionario.getEmpresa().getId()==0){
+        if (funcionario.getEmpresa() == null || funcionario.getEmpresa().getId() == null || funcionario.getEmpresa().getId() == 0) {
             throw new RegraNegocioException("Campo empresa inválido");
         }
     }

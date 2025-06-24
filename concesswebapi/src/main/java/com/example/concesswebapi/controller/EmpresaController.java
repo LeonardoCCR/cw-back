@@ -1,8 +1,8 @@
 package com.example.concesswebapi.controller;
 
 import com.example.concesswebapi.Model.Entity.Empresa;
-import com.example.concesswebapi.api.dto.EmpresaRequestDTO;
-import com.example.concesswebapi.api.dto.EmpresaResponseDTO;
+import com.example.concesswebapi.api.dto.EmpresaDTO;
+import com.example.concesswebapi.api.dto.EmpresaListagemDTO;
 import com.example.concesswebapi.exception.RegraNegocioException;
 import com.example.concesswebapi.service.EmpresaService;
 
@@ -26,10 +26,10 @@ public class EmpresaController {
     public EmpresaController(EmpresaService service) { this.service = service; }
 
     @GetMapping
-    public ResponseEntity<List<EmpresaResponseDTO>> get() {
+    public ResponseEntity<List<EmpresaListagemDTO>> get() {
         List<Empresa> empresas = service.getEmpresa();
-        List<EmpresaResponseDTO> dtoList = empresas.stream()
-                .map(EmpresaResponseDTO::create)
+        List<EmpresaListagemDTO> dtoList = empresas.stream()
+                .map(EmpresaListagemDTO::create)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(dtoList);
     }
@@ -40,22 +40,22 @@ public class EmpresaController {
         if (empresa.isEmpty()) {
             return new ResponseEntity<>("Empresa não encontrada", HttpStatus.NOT_FOUND);
         }
-        return ResponseEntity.ok(EmpresaResponseDTO.create(empresa.get()));
+        return ResponseEntity.ok(EmpresaListagemDTO.create(empresa.get()));
     }
 
     @PostMapping
-    public ResponseEntity<?> post(@RequestBody EmpresaRequestDTO dto) {
+    public ResponseEntity<?> post(@RequestBody EmpresaDTO dto) {
         try {
             Empresa empresa = converter(dto);
             empresa = service.salvar(empresa);
-            return new ResponseEntity<>(EmpresaResponseDTO.create(empresa), HttpStatus.CREATED);
+            return new ResponseEntity<>(EmpresaListagemDTO.create(empresa), HttpStatus.CREATED);
         } catch (RegraNegocioException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody EmpresaRequestDTO dto) {
+    public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody EmpresaDTO dto) {
         Optional<Empresa> optional = service.getEmpresaById(id);
         if (optional.isEmpty()) {
             return new ResponseEntity<>("Empresa não encontrada", HttpStatus.NOT_FOUND);
@@ -65,7 +65,7 @@ public class EmpresaController {
             Empresa empresaAtualizada = converter(dto);
             empresaAtualizada.setId(empresaExistente.getId());
             empresaAtualizada = service.salvar(empresaAtualizada);
-            return ResponseEntity.ok(EmpresaResponseDTO.create(empresaAtualizada));
+            return ResponseEntity.ok(EmpresaListagemDTO.create(empresaAtualizada));
         } catch (RegraNegocioException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -81,7 +81,7 @@ public class EmpresaController {
         return ResponseEntity.noContent().build();
     }
 
-    private Empresa converter(EmpresaRequestDTO dto) {
+    private Empresa converter(EmpresaDTO dto) {
         return modelMapper.map(dto, Empresa.class);
     }
 }

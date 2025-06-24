@@ -4,12 +4,11 @@ import com.example.concesswebapi.Model.Entity.Venda;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.modelmapper.ModelMapper;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class VendaResponseDTO {
+public class VendaListagemDTO {
 
     private Long id;
     private String data;
@@ -20,8 +19,8 @@ public class VendaResponseDTO {
     private String cpfCliente;
     private String nomeVendedor;
 
-    public static VendaResponseDTO create(Venda venda) {
-        VendaResponseDTO dto = new VendaResponseDTO();
+    public static VendaListagemDTO create(Venda venda) {
+        VendaListagemDTO dto = new VendaListagemDTO();
 
         dto.setId(venda.getId());
         dto.setData(venda.getData());

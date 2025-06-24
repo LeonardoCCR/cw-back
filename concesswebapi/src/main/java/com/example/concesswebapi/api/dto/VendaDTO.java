@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class VendaRequestDTO {
+public class VendaDTO {
     private String data;
     private String formaPag;
     private Double desconto;

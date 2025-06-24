@@ -1,9 +1,8 @@
 package com.example.concesswebapi.controller;
 
-import com.example.concesswebapi.Model.Entity.Cliente;
 import com.example.concesswebapi.Model.Entity.Concessionaria;
-import com.example.concesswebapi.api.dto.ConcessionariaRequestDTO;
-import com.example.concesswebapi.api.dto.ConcessionariaResponseDTO;
+import com.example.concesswebapi.api.dto.ConcessionariaDTO;
+import com.example.concesswebapi.api.dto.ConcessionariaListagemDTO;
 import com.example.concesswebapi.exception.RegraNegocioException;
 import com.example.concesswebapi.service.ConcessionariaService;
 import com.example.concesswebapi.service.EmpresaService;
@@ -32,10 +31,10 @@ public class ConcessionariaController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ConcessionariaResponseDTO>> get() {
+    public ResponseEntity<List<ConcessionariaListagemDTO>> get() {
         List<Concessionaria> lista = concessionariaService.getConcessionaria();
-        List<ConcessionariaResponseDTO> dtoList = lista.stream()
-                .map(ConcessionariaResponseDTO::create)
+        List<ConcessionariaListagemDTO> dtoList = lista.stream()
+                .map(ConcessionariaListagemDTO::create)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(dtoList);
     }
@@ -46,23 +45,23 @@ public class ConcessionariaController {
         if (optional.isEmpty()) {
             return new ResponseEntity<>("Concessionaria não encontrada", HttpStatus.NOT_FOUND);
         }
-        return ResponseEntity.ok(ConcessionariaResponseDTO.create(optional.get()));
+        return ResponseEntity.ok(ConcessionariaListagemDTO.create(optional.get()));
     }
 
     @PostMapping
-    public ResponseEntity<?> post(@RequestBody ConcessionariaRequestDTO dto) {
+    public ResponseEntity<?> post(@RequestBody ConcessionariaDTO dto) {
         try {
             Concessionaria concessionaria = converter(dto);
             concessionaria.setId(null);
             concessionariaService.salvar(concessionaria);
-            return new ResponseEntity<>(ConcessionariaResponseDTO.create(concessionaria), HttpStatus.CREATED);
+            return new ResponseEntity<>(ConcessionariaListagemDTO.create(concessionaria), HttpStatus.CREATED);
         } catch (RegraNegocioException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody ConcessionariaRequestDTO dto) {
+    public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody ConcessionariaDTO dto) {
         Optional<Concessionaria> optional = concessionariaService.getConcessionariaById(id);
         if (optional.isEmpty()) {
             return new ResponseEntity<>("Concessionaria não encontrada", HttpStatus.NOT_FOUND);
@@ -73,7 +72,7 @@ public class ConcessionariaController {
             Concessionaria atualizada = converter(dto);
             atualizada.setId(concessionariaExistente.getId());
             concessionariaService.salvar(atualizada);
-            return ResponseEntity.ok(ConcessionariaResponseDTO.create(atualizada));
+            return ResponseEntity.ok(ConcessionariaListagemDTO.create(atualizada));
         } catch (RegraNegocioException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -89,7 +88,7 @@ public class ConcessionariaController {
         return ResponseEntity.noContent().build();
     }
 
-    private Concessionaria converter(ConcessionariaRequestDTO dto) {
+    private Concessionaria converter(ConcessionariaDTO dto) {
         return modelMapper.map(dto, Concessionaria.class);
     }
 

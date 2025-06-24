@@ -17,9 +17,11 @@ public class ModeloService {
 
     private ModeloRepository repository;
     private FabricanteRepository fabricanteRepository;
+    private FabricanteService fabricanteService;
 
-    public ModeloService(ModeloRepository repository) {
+    public ModeloService(ModeloRepository repository, FabricanteService fabricanteService) {
         this.repository = repository;
+        this.fabricanteService = fabricanteService;
     }
 
     public List<Modelo> getModelos() {

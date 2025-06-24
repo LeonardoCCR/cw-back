@@ -2,12 +2,11 @@ package com.example.concesswebapi.controller;
 
 import com.example.concesswebapi.Model.Entity.Fabricante;
 import com.example.concesswebapi.Model.Entity.Modelo;
-import com.example.concesswebapi.api.dto.ModeloRequestDTO;
-import com.example.concesswebapi.api.dto.ModeloResponseDTO;
+import com.example.concesswebapi.api.dto.ModeloListagemDTO;
+import com.example.concesswebapi.api.dto.ModeloDTO;
 import com.example.concesswebapi.exception.RegraNegocioException;
 import com.example.concesswebapi.service.FabricanteService;
 import com.example.concesswebapi.service.ModeloService;
-import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +21,6 @@ public class ModeloController {
 
     private final ModeloService modeloService;
     private final FabricanteService fabricanteService;
-    private final ModelMapper modelMapper = new ModelMapper();
 
     public ModeloController(ModeloService modeloService, FabricanteService fabricanteService) {
 
@@ -34,7 +32,7 @@ public class ModeloController {
     public ResponseEntity listarTodos() {
 
         List<Modelo> modelos = modeloService.getModelos();
-        return ResponseEntity.ok(modelos.stream().map(ModeloResponseDTO::create).collect(Collectors.toList()));
+        return ResponseEntity.ok(modelos.stream().map(ModeloListagemDTO::create).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
@@ -43,11 +41,11 @@ public class ModeloController {
         if (modelo.isEmpty()) {
             return new ResponseEntity("Modelo não encontrado", HttpStatus.NOT_FOUND);
         }
-        return ResponseEntity.ok(modelo.map(ModeloResponseDTO::create));
+        return ResponseEntity.ok(modelo.map(ModeloDTO::create));
     }
 
     @PostMapping()
-    public ResponseEntity post(@RequestBody ModeloRequestDTO dto) {
+    public ResponseEntity post(@RequestBody ModeloDTO dto) {
         try {
             Modelo modelo = converter(dto);
             modeloService.salvar(modelo);
@@ -57,7 +55,7 @@ public class ModeloController {
         }
     }
 
-    private Modelo converter(ModeloRequestDTO dto) {
+    private Modelo converter(ModeloDTO dto) {
 
         Modelo modelo = new Modelo();
         modelo.setNome(dto.getNome());

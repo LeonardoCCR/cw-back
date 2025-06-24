@@ -12,6 +12,7 @@ import org.modelmapper.ModelMapper;
 
 public class FabricanteDTO {
 
+    private Long id;
     private String nome;
 
     public static FabricanteDTO create(Fabricante fabricante) {

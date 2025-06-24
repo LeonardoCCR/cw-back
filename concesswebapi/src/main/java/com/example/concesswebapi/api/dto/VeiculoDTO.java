@@ -1,11 +1,10 @@
 package com.example.concesswebapi.api.dto;
 
-import com.example.concesswebapi.Model.Entity.Veiculo;
-import com.example.concesswebapi.Model.Entity.VeiculoNovo;
-import com.example.concesswebapi.Model.Entity.VeiculoUsado;
+import com.example.concesswebapi.Model.Entity.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.modelmapper.ModelMapper;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -14,8 +13,9 @@ import java.util.ArrayList;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class VeiculoRequestDTO {
+public class VeiculoDTO {
 
+    private Long id;
     private String chassi;
     private ArrayList<String> fotos;
     private Long concessionariaId;
@@ -23,10 +23,10 @@ public class VeiculoRequestDTO {
     private String cor;
     private String garantia;
     private String condicao;
-    private ModeloVeiculoRequestDTO modeloVeiculo;
-    private VeiculoUsadoRequestDTO veiculoUsado;
+    private VeiculoUsadoDTO veiculoUsado;
+    private ModeloVeiculoDTO modeloVeiculo;
 
-    public Veiculo converter(VeiculoRequestDTO dto) {
+    public Veiculo converter(VeiculoDTO dto) {
 
         Veiculo veiculo;
 
@@ -45,5 +45,22 @@ public class VeiculoRequestDTO {
         veiculo.setFotos(dto.getFotos());
 
         return veiculo;
+    }
+
+    public static VeiculoDTO create(Veiculo veiculo) {
+        ModelMapper modelMapper = new ModelMapper();
+        VeiculoDTO dto = modelMapper.map(veiculo, VeiculoDTO.class);
+
+        dto.concessionariaId = veiculo.getConcessionaria().getId();
+
+        if (veiculo instanceof VeiculoUsado) {
+           VeiculoUsadoDTO veiculoUsadoDTO = VeiculoUsadoDTO.create((VeiculoUsado) veiculo);
+            dto.setVeiculoUsado(veiculoUsadoDTO);
+        }
+
+        ModeloVeiculoDTO modeloVeiculoDTO = ModeloVeiculoDTO.create(veiculo);
+        dto.setModeloVeiculo(modeloVeiculoDTO);
+
+        return dto;
     }
 }

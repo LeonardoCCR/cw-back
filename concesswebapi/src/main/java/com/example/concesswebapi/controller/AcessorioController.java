@@ -2,7 +2,6 @@ package com.example.concesswebapi.controller;
 
 import com.example.concesswebapi.Model.Entity.*;
 import com.example.concesswebapi.api.dto.AcessorioDTO;
-import com.example.concesswebapi.api.dto.ModeloRequestDTO;
 import com.example.concesswebapi.exception.RegraNegocioException;
 import com.example.concesswebapi.service.AcessorioService;
 import org.modelmapper.ModelMapper;

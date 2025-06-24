@@ -46,7 +46,7 @@ public class EmpresaController {
     @PostMapping
     public ResponseEntity<?> post(@RequestBody EmpresaRequestDTO dto) {
         try {
-            Empresa empresa = converterParaEntidade(dto);
+            Empresa empresa = converter(dto);
             empresa = service.salvar(empresa);
             return new ResponseEntity<>(EmpresaResponseDTO.create(empresa), HttpStatus.CREATED);
         } catch (RegraNegocioException e) {
@@ -62,7 +62,7 @@ public class EmpresaController {
         }
         try {
             Empresa empresaExistente = optional.get();
-            Empresa empresaAtualizada = converterParaEntidade(dto);
+            Empresa empresaAtualizada = converter(dto);
             empresaAtualizada.setId(empresaExistente.getId());
             empresaAtualizada = service.salvar(empresaAtualizada);
             return ResponseEntity.ok(EmpresaResponseDTO.create(empresaAtualizada));
@@ -81,7 +81,7 @@ public class EmpresaController {
         return ResponseEntity.noContent().build();
     }
 
-    private Empresa converterParaEntidade(EmpresaRequestDTO dto) {
+    private Empresa converter(EmpresaRequestDTO dto) {
         return modelMapper.map(dto, Empresa.class);
     }
 }

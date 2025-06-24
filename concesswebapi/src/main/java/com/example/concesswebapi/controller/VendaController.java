@@ -1,8 +1,6 @@
 package com.example.concesswebapi.controller;
 
-import com.example.concesswebapi.Model.Entity.Cliente;
 import com.example.concesswebapi.Model.Entity.Venda;
-import com.example.concesswebapi.Model.Entity.Vendedor;
 import com.example.concesswebapi.api.dto.VendaRequestDTO;
 import com.example.concesswebapi.api.dto.VendaResponseDTO;
 import com.example.concesswebapi.exception.RegraNegocioException;
@@ -10,9 +8,12 @@ import com.example.concesswebapi.service.ClienteService;
 import com.example.concesswebapi.service.VendaService;
 import com.example.concesswebapi.service.VendedorService;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import org.modelmapper.ModelMapper;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +26,7 @@ public class VendaController {
     private final VendaService vendaService;
     private final ClienteService clienteService;
     private final VendedorService vendedorService;
+    private final ModelMapper modelMapper = new ModelMapper();
 
     public VendaController(VendaService vendaService, ClienteService clienteService, VendedorService vendedorService) {
         this.vendaService = vendaService;
@@ -89,22 +91,5 @@ public class VendaController {
         return ResponseEntity.noContent().build();
     }
 
-    private Venda converter(VendaRequestDTO dto) {
-        Venda venda = new Venda();
-        venda.setData(dto.getData());
-        venda.setFormaPag(dto.getFormaPag());
-        venda.setDescontoTotal(dto.getDesconto());
-        venda.setAprovada("não"); // padrão inicial
-
-        Cliente cliente = clienteService.getClienteById(dto.getClienteId())
-                .orElseThrow(() -> new RegraNegocioException("Cliente não encontrado"));
-
-        Vendedor vendedor = vendedorService.getVendedorById(dto.getVendedorId())
-                .orElseThrow(() -> new RegraNegocioException("Vendedor não encontrado"));
-
-        venda.setCliente(cliente);
-        venda.setVendedor(vendedor);
-
-        return venda;
-    }
+    private Venda converter(VendaRequestDTO dto) { return modelMapper.map(dto, Venda.class); }
 }

@@ -6,7 +6,6 @@ import com.example.concesswebapi.api.dto.*;
 import com.example.concesswebapi.exception.RegraNegocioException;
 import com.example.concesswebapi.service.*;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +38,7 @@ public class VeiculoController {
     public ResponseEntity listarTodos() {
 
         List<Veiculo> veiculos = veiculoService.listarTodos();
-        return ResponseEntity.ok(veiculos.stream().map(VeiculoResponseDTO::create).collect(Collectors.toList()));
+        return ResponseEntity.ok(veiculos.stream().map(VeiculoListagemDTO::create).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
@@ -49,11 +48,11 @@ public class VeiculoController {
             return new ResponseEntity("Veiculo não encontrado", HttpStatus.NOT_FOUND);
         }
 
-        return ResponseEntity.ok(veiculo.map(VeiculoResponseDTO::create));
+        return ResponseEntity.ok(veiculo.map(VeiculoDTO::create));
     }
 
     @PostMapping()
-    public ResponseEntity post(@RequestBody VeiculoRequestDTO dto) {
+    public ResponseEntity post(@RequestBody VeiculoDTO dto) {
         try {
             Veiculo veiculo = converter(dto);
             tipoVeiculoService.salvar(veiculo.getModeloVeiculo().getTipoVeiculo());
@@ -65,7 +64,7 @@ public class VeiculoController {
         }
     }
 
-    private Veiculo converter(VeiculoRequestDTO dto) {
+    private Veiculo converter(VeiculoDTO dto) {
 
         Veiculo veiculo;
 

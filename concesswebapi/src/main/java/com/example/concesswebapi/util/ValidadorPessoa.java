@@ -3,10 +3,12 @@ package com.example.concesswebapi.util;
 
 import com.example.concesswebapi.Model.Entity.Pessoa;
 import com.example.concesswebapi.exception.RegraNegocioException;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ValidadorPessoa {
 
-    public static void validarCamposPessoa(Pessoa pessoa) {
+    public void validarCamposPessoa(Pessoa pessoa) {
 
         if( verificaNullVazio(pessoa.getEmail1())){
             throw new RegraNegocioException("Campo email1 inválido");

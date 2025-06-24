@@ -1,8 +1,6 @@
 package com.example.concesswebapi.controller;
 
-import com.example.concesswebapi.Model.Entity.AdmSuporte;
 import com.example.concesswebapi.Model.Entity.Cliente;
-import com.example.concesswebapi.api.dto.AdmSuporteDTO;
 import com.example.concesswebapi.api.dto.ClienteDTO;
 import com.example.concesswebapi.exception.RegraNegocioException;
 import com.example.concesswebapi.service.ClienteService;
@@ -54,7 +52,6 @@ public class ClienteController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
 
     public Cliente converter(ClienteDTO dto){
 

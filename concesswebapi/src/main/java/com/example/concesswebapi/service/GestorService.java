@@ -1,9 +1,12 @@
 package com.example.concesswebapi.service;
 
+import com.example.concesswebapi.Model.Entity.Funcionario;
 import com.example.concesswebapi.Model.Entity.Gestor;
 import com.example.concesswebapi.Model.repository.GestorRepository;
 import com.example.concesswebapi.exception.RegraNegocioException;
 import com.example.concesswebapi.util.ValidadorFuncionario;
+import com.example.concesswebapi.util.ValidadorPessoaFisica;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +17,8 @@ import java.util.Optional;
 @Service
 public class GestorService {
 
+    @Autowired
+    private ValidadorFuncionario validadorFuncionario;
     private GestorRepository repository;
 
     public GestorService(GestorRepository repository){
@@ -39,6 +44,6 @@ public class GestorService {
     }
 
     public void validar(Gestor gestor){
-        ValidadorFuncionario.validarCamposFuncionario(gestor);
+        validadorFuncionario.validarCamposFuncionario(gestor);
     }
 }

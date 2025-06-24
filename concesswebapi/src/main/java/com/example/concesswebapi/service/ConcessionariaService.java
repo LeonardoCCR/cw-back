@@ -3,6 +3,7 @@ package com.example.concesswebapi.service;
 import com.example.concesswebapi.Model.Entity.Concessionaria;
 import com.example.concesswebapi.Model.repository.ConcessionariaRepository;
 import com.example.concesswebapi.util.ValidadorPessoaJuridica;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,6 +13,9 @@ import java.util.Optional;
 
 @Service
 public class ConcessionariaService {
+
+    @Autowired
+    ValidadorPessoaJuridica validadorPessoaJuridica;
 
     private final ConcessionariaRepository repository;
 
@@ -40,6 +44,6 @@ public class ConcessionariaService {
     }
 
     public void validar(Concessionaria concessionaria) {
-        ValidadorPessoaJuridica.validarCamposPessoaJuridica(concessionaria);
+        validadorPessoaJuridica.validarCamposPessoaJuridica(concessionaria);
     }
 }

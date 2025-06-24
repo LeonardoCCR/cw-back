@@ -3,6 +3,7 @@ package com.example.concesswebapi.service;
 import com.example.concesswebapi.Model.Entity.AdmSuporte;
 import com.example.concesswebapi.Model.repository.AdmSuporteRepository;
 import com.example.concesswebapi.util.ValidadorPessoaFisica;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,7 +14,10 @@ import java.util.Optional;
 @Service
 public class AdmSuporteService {
 
+    @Autowired
+    private ValidadorPessoaFisica validadorPessoaFisica;
     private AdmSuporteRepository repository;
+
 
     public AdmSuporteService( AdmSuporteRepository repository){
         this.repository = repository;
@@ -41,6 +45,6 @@ public class AdmSuporteService {
 
     public void validar(AdmSuporte admSuporte){
 
-        ValidadorPessoaFisica.validarCamposPessoaFisica(admSuporte);
+        validadorPessoaFisica.validarCamposPessoaFisica(admSuporte);
     }
 }

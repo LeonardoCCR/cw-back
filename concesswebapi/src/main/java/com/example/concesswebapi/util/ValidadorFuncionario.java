@@ -3,15 +3,19 @@ package com.example.concesswebapi.util;
 import com.example.concesswebapi.Model.Entity.Empresa;
 import com.example.concesswebapi.Model.Entity.Funcionario;
 import com.example.concesswebapi.exception.RegraNegocioException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 
-
-
+@Component
 public class ValidadorFuncionario {
 
-    public static void validarCamposFuncionario( Funcionario funcionario){
+    @Autowired
+    public ValidadorPessoaFisica validadorPessoaFisica;
 
-        ValidadorPessoaFisica.validarCamposPessoaFisica(funcionario);
+    public void validarCamposFuncionario( Funcionario funcionario){
+
+        validadorPessoaFisica.validarCamposPessoaFisica(funcionario);
 
         if(ValidadorPessoa.verificaNullVazio(funcionario.getCargo())){
             throw new RegraNegocioException("Campo cargo inválido");

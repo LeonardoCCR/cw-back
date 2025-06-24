@@ -73,6 +73,4 @@ public class AdmEmpresaController {
 
         return modelMapper.map(dto, AdmEmpresa.class);
     }
-
-
 }

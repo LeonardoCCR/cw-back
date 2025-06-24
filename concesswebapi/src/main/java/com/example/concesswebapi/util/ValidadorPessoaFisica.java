@@ -1,13 +1,20 @@
 package com.example.concesswebapi.util;
 import com.example.concesswebapi.Model.Entity.PessoaFisica;
 import com.example.concesswebapi.exception.RegraNegocioException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import static com.example.concesswebapi.util.ValidadorPessoa.*;
 
+@Component
 public class ValidadorPessoaFisica {
 
-    public static void validarCamposPessoaFisica(PessoaFisica pessoa){
+    @Autowired
+    public ValidadorPessoa validadorPessoa;
 
-        validarCamposPessoa(pessoa);
+    public void validarCamposPessoaFisica(PessoaFisica pessoa){
+
+        validadorPessoa.validarCamposPessoa(pessoa);
 
         if( verificaNullVazio(pessoa.getNome())){
             throw new RegraNegocioException("Campo Nome inválido");

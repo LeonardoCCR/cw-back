@@ -4,6 +4,7 @@ import com.example.concesswebapi.Model.Entity.AdmEmpresa;
 import com.example.concesswebapi.Model.repository.AdmEmpresaRepository;
 import com.example.concesswebapi.exception.RegraNegocioException;
 import com.example.concesswebapi.util.ValidadorPessoaFisica;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +15,8 @@ import java.util.List;
 @Service
 public class AdmEmpresaService {
 
+    @Autowired
+    private ValidadorPessoaFisica validadorPessoaFisica;
     private AdmEmpresaRepository  repository;
 
     public AdmEmpresaService(AdmEmpresaRepository repository){
@@ -42,7 +45,7 @@ public class AdmEmpresaService {
 
     public void validar(AdmEmpresa admEmpresa){
 
-        ValidadorPessoaFisica.validarCamposPessoaFisica(admEmpresa);
+        validadorPessoaFisica.validarCamposPessoaFisica(admEmpresa);
 
         if(admEmpresa.getEmpresa() == null || admEmpresa.getEmpresa().getId() == null || admEmpresa.getEmpresa().getId() == 0) {
             throw new RegraNegocioException("Campo empresa inválido");

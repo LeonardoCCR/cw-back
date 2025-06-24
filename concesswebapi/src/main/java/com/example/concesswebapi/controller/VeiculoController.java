@@ -78,52 +78,66 @@ public class VeiculoController {
             throw new RegraNegocioException("O campo condição é obrigatório");
         }
 
-        if (dto.getConcessionariaId() != null) {
-            Concessionaria concessionaria = concessionariaService.getConcessionariaById(dto.getConcessionariaId())
-                    .orElseThrow(() -> new RegraNegocioException("Concessionária não encontrada"));
-
-            veiculo.setConcessionaria(concessionaria);
-
-            if (dto.getModeloVeiculo() != null && dto.getModeloVeiculo().getTipoVeiculo() != null) {
-                if (dto.getModeloVeiculo().getModeloId() != null) {
-
-                    Modelo modelo = modeloService.getModeloById(dto.getModeloVeiculo().getModeloId())
-                            .orElseThrow(() -> new RegraNegocioException("Modelo não encontrado"));
-
-                    ModeloVeiculo modeloVeiculo = dto.getModeloVeiculo().converter(dto.getModeloVeiculo());
-                    modeloVeiculo.setModelo(modelo);
-
-                    TipoVeiculo tipoVeiculo;
-                    if ("carro".equalsIgnoreCase(dto.getModeloVeiculo().getTipoVeiculo().getTipo())) {
-                        if (dto.getModeloVeiculo().getTipoVeiculo().getCarro() == null) {
-                            throw new RegraNegocioException("Informações de carro são obrigatórias");
-                        }
-                        Carro carro = modelMapper.map(dto.getModeloVeiculo().getTipoVeiculo().getCarro(), Carro.class);
-                        tipoVeiculo = dto.getModeloVeiculo().getTipoVeiculo().converter(dto.getModeloVeiculo().getTipoVeiculo(), carro);
-
-                    } else if ("moto".equalsIgnoreCase(dto.getModeloVeiculo().getTipoVeiculo().getTipo())) {
-                        if (dto.getModeloVeiculo().getTipoVeiculo().getMoto() == null) {
-                            throw new RegraNegocioException("Informações de moto são obrigatórias");
-                        }
-                        Moto moto = dto.getModeloVeiculo().getTipoVeiculo().getMoto().converter(dto.getModeloVeiculo().getTipoVeiculo().getMoto());
-                        tipoVeiculo = dto.getModeloVeiculo().getTipoVeiculo().converter(dto.getModeloVeiculo().getTipoVeiculo(), moto);
-                    } else {
-                        throw new RegraNegocioException("O campo tipo é obrigatório");
-                    }
-
-                    modeloVeiculo.setTipoVeiculo(tipoVeiculo);
-                    veiculo.setModeloVeiculo(modeloVeiculo);
-                    System.out.println("Veículo completo: " + veiculo);
-                } else {
-                    throw new RegraNegocioException("O campo modelo é obrigatório");
-                }
-            } else {
-                throw new RegraNegocioException("Informações de veículo incompletas");
-            }
-        } else {
-            throw new RegraNegocioException("Concessionária inválida");
-        }
+        this.converteConcessionaria(dto.getConcessionariaId(), veiculo);
+        this.converteModeloVeiculo(dto.getModeloVeiculo(), veiculo);
 
         return veiculo;
     }
+
+    private void converteConcessionaria(Long idConcessionaria, Veiculo veiculo) {
+        if (idConcessionaria != null) {
+            Concessionaria concessionaria = concessionariaService.getConcessionariaById(idConcessionaria)
+                    .orElseThrow(() -> new RegraNegocioException("Concessionária não encontrada"));
+
+            veiculo.setConcessionaria(concessionaria);
+        } else {
+            throw new RegraNegocioException("Concessionária inválida");
+        }
+    }
+
+    private void converteModeloVeiculo(ModeloVeiculoDTO dto, Veiculo veiculo) {
+        if (dto != null) {
+            if (dto.getModeloId() != null) {
+
+                Modelo modelo = modeloService.getModeloById(dto.getModeloId())
+                        .orElseThrow(() -> new RegraNegocioException("Modelo não encontrado"));
+
+                ModeloVeiculo modeloVeiculo = dto.converter(dto);
+                modeloVeiculo.setModelo(modelo);
+                System.out.println("Modelo atualizado: " + modelo);
+                modeloVeiculo.setTipoVeiculo(this.converteTipoVeiculo(dto.getTipoVeiculo(), veiculo));
+                veiculo.setModeloVeiculo(modeloVeiculo);
+            } else {
+                throw new RegraNegocioException("O campo modelo é obrigatório");
+            }
+        } else {
+            throw new RegraNegocioException("Informações de veículo incompletas");
+        }
+    }
+
+    private TipoVeiculo converteTipoVeiculo(TipoVeiculoDTO dto, Veiculo veiculo) {
+
+        if (dto != null) {
+            TipoVeiculo tipoVeiculo;
+            if ("carro".equalsIgnoreCase(dto.getTipo())) {
+                if (dto.getCarro() == null) {
+                    throw new RegraNegocioException("Informações de carro são obrigatórias");
+                }
+                Carro carro = modelMapper.map(dto.getCarro(), Carro.class);
+                return tipoVeiculo = dto.converter(dto, carro);
+
+            } else if ("moto".equalsIgnoreCase(dto.getTipo())) {
+                if (dto.getMoto() == null) {
+                    throw new RegraNegocioException("Informações de moto são obrigatórias");
+                }
+                Moto moto = dto.getMoto().converter(dto.getMoto());
+                return tipoVeiculo = dto.converter(dto, moto);
+            } else {
+                throw new RegraNegocioException("O campo tipo é obrigatório");
+            }
+        } else {
+            throw new RegraNegocioException("Informações de veículo incompletas");
+        }
+    }
 }
+

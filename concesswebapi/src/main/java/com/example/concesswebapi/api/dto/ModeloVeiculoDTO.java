@@ -32,7 +32,7 @@ public class ModeloVeiculoDTO {
         modeloVeiculo.setQtdEstoqueVenda(dto.getQtdEstoqueVenda());
         modeloVeiculo.setQtdEstoque(dto.getQtdEstoque());
         modeloVeiculo.setPermiteTestDrive(dto.getPermiteTestDrive());
-
+        
         return modeloVeiculo;
     }
 

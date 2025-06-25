@@ -3,19 +3,14 @@ package com.example.concesswebapi.api.dto;
 import com.example.concesswebapi.Model.Entity.Cliente;
 import org.modelmapper.ModelMapper;
 
-public class ClienteDTO {
+public class ClienteListagemDTO {
 
     private Long id;
     private String nome;
     private String cpf;
-    private String login;
-    private String senha;
-    private String dataNascimento;
 
     private String telefone1;
-    private String telefone2;
     private String email1;
-    private String email2;
 
     private String logradouro;
     private String numero;
@@ -24,10 +19,10 @@ public class ClienteDTO {
     private String cep;
     private String uf;
 
-    public static ClienteDTO create(Cliente cliente){
+    public static ClienteListagemDTO create(Cliente cliente){
 
         ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(cliente , ClienteDTO.class);
+        return modelMapper.map(cliente , ClienteListagemDTO.class);
         //retorna o dto de cliente sem precisar instanciar uma variável dto
     }
 }

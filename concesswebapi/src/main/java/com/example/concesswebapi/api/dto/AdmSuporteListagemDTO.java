@@ -1,6 +1,6 @@
 package com.example.concesswebapi.api.dto;
 
-import com.example.concesswebapi.Model.Entity.*;
+import com.example.concesswebapi.Model.Entity.AdmSuporte;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,8 +9,7 @@ import org.modelmapper.ModelMapper;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
-public class GestorDTO {
+public class AdmSuporteListagemDTO {
 
     private Long id;
     private String nome;
@@ -18,10 +17,8 @@ public class GestorDTO {
     private String login;
     private String senha;
 
-    private String telefone1;
-    private String telefone2;
     private String email1;
-    private String email2;
+    private String telefone1;
 
     private String logradouro;
     private String numero;
@@ -29,11 +26,12 @@ public class GestorDTO {
     private String bairro;
     private String cep;
     private String uf;
-    //temos o atributo inverso concessionária
-    public static GestorDTO create( Gestor gestor){
 
+    public static AdmSuporteListagemDTO create(AdmSuporte admSuporte){
         ModelMapper modelMapper = new ModelMapper();
-        GestorDTO dto = modelMapper.map(gestor, GestorDTO.class);
+        AdmSuporteListagemDTO dto = modelMapper.map( admSuporte, AdmSuporteListagemDTO.class);
         return dto;
     }
 }
+
+

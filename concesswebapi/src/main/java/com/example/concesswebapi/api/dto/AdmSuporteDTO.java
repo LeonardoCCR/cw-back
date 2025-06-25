@@ -9,30 +9,31 @@ import org.modelmapper.ModelMapper;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class AdmSuporteDTO {
 
-        private Long id;
-        private String nome;
-        private String cpf;
-        private String login;
-        private String senha;
+    private Long id;
+    private String nome;
+    private String cpf;
+    private String login;
+    private String senha;
 
-        private String email1;
-        private String email2;
-        private String telefone1;
-        private String telefone2;
+    private String email1;
+    private String email2;
+    private String telefone1;
+    private String telefone2;
 
-        private String logradouro;
-        private String numero;
-        private String complemento;
-        private String bairro;
-        private String cep;
-        private String uf;
+    private String logradouro;
+    private String numero;
+    private String complemento;
+    private String bairro;
+    private String cep;
+    private String uf;
 
-        public static AdmSuporteDTO create(AdmSuporte admSuporte){
-            ModelMapper modelMapper = new ModelMapper();
-            AdmSuporteDTO dto = modelMapper.map( admSuporte, AdmSuporteDTO.class);
-            return dto;
-        }
+    public static AdmSuporteDTO create(AdmSuporte admSuporte){
+        ModelMapper modelMapper = new ModelMapper();
+        AdmSuporteDTO dto = modelMapper.map( admSuporte, AdmSuporteDTO.class);
+        return dto;
+    }
 }
+
+

@@ -1,9 +1,9 @@
 package com.example.concesswebapi.controller;
 
-import com.example.concesswebapi.Model.Entity.AdmSuporte;
 import com.example.concesswebapi.Model.Entity.Cliente;
-import com.example.concesswebapi.api.dto.AdmSuporteDTO;
+import com.example.concesswebapi.Model.Entity.Gestor;
 import com.example.concesswebapi.api.dto.ClienteDTO;
+import com.example.concesswebapi.api.dto.ClienteListagemDTO;
 import com.example.concesswebapi.exception.RegraNegocioException;
 import com.example.concesswebapi.service.ClienteService;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,7 @@ public class ClienteController {
     @GetMapping
     public ResponseEntity get() {
         List<Cliente> clientes = service.getClientes();
-        return ResponseEntity.ok(clientes.stream().map(ClienteDTO::create).collect(Collectors.toList()));
+        return ResponseEntity.ok(clientes.stream().map(ClienteListagemDTO::create).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
@@ -38,7 +38,6 @@ public class ClienteController {
         }
         return ResponseEntity.ok(cliente.map(ClienteDTO::create));
     }
-
 
     @PutMapping("{id}")
     public ResponseEntity atualizar(@PathVariable("id") Long id, ClienteDTO dto) {
@@ -54,7 +53,27 @@ public class ClienteController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+    @PostMapping()
+    public ResponseEntity post(@RequestBody ClienteDTO dto) {
 
+        try {
+            Cliente cliente = converter(dto);
+            service.salvar(cliente);
+            return new ResponseEntity(cliente, HttpStatus.CREATED);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> excluir(@PathVariable Long id) {
+        Optional<Cliente> optional = service.getClienteById(id);
+        if (optional.isEmpty()) {
+            return new ResponseEntity<>("Cliente não encontrado", HttpStatus.NOT_FOUND);
+        }
+        service.excluir(optional.get());
+        return ResponseEntity.noContent().build();
+    }
 
     public Cliente converter(ClienteDTO dto){
 

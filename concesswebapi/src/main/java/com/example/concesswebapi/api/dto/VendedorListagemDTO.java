@@ -9,32 +9,20 @@ import org.modelmapper.ModelMapper;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class VendedorDTO {
+public class VendedorListagemDTO {
 
     private Long id;
     private String nome;
     private String cpf;
-    private String login;
-    private String senha;
     private String telefone1;
-    private String telefone2;
-    private String email1;
-    private String email2;
-    private String logradouro;
-    private String numero;
-    private String complemento;
-    private String bairro;
-    private String cep;
-    private String uf;
 
-    private Long idConcessionaria;
+    private String email1;
     private String concessionaria;
 
-    public static VendedorDTO create(Vendedor vendedor){
+    public static VendedorListagemDTO create(Vendedor vendedor){
 
         ModelMapper modelMapper = new ModelMapper();
-        VendedorDTO dto = modelMapper.map(vendedor, VendedorDTO.class);
-        dto.idConcessionaria = vendedor.getConcessionaria().getId();
+        VendedorListagemDTO dto = modelMapper.map(vendedor, VendedorListagemDTO.class);
         dto.concessionaria = vendedor.getConcessionaria().getRazaoSocial();
         return dto;
     }

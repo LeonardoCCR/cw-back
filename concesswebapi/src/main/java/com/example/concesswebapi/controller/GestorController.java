@@ -1,9 +1,8 @@
 package com.example.concesswebapi.controller;
 
-
-
 import com.example.concesswebapi.Model.Entity.Gestor;
 import com.example.concesswebapi.api.dto.GestorDTO;
+import com.example.concesswebapi.api.dto.GestorListagemDTO;
 import com.example.concesswebapi.exception.RegraNegocioException;
 import com.example.concesswebapi.service.GestorService;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +26,7 @@ public class GestorController {
     @GetMapping
     public ResponseEntity get() {
         List<Gestor> lista = service.getGestores();
-        return ResponseEntity.ok(lista.stream().map(GestorDTO::create).collect(Collectors.toList()));
+        return ResponseEntity.ok(lista.stream().map(GestorListagemDTO::create).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
@@ -39,6 +38,17 @@ public class GestorController {
         return ResponseEntity.ok(entidade.map(GestorDTO::create));
     }
 
+    @PostMapping()
+    public ResponseEntity post(@RequestBody GestorDTO dto) {
+
+        try {
+            Gestor gestor = converter(dto);
+            service.salvar(gestor);
+            return new ResponseEntity(gestor, HttpStatus.CREATED);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
     @PutMapping("{id}")
     public ResponseEntity atualizar(@PathVariable("id") Long id, GestorDTO dto) {
         if (!service.getGestorById(id).isPresent()) {
@@ -52,6 +62,15 @@ public class GestorController {
         } catch (RegraNegocioException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> excluir(@PathVariable Long id) {
+        Optional<Gestor> optional = service.getGestorById(id);
+        if (optional.isEmpty()) {
+            return new ResponseEntity<>("Gestor não encontrado", HttpStatus.NOT_FOUND);
+        }
+        service.excluir(optional.get());
+        return ResponseEntity.noContent().build();
     }
 
     public Gestor converter(GestorDTO dto){

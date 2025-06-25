@@ -1,16 +1,27 @@
 package com.example.concesswebapi.util;
 import com.example.concesswebapi.Model.Entity.PessoaFisica;
 import com.example.concesswebapi.exception.RegraNegocioException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import static com.example.concesswebapi.util.ValidadorPessoa.*;
 
+@Component
 public class ValidadorPessoaFisica {
 
-    public static void validarCamposPessoaFisica(PessoaFisica pessoa){
+    @Autowired
+    public ValidadorPessoa validadorPessoa;
 
-        validarCamposPessoa(pessoa);
+    public void validarCamposPessoaFisica(PessoaFisica pessoa){
+
+        validadorPessoa.validarCamposPessoa(pessoa);
 
         if( verificaNullVazio(pessoa.getNome())){
-            throw new RegraNegocioException("Campo Nome inválido");
+            throw new RegraNegocioException("Campo Nome inválido | Campo Nome está vazio");
+        }
+
+        if(verificaNumero(pessoa.getNome())){
+            throw new RegraNegocioException("Campo Nome inválido. Campo Nome não pode conter números ");
         }
 
         if( verificaNullVazio(pessoa.getCpf())){
@@ -24,5 +35,10 @@ public class ValidadorPessoaFisica {
         if( verificaNullVazio(pessoa.getSenha())){
             throw new RegraNegocioException("Campo Senha inválido");
         }
+    }
+
+    public boolean verificaNumero(String campo)
+    {
+        return campo.matches("-?\\d+(\\.\\d+)?");
     }
 }

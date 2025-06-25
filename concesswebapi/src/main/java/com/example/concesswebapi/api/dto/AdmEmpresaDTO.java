@@ -1,6 +1,6 @@
 package com.example.concesswebapi.api.dto;
 
-import com.example.concesswebapi.Model.Entity.*;
+import com.example.concesswebapi.Model.Entity.AdmEmpresa;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,7 +9,6 @@ import org.modelmapper.ModelMapper;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class AdmEmpresaDTO {
 
     private Long id;
@@ -32,7 +31,7 @@ public class AdmEmpresaDTO {
     private String razaoSocialEmpresa;
     private Long idEmpresa;
 
-    public static AdmEmpresaDTO create( AdmEmpresa admEmpresa){
+    public static AdmEmpresaDTO create(AdmEmpresa admEmpresa){
 
         ModelMapper modelMapper = new ModelMapper();
         AdmEmpresaDTO dto = modelMapper.map(admEmpresa , AdmEmpresaDTO.class);

@@ -1,7 +1,9 @@
 package com.example.concesswebapi.controller;
 
 import com.example.concesswebapi.Model.Entity.AdmSuporte;
+import com.example.concesswebapi.Model.Entity.Cliente;
 import com.example.concesswebapi.api.dto.AdmSuporteDTO;
+import com.example.concesswebapi.api.dto.AdmSuporteListagemDTO;
 import com.example.concesswebapi.exception.RegraNegocioException;
 import com.example.concesswebapi.service.AdmSuporteService;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +27,7 @@ public class AdmSuporteController {
     @GetMapping()
     public ResponseEntity get(){
         List<AdmSuporte> admsSuporte = service.getAdmsSuporte();
-        return ResponseEntity.ok(admsSuporte.stream().map(AdmSuporteDTO::create).collect(Collectors.toList()));
+        return ResponseEntity.ok(admsSuporte.stream().map(AdmSuporteListagemDTO::create).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
@@ -37,10 +39,22 @@ public class AdmSuporteController {
         return ResponseEntity.ok(admSuporte.map(AdmSuporteDTO::create));
     }
 
+    @PostMapping()
+    public ResponseEntity post(@RequestBody AdmSuporteDTO dto) {
+
+        try {
+            AdmSuporte admSuporte = converter(dto);
+            service.salvar(admSuporte);
+            return new ResponseEntity(admSuporte, HttpStatus.CREATED);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @PutMapping("{id}")
     public ResponseEntity atualizar(@PathVariable("id") Long id, AdmSuporteDTO dto) {
         if (!service.getAdmSuporteById(id).isPresent()) {
-            return new ResponseEntity("Adm Suporte não encontrado", HttpStatus.NOT_FOUND);
+            return new ResponseEntity("Administrador de Suporte não encontrado", HttpStatus.NOT_FOUND);
         }
         try {
             AdmSuporte admSuporte = converter(dto);
@@ -50,6 +64,16 @@ public class AdmSuporteController {
         } catch (RegraNegocioException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> excluir(@PathVariable Long id) {
+        Optional<AdmSuporte> optional = service.getAdmSuporteById(id);
+        if (optional.isEmpty()) {
+            return new ResponseEntity<>("Administrador de Suporte não encontrado", HttpStatus.NOT_FOUND);
+        }
+        service.excluir(optional.get());
+        return ResponseEntity.noContent().build();
     }
 
     public AdmSuporte converter(AdmSuporteDTO dto){

@@ -3,6 +3,7 @@ package com.example.concesswebapi.controller;
 import com.example.concesswebapi.Model.Entity.Concessionaria;
 import com.example.concesswebapi.Model.Entity.Vendedor;
 import com.example.concesswebapi.api.dto.VendedorDTO;
+import com.example.concesswebapi.api.dto.VendedorListagemDTO;
 import com.example.concesswebapi.exception.RegraNegocioException;
 import com.example.concesswebapi.service.ConcessionariaService;
 import com.example.concesswebapi.service.VendedorService;
@@ -27,10 +28,8 @@ public class VendedorController {
     @GetMapping
     public ResponseEntity get() {
         List<Vendedor> lista = service.getVendedores();
-        return ResponseEntity.ok(lista.stream().map(VendedorDTO::create).collect(Collectors.toList()));
+        return ResponseEntity.ok(lista.stream().map(VendedorListagemDTO::create).collect(Collectors.toList()));
     }
-
-
 
     @GetMapping("/{id}")
     public ResponseEntity get(@PathVariable("id") Long id) {
@@ -41,10 +40,22 @@ public class VendedorController {
         return ResponseEntity.ok(entidade.map(VendedorDTO::create));
     }
 
+    @PostMapping()
+    public ResponseEntity post(@RequestBody VendedorDTO dto) {
+
+        try {
+            Vendedor vendedor = converter(dto);
+            service.salvar(vendedor);
+            return new ResponseEntity(vendedor, HttpStatus.CREATED);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @PutMapping("{id}")
     public ResponseEntity atualizar(@PathVariable("id") Long id, VendedorDTO dto) {
         if (!service.getVendedorById(id).isPresent()) {
-            return new ResponseEntity("Cliente não encontrado", HttpStatus.NOT_FOUND);
+            return new ResponseEntity("Vendedor não encontrado", HttpStatus.NOT_FOUND);
         }
         try {
             Vendedor vendedor = converter(dto);
@@ -54,6 +65,16 @@ public class VendedorController {
         } catch (RegraNegocioException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> excluir(@PathVariable Long id) {
+        Optional<Vendedor> optional = service.getVendedorById(id);
+        if (optional.isEmpty()) {
+            return new ResponseEntity<>("Vendedor não encontrada", HttpStatus.NOT_FOUND);
+        }
+        service.excluir(optional.get());
+        return ResponseEntity.noContent().build();
     }
 
     public Vendedor converter(VendedorDTO dto){

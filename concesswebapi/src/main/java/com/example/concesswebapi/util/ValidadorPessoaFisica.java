@@ -17,7 +17,11 @@ public class ValidadorPessoaFisica {
         validadorPessoa.validarCamposPessoa(pessoa);
 
         if( verificaNullVazio(pessoa.getNome())){
-            throw new RegraNegocioException("Campo Nome inválido");
+            throw new RegraNegocioException("Campo Nome inválido | Campo Nome está vazio");
+        }
+
+        if(verificaNumero(pessoa.getNome())){
+            throw new RegraNegocioException("Campo Nome inválido. Campo Nome não pode conter números ");
         }
 
         if( verificaNullVazio(pessoa.getCpf())){
@@ -31,5 +35,10 @@ public class ValidadorPessoaFisica {
         if( verificaNullVazio(pessoa.getSenha())){
             throw new RegraNegocioException("Campo Senha inválido");
         }
+    }
+
+    public boolean verificaNumero(String campo)
+    {
+        return campo.matches("-?\\d+(\\.\\d+)?");
     }
 }

@@ -1,8 +1,12 @@
 package com.example.concesswebapi.controller;
 
 import com.example.concesswebapi.Model.Entity.AdmEmpresa;
+import com.example.concesswebapi.Model.Entity.AdmSuporte;
+import com.example.concesswebapi.Model.Entity.Cliente;
 import com.example.concesswebapi.Model.Entity.Empresa;
 import com.example.concesswebapi.api.dto.AdmEmpresaDTO;
+import com.example.concesswebapi.api.dto.AdmEmpresaListagemDTO;
+import com.example.concesswebapi.api.dto.AdmSuporteDTO;
 import com.example.concesswebapi.exception.RegraNegocioException;
 import com.example.concesswebapi.service.AdmEmpresaService;
 import com.example.concesswebapi.service.EmpresaService;
@@ -27,7 +31,7 @@ public class AdmEmpresaController {
     @GetMapping()
     public ResponseEntity get(){
         List<AdmEmpresa> admsEmpresa = service.getAdmsEmpresas();
-        return ResponseEntity.ok(admsEmpresa.stream().map(AdmEmpresaDTO::create).collect(Collectors.toList()));
+        return ResponseEntity.ok(admsEmpresa.stream().map(AdmEmpresaListagemDTO::create).collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
@@ -39,6 +43,17 @@ public class AdmEmpresaController {
         return ResponseEntity.ok(admEmpresa.map(AdmEmpresaDTO::create));
     }
 
+    @PostMapping()
+    public ResponseEntity post(@RequestBody AdmEmpresaDTO dto) {
+
+        try {
+            AdmEmpresa admEmpresa = converter(dto);
+            service.salvar(admEmpresa);
+            return new ResponseEntity(admEmpresa, HttpStatus.CREATED);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 
     @PutMapping("{id}")
     public ResponseEntity atualizar(@PathVariable("id") Long id, AdmEmpresaDTO dto) {
@@ -56,8 +71,19 @@ public class AdmEmpresaController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-    public AdmEmpresa converter(AdmEmpresaDTO dto){
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> excluir(@PathVariable Long id) {
+        Optional<AdmEmpresa> optional = service.getAdmEmpresaById(id);
+        if (optional.isEmpty()) {
+            return new ResponseEntity<>("Administrador de empresa não encontrado", HttpStatus.NOT_FOUND);
+        }
+        service.excluir(optional.get());
+        return ResponseEntity.noContent().build();
+    }
+
+    public AdmEmpresa converter(AdmEmpresaDTO dto){
+    //método converter tem que levar em consideração se há classes de composição também ao converter
         ModelMapper modelMapper = new ModelMapper();
         AdmEmpresa admEmpresa = modelMapper.map(dto, AdmEmpresa.class);
 
@@ -70,7 +96,6 @@ public class AdmEmpresaController {
                 admEmpresa.setEmpresa(empresa.get());
             }
         }
-
         return modelMapper.map(dto, AdmEmpresa.class);
     }
 }

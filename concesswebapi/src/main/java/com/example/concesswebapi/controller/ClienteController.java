@@ -53,6 +53,7 @@ public class ClienteController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
     @PostMapping()
     public ResponseEntity post(@RequestBody ClienteDTO dto) {
 
@@ -75,12 +76,12 @@ public class ClienteController {
         return ResponseEntity.noContent().build();
     }
 
-    public Cliente converter(ClienteDTO dto){
+    public Cliente converter(ClienteDTO dto) {
 
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(dto, Cliente.class);
 
-}
+    }
 
 }
 

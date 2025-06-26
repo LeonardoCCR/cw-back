@@ -55,6 +55,35 @@ public class ModeloController {
         }
     }
 
+    @PutMapping("{id}")
+    public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody ModeloDTO dto) {
+        if (modeloService.getModeloById(id).isEmpty()) {
+            return new ResponseEntity("Modelo não encontrado", HttpStatus.NOT_FOUND);
+        }
+        try {
+            Modelo modelo = converter(dto);
+            modelo.setId(id);
+            modeloService.salvar(modelo);
+            return ResponseEntity.ok(modelo);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity excluir(@PathVariable("id") Long id) {
+        Optional<Modelo> modelo = modeloService.getModeloById(id);
+        if (modelo.isEmpty()) {
+            return new ResponseEntity("Modelo não encontrado", HttpStatus.NOT_FOUND);
+        }
+        try {
+            modeloService.excluir(modelo.get());
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     private Modelo converter(ModeloDTO dto) {
 
         Modelo modelo = new Modelo();

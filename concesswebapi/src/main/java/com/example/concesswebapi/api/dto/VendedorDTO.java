@@ -4,7 +4,6 @@ import com.example.concesswebapi.Model.Entity.Vendedor;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.modelmapper.ModelMapper;
 
 @Data
 @NoArgsConstructor
@@ -26,16 +25,39 @@ public class VendedorDTO {
     private String bairro;
     private String cep;
     private String uf;
-
+    private String cargo;
     private Long idConcessionaria;
     private String concessionaria;
+    private Long idEmpresa; // Campo ID Empresa adicionado aqui
 
     public static VendedorDTO create(Vendedor vendedor){
+        VendedorDTO dto = new VendedorDTO();
 
-        ModelMapper modelMapper = new ModelMapper();
-        VendedorDTO dto = modelMapper.map(vendedor, VendedorDTO.class);
-        dto.idConcessionaria = vendedor.getConcessionaria().getId();
-        dto.concessionaria = vendedor.getConcessionaria().getRazaoSocial();
+        dto.setId(vendedor.getId());
+        dto.setNome(vendedor.getNome());
+        dto.setCpf(vendedor.getCpf());
+        dto.setLogin(vendedor.getLogin());
+        dto.setSenha(vendedor.getSenha());
+        dto.setTelefone1(vendedor.getTelefone1());
+        dto.setTelefone2(vendedor.getTelefone2());
+        dto.setEmail1(vendedor.getEmail1());
+        dto.setEmail2(vendedor.getEmail2());
+        dto.setLogradouro(vendedor.getLogradouro());
+        dto.setNumero(vendedor.getNumero());
+        dto.setComplemento(vendedor.getComplemento());
+        dto.setBairro(vendedor.getBairro());
+        dto.setCep(vendedor.getCep());
+        dto.setUf(vendedor.getUf());
+        dto.setCargo(vendedor.getCargo());
+
+        if(vendedor.getConcessionaria() != null){
+            dto.setIdConcessionaria(vendedor.getConcessionaria().getId());
+            dto.setConcessionaria(vendedor.getConcessionaria().getRazaoSocial());
+        }
+
+        if (vendedor.getEmpresa() != null) {
+            dto.setIdEmpresa(vendedor.getEmpresa().getId());
+        }
         return dto;
     }
 }

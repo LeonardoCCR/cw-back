@@ -1,17 +1,13 @@
 package com.example.concesswebapi.controller;
 
 import com.example.concesswebapi.Model.Entity.AdmEmpresa;
-import com.example.concesswebapi.Model.Entity.AdmSuporte;
-import com.example.concesswebapi.Model.Entity.Cliente;
 import com.example.concesswebapi.Model.Entity.Empresa;
 import com.example.concesswebapi.api.dto.AdmEmpresaDTO;
 import com.example.concesswebapi.api.dto.AdmEmpresaListagemDTO;
-import com.example.concesswebapi.api.dto.AdmSuporteDTO;
 import com.example.concesswebapi.exception.RegraNegocioException;
 import com.example.concesswebapi.service.AdmEmpresaService;
 import com.example.concesswebapi.service.EmpresaService;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,7 +41,6 @@ public class AdmEmpresaController {
 
     @PostMapping()
     public ResponseEntity post(@RequestBody AdmEmpresaDTO dto) {
-
         try {
             AdmEmpresa admEmpresa = converter(dto);
             service.salvar(admEmpresa);
@@ -56,7 +51,7 @@ public class AdmEmpresaController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity atualizar(@PathVariable("id") Long id, AdmEmpresaDTO dto) {
+    public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody AdmEmpresaDTO dto) {
         if (!service.getAdmEmpresaById(id).isPresent()) {
             return new ResponseEntity("Administrador de Empresa não encontrado", HttpStatus.NOT_FOUND);
         }
@@ -83,19 +78,37 @@ public class AdmEmpresaController {
     }
 
     public AdmEmpresa converter(AdmEmpresaDTO dto){
-    //método converter tem que levar em consideração se há classes de composição também ao converter
-        ModelMapper modelMapper = new ModelMapper();
-        AdmEmpresa admEmpresa = modelMapper.map(dto, AdmEmpresa.class);
+        AdmEmpresa admEmpresa = new AdmEmpresa();
+
+        admEmpresa.setId(dto.getId());
+        admEmpresa.setEmail1(dto.getEmail1());
+        admEmpresa.setEmail2(dto.getEmail2());
+        admEmpresa.setTelefone1(dto.getTelefone1());
+        admEmpresa.setTelefone2(dto.getTelefone2());
+        admEmpresa.setLogradouro(dto.getLogradouro());
+        admEmpresa.setNumero(dto.getNumero());
+        admEmpresa.setComplemento(dto.getComplemento());
+        admEmpresa.setBairro(dto.getBairro());
+        admEmpresa.setCep(dto.getCep());
+        admEmpresa.setUf(dto.getUf());
+
+        admEmpresa.setNome(dto.getNome());
+        admEmpresa.setCpf(dto.getCpf());
+        admEmpresa.setLogin(dto.getLogin());
+        admEmpresa.setSenha(dto.getSenha());
 
         if(dto.getIdEmpresa() != null){
             Optional<Empresa> empresa = empresaService.getEmpresaById(dto.getIdEmpresa());
 
-            if(!empresa.isPresent()){
-                admEmpresa.setEmpresa(null);
-            }else{
+            if(empresa.isPresent()){
                 admEmpresa.setEmpresa(empresa.get());
+            } else {
+                admEmpresa.setEmpresa(null);
             }
+        } else {
+            admEmpresa.setEmpresa(null);
         }
-        return modelMapper.map(dto, AdmEmpresa.class);
+
+        return admEmpresa;
     }
 }

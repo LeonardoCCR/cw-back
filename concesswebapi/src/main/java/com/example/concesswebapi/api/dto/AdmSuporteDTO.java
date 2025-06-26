@@ -4,7 +4,6 @@ import com.example.concesswebapi.Model.Entity.AdmSuporte;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.modelmapper.ModelMapper;
 
 @Data
 @NoArgsConstructor
@@ -30,10 +29,25 @@ public class AdmSuporteDTO {
     private String uf;
 
     public static AdmSuporteDTO create(AdmSuporte admSuporte){
-        ModelMapper modelMapper = new ModelMapper();
-        AdmSuporteDTO dto = modelMapper.map( admSuporte, AdmSuporteDTO.class);
+        AdmSuporteDTO dto = new AdmSuporteDTO();
+
+        dto.setId(admSuporte.getId());
+        dto.setEmail1(admSuporte.getEmail1());
+        dto.setEmail2(admSuporte.getEmail2());
+        dto.setTelefone1(admSuporte.getTelefone1());
+        dto.setTelefone2(admSuporte.getTelefone2());
+        dto.setLogradouro(admSuporte.getLogradouro());
+        dto.setNumero(admSuporte.getNumero());
+        dto.setComplemento(admSuporte.getComplemento());
+        dto.setBairro(admSuporte.getBairro());
+        dto.setCep(admSuporte.getCep());
+        dto.setUf(admSuporte.getUf());
+
+        dto.setNome(admSuporte.getNome());
+        dto.setCpf(admSuporte.getCpf());
+        dto.setLogin(admSuporte.getLogin());
+        dto.setSenha(admSuporte.getSenha());
+
         return dto;
     }
 }
-
-

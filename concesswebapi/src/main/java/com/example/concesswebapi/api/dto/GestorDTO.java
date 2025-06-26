@@ -4,12 +4,10 @@ import com.example.concesswebapi.Model.Entity.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.modelmapper.ModelMapper;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class GestorDTO {
 
     private Long id;
@@ -29,11 +27,35 @@ public class GestorDTO {
     private String bairro;
     private String cep;
     private String uf;
-    //temos o atributo inverso concessionária
-    public static GestorDTO create( Gestor gestor){
+    private String cargo;
+    private Long idEmpresa;
 
-        ModelMapper modelMapper = new ModelMapper();
-        GestorDTO dto = modelMapper.map(gestor, GestorDTO.class);
+    public static GestorDTO create( Gestor gestor){
+        GestorDTO dto = new GestorDTO();
+
+        dto.setId(gestor.getId());
+        dto.setNome(gestor.getNome());
+        dto.setCpf(gestor.getCpf());
+        dto.setLogin(gestor.getLogin());
+        dto.setSenha(gestor.getSenha());
+
+        dto.setTelefone1(gestor.getTelefone1());
+        dto.setTelefone2(gestor.getTelefone2());
+        dto.setEmail1(gestor.getEmail1());
+        dto.setEmail2(gestor.getEmail2());
+
+        dto.setLogradouro(gestor.getLogradouro());
+        dto.setNumero(gestor.getNumero());
+        dto.setComplemento(gestor.getComplemento());
+        dto.setBairro(gestor.getBairro());
+        dto.setCep(gestor.getCep());
+        dto.setUf(gestor.getUf());
+
+        dto.setCargo(gestor.getCargo());
+        if (gestor.getEmpresa() != null) {
+            dto.setIdEmpresa(gestor.getEmpresa().getId());
+        }
+
         return dto;
     }
 }

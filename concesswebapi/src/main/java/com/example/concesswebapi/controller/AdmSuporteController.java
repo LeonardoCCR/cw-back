@@ -1,13 +1,11 @@
 package com.example.concesswebapi.controller;
 
 import com.example.concesswebapi.Model.Entity.AdmSuporte;
-import com.example.concesswebapi.Model.Entity.Cliente;
 import com.example.concesswebapi.api.dto.AdmSuporteDTO;
 import com.example.concesswebapi.api.dto.AdmSuporteListagemDTO;
 import com.example.concesswebapi.exception.RegraNegocioException;
 import com.example.concesswebapi.service.AdmSuporteService;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -52,7 +50,7 @@ public class AdmSuporteController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity atualizar(@PathVariable("id") Long id, AdmSuporteDTO dto) {
+    public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody AdmSuporteDTO dto) {
         if (!service.getAdmSuporteById(id).isPresent()) {
             return new ResponseEntity("Administrador de Suporte não encontrado", HttpStatus.NOT_FOUND);
         }
@@ -77,9 +75,24 @@ public class AdmSuporteController {
     }
 
     public AdmSuporte converter(AdmSuporteDTO dto){
+        AdmSuporte admSuporte = new AdmSuporte();
 
-        ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(dto, AdmSuporte.class);
+        admSuporte.setEmail1(dto.getEmail1());
+        admSuporte.setEmail2(dto.getEmail2());
+        admSuporte.setTelefone1(dto.getTelefone1());
+        admSuporte.setTelefone2(dto.getTelefone2());
+        admSuporte.setLogradouro(dto.getLogradouro());
+        admSuporte.setNumero(dto.getNumero());
+        admSuporte.setComplemento(dto.getComplemento());
+        admSuporte.setBairro(dto.getBairro());
+        admSuporte.setCep(dto.getCep());
+        admSuporte.setUf(dto.getUf());
+
+        admSuporte.setNome(dto.getNome());
+        admSuporte.setCpf(dto.getCpf());
+        admSuporte.setLogin(dto.getLogin());
+        admSuporte.setSenha(dto.getSenha());
+
+        return admSuporte;
     }
-
 }

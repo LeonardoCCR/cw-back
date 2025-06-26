@@ -15,7 +15,7 @@ public class ValidadorPessoa {
         }
 
         if( verificaNullVazio(pessoa.getEmail2())){
-            throw new RegraNegocioException("Campo email2 inválido");
+            // throw new RegraNegocioException("Campo email2 inválido");
         }
 
         if( verificaNullVazio(pessoa.getTelefone1())){
@@ -23,7 +23,7 @@ public class ValidadorPessoa {
         }
 
         if( verificaNullVazio(pessoa.getTelefone2())){
-            throw new RegraNegocioException("Campo telefone2 inválido");
+            // throw new RegraNegocioException("Campo telefone2 inválido");
         }
 
         if( verificaNullVazio(pessoa.getLogradouro())){

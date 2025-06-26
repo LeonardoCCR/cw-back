@@ -1,14 +1,15 @@
 package com.example.concesswebapi.controller;
 
 import com.example.concesswebapi.Model.Entity.Concessionaria;
+import com.example.concesswebapi.Model.Entity.Empresa; // Importar Empresa
 import com.example.concesswebapi.Model.Entity.Vendedor;
 import com.example.concesswebapi.api.dto.VendedorDTO;
 import com.example.concesswebapi.api.dto.VendedorListagemDTO;
 import com.example.concesswebapi.exception.RegraNegocioException;
 import com.example.concesswebapi.service.ConcessionariaService;
+import com.example.concesswebapi.service.EmpresaService; // Importar EmpresaService
 import com.example.concesswebapi.service.VendedorService;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,7 @@ public class VendedorController {
 
     public final VendedorService service;
     public final ConcessionariaService concessionariaService;
+    public final EmpresaService empresaService; // Injetar EmpresaService
 
     @GetMapping
     public ResponseEntity get() {
@@ -42,7 +44,6 @@ public class VendedorController {
 
     @PostMapping()
     public ResponseEntity post(@RequestBody VendedorDTO dto) {
-
         try {
             Vendedor vendedor = converter(dto);
             service.salvar(vendedor);
@@ -53,7 +54,7 @@ public class VendedorController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity atualizar(@PathVariable("id") Long id, VendedorDTO dto) {
+    public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody VendedorDTO dto) {
         if (!service.getVendedorById(id).isPresent()) {
             return new ResponseEntity("Vendedor não encontrado", HttpStatus.NOT_FOUND);
         }
@@ -78,21 +79,39 @@ public class VendedorController {
     }
 
     public Vendedor converter(VendedorDTO dto){
+        Vendedor vendedor = new Vendedor();
 
-        ModelMapper modelMapper = new ModelMapper();
-        Vendedor vendedor = modelMapper.map(dto, Vendedor.class);
+        vendedor.setEmail1(dto.getEmail1());
+        vendedor.setEmail2(dto.getEmail2());
+        vendedor.setTelefone1(dto.getTelefone1());
+        vendedor.setTelefone2(dto.getTelefone2());
+        vendedor.setLogradouro(dto.getLogradouro());
+        vendedor.setNumero(dto.getNumero());
+        vendedor.setComplemento(dto.getComplemento());
+        vendedor.setBairro(dto.getBairro());
+        vendedor.setCep(dto.getCep());
+        vendedor.setUf(dto.getUf());
 
+        vendedor.setNome(dto.getNome());
+        vendedor.setCpf(dto.getCpf());
+        vendedor.setLogin(dto.getLogin());
+        vendedor.setSenha(dto.getSenha());
+        vendedor.setCargo(dto.getCargo());
 
         if(dto.getIdConcessionaria() != null){
             Optional<Concessionaria> concessionaria = concessionariaService.getConcessionariaById(dto.getIdConcessionaria());
-
-            if(!concessionaria.isPresent()){ //método do Optional
-                vendedor.setConcessionaria(null); //mas isso pode ? Opcional ?
-            }else{
-                vendedor.setConcessionaria(concessionaria.get());//metodo do Optional
-            }
+            concessionaria.ifPresent(vendedor::setConcessionaria);
+        } else {
+            vendedor.setConcessionaria(null);
         }
+
+        if(dto.getIdEmpresa() != null){
+            Optional<Empresa> empresa = empresaService.getEmpresaById(dto.getIdEmpresa());
+            empresa.ifPresent(vendedor::setEmpresa);
+        } else {
+            vendedor.setEmpresa(null);
+        }
+
         return vendedor;
     }
-
 }

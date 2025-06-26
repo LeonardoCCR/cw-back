@@ -1,13 +1,11 @@
 package com.example.concesswebapi.controller;
 
 import com.example.concesswebapi.Model.Entity.Cliente;
-import com.example.concesswebapi.Model.Entity.Gestor;
 import com.example.concesswebapi.api.dto.ClienteDTO;
 import com.example.concesswebapi.api.dto.ClienteListagemDTO;
 import com.example.concesswebapi.exception.RegraNegocioException;
 import com.example.concesswebapi.service.ClienteService;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +17,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1/clientes")
 @RequiredArgsConstructor
-
 public class ClienteController {
 
     public final ClienteService service;
@@ -40,7 +37,7 @@ public class ClienteController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity atualizar(@PathVariable("id") Long id, ClienteDTO dto) {
+    public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody ClienteDTO dto) {
         if (!service.getClienteById(id).isPresent()) {
             return new ResponseEntity("Cliente não encontrado", HttpStatus.NOT_FOUND);
         }
@@ -56,7 +53,6 @@ public class ClienteController {
 
     @PostMapping()
     public ResponseEntity post(@RequestBody ClienteDTO dto) {
-
         try {
             Cliente cliente = converter(dto);
             service.salvar(cliente);
@@ -77,12 +73,26 @@ public class ClienteController {
     }
 
     public Cliente converter(ClienteDTO dto) {
+        Cliente cliente = new Cliente();
 
-        ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(dto, Cliente.class);
+        cliente.setEmail1(dto.getEmail1());
+        cliente.setEmail2(dto.getEmail2());
+        cliente.setTelefone1(dto.getTelefone1());
+        cliente.setTelefone2(dto.getTelefone2());
+        cliente.setLogradouro(dto.getLogradouro());
+        cliente.setNumero(dto.getNumero());
+        cliente.setComplemento(dto.getComplemento());
+        cliente.setBairro(dto.getBairro());
+        cliente.setCep(dto.getCep());
+        cliente.setUf(dto.getUf());
 
+        cliente.setNome(dto.getNome());
+        cliente.setCpf(dto.getCpf());
+        cliente.setLogin(dto.getLogin());
+        cliente.setSenha(dto.getSenha());
+
+        cliente.setDataNascimento(dto.getDataNascimento());
+
+        return cliente;
     }
-
 }
-
-

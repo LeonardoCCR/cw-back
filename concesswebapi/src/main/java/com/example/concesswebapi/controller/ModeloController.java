@@ -70,6 +70,20 @@ public class ModeloController {
         }
     }
 
+    @DeleteMapping("{id}")
+    public ResponseEntity excluir(@PathVariable("id") Long id) {
+        Optional<Modelo> modelo = modeloService.getModeloById(id);
+        if (modelo.isEmpty()) {
+            return new ResponseEntity("Modelo não encontrado", HttpStatus.NOT_FOUND);
+        }
+        try {
+            modeloService.excluir(modelo.get());
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     private Modelo converter(ModeloDTO dto) {
 
         Modelo modelo = new Modelo();

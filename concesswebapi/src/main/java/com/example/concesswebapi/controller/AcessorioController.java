@@ -66,6 +66,20 @@ public class AcessorioController {
         }
     }
 
+    @DeleteMapping("{id}")
+    public ResponseEntity excluir(@PathVariable("id") Long id) {
+        Optional<Acessorio> acessorio = acessorioService.getAcessorioById(id);
+        if (acessorio.isEmpty()) {
+            return new ResponseEntity("Acessório não encontrado", HttpStatus.NOT_FOUND);
+        }
+        try {
+            acessorioService.excluir(acessorio.get());
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     private Acessorio converter(AcessorioDTO dto) {
 
         ModelMapper modelMapper = new ModelMapper();

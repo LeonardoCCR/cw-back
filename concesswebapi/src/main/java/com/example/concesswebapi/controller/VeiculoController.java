@@ -64,6 +64,39 @@ public class VeiculoController {
         }
     }
 
+    @PutMapping("{id}")
+    public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody VeiculoDTO dto) {
+
+        Optional<Veiculo> veiculoById = veiculoService.getVeiculoById(id);
+
+        if (veiculoById.isEmpty()) {
+            return new ResponseEntity("Veículo não encontrado", HttpStatus.NOT_FOUND);
+        }
+
+        try {
+            this.verificaInconsistenciasDados(id, dto, veiculoById.get());
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+        Veiculo veiculo;
+        try {
+            veiculo = converter(dto);
+            veiculo.setId(id);
+
+            TipoVeiculo tipoVeiculo = tipoVeiculoService.salvar(veiculo.getModeloVeiculo().getTipoVeiculo());
+            veiculo.getModeloVeiculo().setTipoVeiculo(tipoVeiculo);
+
+            ModeloVeiculo modeloVeiculo = modeloVeiculoService.salvar(veiculo.getModeloVeiculo());
+            veiculo.setModeloVeiculo(modeloVeiculo);
+
+            veiculoService.salvar(veiculo);
+            return ResponseEntity.ok(veiculo);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     private Veiculo converter(VeiculoDTO dto) {
 
         Veiculo veiculo;
@@ -137,6 +170,29 @@ public class VeiculoController {
             }
         } else {
             throw new RegraNegocioException("Informações de veículo incompletas");
+        }
+    }
+
+    private void verificaInconsistenciasDados(Long id, VeiculoDTO dto, Veiculo veiculo) {
+
+        if (veiculo instanceof VeiculoUsado) {
+            if (dto.getVeiculoUsado() == null) {
+                throw new RegraNegocioException("Um veículo usado deve conter atributos de veículo usado, e não de veículo novo");
+            }
+        } else if (veiculo instanceof VeiculoNovo) {
+            if (dto.getVeiculoUsado() != null) {
+                throw new RegraNegocioException("Um veículo novo deve conter atributos de veículo novo, e não de veículo usado");
+            }
+        }
+
+        if (veiculo.getModeloVeiculo().getTipoVeiculo() instanceof Carro) {
+            if (dto.getModeloVeiculo().getTipoVeiculo().getCarro() == null) {
+                throw new RegraNegocioException("Um carro deve conter atributos de carro, e não de moto");
+            }
+        } else if (veiculo.getModeloVeiculo().getTipoVeiculo() instanceof Moto) {
+            if (dto.getModeloVeiculo().getTipoVeiculo().getMoto() == null) {
+                throw new RegraNegocioException("Uma moto deve conter atributos de moto, e não de carro");
+            }
         }
     }
 }

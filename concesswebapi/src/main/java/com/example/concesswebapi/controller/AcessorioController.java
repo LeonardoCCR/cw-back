@@ -51,9 +51,24 @@ public class AcessorioController {
         }
     }
 
+    @PutMapping("{id}")
+    public ResponseEntity atualizar(@PathVariable("id") Long id, @RequestBody AcessorioDTO dto) {
+        if (acessorioService.getAcessorioById(id).isEmpty()) {
+            return new ResponseEntity("Acessório não encontrado", HttpStatus.NOT_FOUND);
+        }
+        try {
+            Acessorio acessorio = converter(dto);
+            acessorio.setId(id);
+            acessorioService.salvar(acessorio);
+            return ResponseEntity.ok(acessorio);
+        } catch (RegraNegocioException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     private Acessorio converter(AcessorioDTO dto) {
 
-       ModelMapper modelMapper = new ModelMapper();
-       return modelMapper.map(dto, Acessorio.class);
+        ModelMapper modelMapper = new ModelMapper();
+        return modelMapper.map(dto, Acessorio.class);
     }
 }

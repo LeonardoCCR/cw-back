@@ -105,6 +105,8 @@ public class VeiculoController {
         }
         try {
             veiculoService.excluir(veiculo.get());
+            modeloVeiculoService.excluir(veiculo.get().getModeloVeiculo());
+            tipoVeiculoService.excluir(veiculo.get().getModeloVeiculo().getTipoVeiculo());
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         } catch (RegraNegocioException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -165,20 +167,19 @@ public class VeiculoController {
     private TipoVeiculo converteTipoVeiculo(TipoVeiculoDTO dto, Veiculo veiculo) {
 
         if (dto != null) {
-            TipoVeiculo tipoVeiculo;
             if ("carro".equalsIgnoreCase(dto.getTipo())) {
                 if (dto.getCarro() == null) {
                     throw new RegraNegocioException("Informações de carro são obrigatórias");
                 }
                 Carro carro = modelMapper.map(dto.getCarro(), Carro.class);
-                return tipoVeiculo = dto.converter(dto, carro);
+                return dto.converter(dto, carro);
 
             } else if ("moto".equalsIgnoreCase(dto.getTipo())) {
                 if (dto.getMoto() == null) {
                     throw new RegraNegocioException("Informações de moto são obrigatórias");
                 }
                 Moto moto = dto.getMoto().converter(dto.getMoto());
-                return tipoVeiculo = dto.converter(dto, moto);
+                return dto.converter(dto, moto);
             } else {
                 throw new RegraNegocioException("O campo tipo é obrigatório");
             }

@@ -27,6 +27,10 @@ public class AcessorioService {
         return repository.findById(id);
     }
 
+    public List<Acessorio> getVeiculoTemAcessorioByIds(List<Long> ids) {
+        return repository.findAllById(ids);
+    }
+
     @Transactional
     public Acessorio salvar(Acessorio acessorio) {
         validar(acessorio);

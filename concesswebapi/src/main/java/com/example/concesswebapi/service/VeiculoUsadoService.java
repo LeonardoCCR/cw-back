@@ -8,7 +8,6 @@ import com.example.concesswebapi.util.ValidadorVeiculo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -20,12 +19,10 @@ public class VeiculoUsadoService {
     private ValidadorVeiculo validadorVeiculo;
 
     private VeiculoUsadoRepository repository;
-    private ModeloRepository modeloRepository;
 
     public VeiculoUsadoService(VeiculoUsadoRepository repository, ModeloRepository modeloRepository) {
 
         this.repository = repository;
-        this.modeloRepository = modeloRepository; // Inicialização do modeloRepository, se necessário
     }
 
     public List<VeiculoUsado> getVeiculosUsados() {

@@ -7,7 +7,6 @@ import com.example.concesswebapi.Model.repository.VeiculoTemAcessorioRepository;
 import com.example.concesswebapi.exception.RegraNegocioException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -15,12 +14,14 @@ import java.util.Optional;
 @Service
 public class VeiculoTemAcessorioService {
 
-    private VeiculoTemAcessorioRepository repository;
-    private VeiculoRepository veiculoRepository;
-    private AcessorioRepository acessorioRepository;
+    private final VeiculoTemAcessorioRepository repository;
+    private final VeiculoRepository veiculoRepository;
+    private final AcessorioRepository acessorioRepository;
 
-    public VeiculoTemAcessorioService(VeiculoTemAcessorioRepository repository) {
+    public VeiculoTemAcessorioService(VeiculoTemAcessorioRepository repository, VeiculoRepository veiculoRepository, AcessorioRepository acessorioRepository) {
         this.repository = repository;
+        this.veiculoRepository = veiculoRepository;
+        this.acessorioRepository = acessorioRepository;
     }
 
     public List<VeiculoTemAcessorio> getVeiculosTemAcessorios() {

@@ -1,16 +1,13 @@
 package com.example.concesswebapi.service;
 
-import com.example.concesswebapi.Model.Entity.Fabricante;
-import com.example.concesswebapi.Model.Entity.Veiculo;
-import com.example.concesswebapi.Model.Entity.VeiculoNovo;
-import com.example.concesswebapi.Model.Entity.VeiculoUsado;
+import com.example.concesswebapi.Model.Entity.*;
+import com.example.concesswebapi.Model.repository.VeiculoTemAcessorioRepository;
+import com.example.concesswebapi.api.dto.VeiculoDTO;
 import com.example.concesswebapi.exception.RegraNegocioException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -18,10 +15,12 @@ public class VeiculoService {
 
     private final VeiculoNovoService veiculoNovoService;
     private final VeiculoUsadoService veiculoUsadoService;
+    private VeiculoTemAcessorioRepository veiculoTemAcessorioRepository;
 
-    public VeiculoService(VeiculoNovoService novoService, VeiculoUsadoService usadoService) {
+    public VeiculoService(VeiculoNovoService novoService, VeiculoUsadoService usadoService, VeiculoTemAcessorioRepository vtRepository) {
         this.veiculoNovoService = novoService;
         this.veiculoUsadoService = usadoService;
+        this.veiculoTemAcessorioRepository = vtRepository;
     }
 
     public List<Veiculo> listarTodos() {
@@ -45,6 +44,16 @@ public class VeiculoService {
         return Optional.empty();
     }
 
+    public void addAcessorios(VeiculoDTO veiculoDTO)
+    {
+        List<VeiculoTemAcessorio> veiculosEAcessorios = veiculoTemAcessorioRepository.findByVeiculoId(veiculoDTO.getId());
+
+        List<Long> acessoriosIds = veiculosEAcessorios.stream()
+                .map(item -> item.getAcessorio().getId())
+                .toList();
+
+        veiculoDTO.setAcessoriosIds(acessoriosIds);
+    }
 
     public Veiculo salvar(Veiculo veiculo) {
         if (veiculo instanceof VeiculoNovo) {

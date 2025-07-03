@@ -5,9 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.modelmapper.ModelMapper;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -25,6 +25,7 @@ public class VeiculoDTO {
     private String condicao;
     private VeiculoUsadoDTO veiculoUsado;
     private ModeloVeiculoDTO modeloVeiculo;
+    private List<Long> acessoriosIds;
 
     public Veiculo converter(VeiculoDTO dto) {
 

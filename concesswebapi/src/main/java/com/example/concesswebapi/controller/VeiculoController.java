@@ -24,14 +24,18 @@ public class VeiculoController {
     private final ConcessionariaService concessionariaService;
     private final ModeloVeiculoService modeloVeiculoService;
     private final TipoVeiculoService tipoVeiculoService;
+    private final VeiculoTemAcessorioService veiculoTemAcessorioService;
+    private final AcessorioService acessorioService;
 
-    public VeiculoController(VeiculoService veiculoService, ModeloService modeloService, ConcessionariaService concessionariaService, ModeloVeiculoService modeloVeiculoService, TipoVeiculoService tipoVeiculoService) {
+    public VeiculoController(VeiculoService veiculoService, ModeloService modeloService, ConcessionariaService concessionariaService, ModeloVeiculoService modeloVeiculoService, TipoVeiculoService tipoVeiculoService, VeiculoTemAcessorioService veiculoTemAcessorioService, AcessorioService acessorioService) {
 
         this.veiculoService = veiculoService;
         this.modeloService = modeloService;
         this.concessionariaService = concessionariaService;
         this.modeloVeiculoService = modeloVeiculoService;
         this.tipoVeiculoService = tipoVeiculoService;
+        this.veiculoTemAcessorioService = veiculoTemAcessorioService;
+        this.acessorioService = acessorioService;
     }
 
     @GetMapping
@@ -48,7 +52,9 @@ public class VeiculoController {
             return new ResponseEntity("Veiculo não encontrado", HttpStatus.NOT_FOUND);
         }
 
-        return ResponseEntity.ok(veiculo.map(VeiculoDTO::create));
+        VeiculoDTO veiculoDTO = VeiculoDTO.create(veiculo.get());
+        veiculoService.addAcessorios(veiculoDTO);
+        return ResponseEntity.ok(veiculoDTO);
     }
 
     @PostMapping()
@@ -58,6 +64,8 @@ public class VeiculoController {
             tipoVeiculoService.salvar(veiculo.getModeloVeiculo().getTipoVeiculo());
             modeloVeiculoService.salvar(veiculo.getModeloVeiculo());
             veiculoService.salvar(veiculo);
+            this.criarVeiculoTemAcessorio(dto, veiculo);
+
             return new ResponseEntity(veiculo, HttpStatus.CREATED);
         } catch (RegraNegocioException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -208,6 +216,18 @@ public class VeiculoController {
             if (dto.getModeloVeiculo().getTipoVeiculo().getMoto() == null) {
                 throw new RegraNegocioException("Uma moto deve conter atributos de moto, e não de carro");
             }
+        }
+    }
+
+    private void criarVeiculoTemAcessorio(VeiculoDTO dto, Veiculo veiculo)
+    {
+        List<Acessorio> acessorios = acessorioService.getVeiculoTemAcessorioByIds(dto.getAcessoriosIds());
+
+        for (Acessorio item : acessorios) {
+            VeiculoTemAcessorio veiculoTemAcessorio = new VeiculoTemAcessorio();
+            veiculoTemAcessorio.setVeiculo(veiculo);
+            veiculoTemAcessorio.setAcessorio(item);
+            veiculoTemAcessorioService.salvar(veiculoTemAcessorio);
         }
     }
 }

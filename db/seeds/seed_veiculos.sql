@@ -108,3 +108,16 @@ INSERT INTO veiculo_novo (id) VALUES
 (5),
 (6),
 (7);
+
+-- Limpa a tabela e reinicia o ID serial
+TRUNCATE TABLE veiculo_tem_acessorio RESTART IDENTITY CASCADE;
+
+INSERT INTO veiculo_tem_acessorio (id, acessorio_id, veiculo_id) VALUES
+(1,1,1),
+(2,2,1),
+(3,3,1),
+(4,2,2),
+(5,3,2),
+(6,4,3);
+
+SELECT setval('veiculo_tem_acessorio_id_seq', (SELECT MAX(id) FROM veiculo_tem_acessorio));

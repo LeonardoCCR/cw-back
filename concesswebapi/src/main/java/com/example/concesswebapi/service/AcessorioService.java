@@ -27,7 +27,10 @@ public class AcessorioService {
         return repository.findById(id);
     }
 
-    public List<Acessorio> getVeiculoTemAcessorioByIds(List<Long> ids) {
+    public List<Acessorio> getAcessoriosByIds(List<Long> ids) {
+        if (ids == null) {
+            throw new RegraNegocioException("Pelo menos um acessório é obrigatório");
+        }
         return repository.findAllById(ids);
     }
 
@@ -43,14 +46,12 @@ public class AcessorioService {
         repository.delete(acessorio);
     }
 
-    public void validar(Acessorio acessorio)
-    {
+    public void validar(Acessorio acessorio) {
         if (verificaNullVazio(acessorio.getDescricao())) {
             throw new RegraNegocioException("Descrição inválida");
         }
 
-        if(verificaNumero(acessorio.getDescricao()))
-        {
+        if (verificaNumero(acessorio.getDescricao())) {
             throw new RegraNegocioException("O valor não pode ser um número");
         }
     }
@@ -59,9 +60,8 @@ public class AcessorioService {
         return campo == null || campo.trim().isEmpty();
     }
 
-    public boolean verificaNumero(String campo)
-    {
-       return campo.matches("-?\\d+(\\.\\d+)?") ;
+    public boolean verificaNumero(String campo) {
+        return campo.matches("-?\\d+(\\.\\d+)?");
     }
 }
 

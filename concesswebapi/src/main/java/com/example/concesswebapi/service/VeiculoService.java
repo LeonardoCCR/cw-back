@@ -15,7 +15,7 @@ public class VeiculoService {
 
     private final VeiculoNovoService veiculoNovoService;
     private final VeiculoUsadoService veiculoUsadoService;
-    private VeiculoTemAcessorioRepository veiculoTemAcessorioRepository;
+    private final VeiculoTemAcessorioRepository veiculoTemAcessorioRepository;
 
     public VeiculoService(VeiculoNovoService novoService, VeiculoUsadoService usadoService, VeiculoTemAcessorioRepository vtRepository) {
         this.veiculoNovoService = novoService;

@@ -28,8 +28,8 @@ public class VeiculoTemAcessorioService {
         return repository.findAll();
     }
 
-    public Optional<VeiculoTemAcessorio> getVeiculoTemAcessorioById(Long id) {
-        return repository.findById(id);
+    public List<VeiculoTemAcessorio> getVeiculoTemAcessorioById(Long id) {
+        return repository.findByVeiculoId(id);
     }
 
     @Transactional

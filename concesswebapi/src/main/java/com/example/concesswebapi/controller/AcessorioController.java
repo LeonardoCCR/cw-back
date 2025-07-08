@@ -4,6 +4,7 @@ import com.example.concesswebapi.Model.Entity.*;
 import com.example.concesswebapi.api.dto.AcessorioDTO;
 import com.example.concesswebapi.exception.RegraNegocioException;
 import com.example.concesswebapi.service.AcessorioService;
+import io.swagger.annotations.Api;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,8 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/acessorios")
+@Api("API de acessórios")
+
 public class AcessorioController {
 
     private final AcessorioService acessorioService;

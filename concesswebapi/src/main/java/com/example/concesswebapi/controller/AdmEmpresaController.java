@@ -7,6 +7,7 @@ import com.example.concesswebapi.api.dto.AdmEmpresaListagemDTO;
 import com.example.concesswebapi.exception.RegraNegocioException;
 import com.example.concesswebapi.service.AdmEmpresaService;
 import com.example.concesswebapi.service.EmpresaService;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1/admsempresa")
 @RequiredArgsConstructor
+@Api("API de administradores de empresa")
 public class AdmEmpresaController {
 
     public final AdmEmpresaService service;

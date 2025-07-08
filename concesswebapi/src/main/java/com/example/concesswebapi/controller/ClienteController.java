@@ -5,6 +5,7 @@ import com.example.concesswebapi.api.dto.ClienteDTO;
 import com.example.concesswebapi.api.dto.ClienteListagemDTO;
 import com.example.concesswebapi.exception.RegraNegocioException;
 import com.example.concesswebapi.service.ClienteService;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1/clientes")
 @RequiredArgsConstructor
+@Api("API de clientes")
 public class ClienteController {
 
     public final ClienteService service;

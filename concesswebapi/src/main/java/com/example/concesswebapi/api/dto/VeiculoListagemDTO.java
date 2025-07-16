@@ -13,13 +13,14 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class VeiculoListagemDTO {
 
+    private Long id;
     private String tipo;
     private String chassi;
     private String nomeModelo;
     private String nomeFabricante;
     private BigDecimal precoAtual;
     private String condicao;
-    private String nomeConcessioaria;
+    private String nomeConcessionaria;
 
     public static VeiculoListagemDTO create(Veiculo veiculo)
     {
@@ -27,7 +28,7 @@ public class VeiculoListagemDTO {
         VeiculoListagemDTO dto = modelMapper.map(veiculo, VeiculoListagemDTO.class);
         dto.nomeModelo = veiculo.getModeloVeiculo().getModelo().getNome();
         dto.nomeFabricante = veiculo.getModeloVeiculo().getModelo().getFabricante().getNome();
-        dto.nomeConcessioaria = veiculo.getConcessionaria().getRazaoSocial();
+        dto.nomeConcessionaria = veiculo.getConcessionaria().getRazaoSocial();
         dto.tipo = veiculo.getModeloVeiculo().getTipoVeiculo().getTipo();
 
         return dto;

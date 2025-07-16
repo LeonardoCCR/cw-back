@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class VeiculoListagemDTO {
 
+    private Long id;
     private String tipo;
     private String chassi;
     private String nomeModelo;

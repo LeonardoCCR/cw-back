@@ -28,9 +28,9 @@ public class AcessorioService {
     }
 
     public List<Acessorio> getAcessoriosByIds(List<Long> ids) {
-        if (ids == null) {
-            throw new RegraNegocioException("Pelo menos um acessório é obrigatório");
-        }
+//        if (ids == null) {
+//            throw new RegraNegocioException("Pelo menos um acessório é obrigatório");
+//        }
         return repository.findAllById(ids);
     }
 

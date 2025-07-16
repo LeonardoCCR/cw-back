@@ -53,7 +53,7 @@ public class VeiculoController {
         }
 
         VeiculoDTO veiculoDTO = VeiculoDTO.create(veiculo.get());
-        veiculoService.addAcessorios(veiculoDTO);
+        //veiculoService.addAcessorios(veiculoDTO);
         return ResponseEntity.ok(veiculoDTO);
     }
 
@@ -64,7 +64,7 @@ public class VeiculoController {
             tipoVeiculoService.salvar(veiculo.getModeloVeiculo().getTipoVeiculo());
             modeloVeiculoService.salvar(veiculo.getModeloVeiculo());
             veiculoService.salvar(veiculo);
-            this.sincronizarVeiculoTemAcessorio(dto, veiculo);
+            //this.sincronizarVeiculoTemAcessorio(dto, veiculo);
 
             return new ResponseEntity(veiculo, HttpStatus.CREATED);
         } catch (RegraNegocioException e) {
@@ -99,7 +99,7 @@ public class VeiculoController {
             veiculo.setModeloVeiculo(modeloVeiculo);
 
             veiculoService.salvar(veiculo);
-            this.sincronizarVeiculoTemAcessorio(dto, veiculo);
+            //this.sincronizarVeiculoTemAcessorio(dto, veiculo);
             return ResponseEntity.ok(veiculo);
         } catch (RegraNegocioException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -224,36 +224,36 @@ public class VeiculoController {
         }
     }
 
-    private void sincronizarVeiculoTemAcessorio(VeiculoDTO dto, Veiculo veiculo) {
-        List<Acessorio> acessorios = acessorioService.getAcessoriosByIds(dto.getAcessoriosIds());
-        List<VeiculoTemAcessorio> veiculosTemAcessorio = veiculoTemAcessorioService.getVeiculoTemAcessorioById(veiculo.getId());
-
-        int i = 0;
-        if (!veiculosTemAcessorio.isEmpty()) {
-
-            for (VeiculoTemAcessorio item : veiculosTemAcessorio) {
-                if (i >= acessorios.size()) {
-                    //DELETE
-                    veiculoTemAcessorioService.excluir(item);
-                } else {
-                    item.setAcessorio(acessorios.get(i));
-                    //UPDATE
-                    veiculoTemAcessorioService.salvar(item);
-                }
-                i++;
-            }
-        }
-
-        if (i < acessorios.size()) {
-            int j = 0;
-            for (j = i; j < acessorios.size(); j++) {
-                VeiculoTemAcessorio novoVeiculoTemAcessorio = new VeiculoTemAcessorio();
-                novoVeiculoTemAcessorio.setVeiculo(veiculo);
-                novoVeiculoTemAcessorio.setAcessorio(acessorios.get(j));
-                //CREATE
-                veiculoTemAcessorioService.salvar(novoVeiculoTemAcessorio);
-            }
-        }
-    }
+//    private void sincronizarVeiculoTemAcessorio(VeiculoDTO dto, Veiculo veiculo) {
+//        List<Acessorio> acessorios = acessorioService.getAcessoriosByIds(dto.getAcessoriosIds());
+//        List<VeiculoTemAcessorio> veiculosTemAcessorio = veiculoTemAcessorioService.getVeiculoTemAcessorioById(veiculo.getId());
+//
+//        int i = 0;
+//        if (!veiculosTemAcessorio.isEmpty()) {
+//
+//            for (VeiculoTemAcessorio item : veiculosTemAcessorio) {
+//                if (i >= acessorios.size()) {
+//                    //DELETE
+//                    veiculoTemAcessorioService.excluir(item);
+//                } else {
+//                    item.setAcessorio(acessorios.get(i));
+//                    //UPDATE
+//                    veiculoTemAcessorioService.salvar(item);
+//                }
+//                i++;
+//            }
+//        }
+//
+//        if (i < acessorios.size()) {
+//            int j = 0;
+//            for (j = i; j < acessorios.size(); j++) {
+//                VeiculoTemAcessorio novoVeiculoTemAcessorio = new VeiculoTemAcessorio();
+//                novoVeiculoTemAcessorio.setVeiculo(veiculo);
+//                novoVeiculoTemAcessorio.setAcessorio(acessorios.get(j));
+//                //CREATE
+//                veiculoTemAcessorioService.salvar(novoVeiculoTemAcessorio);
+//            }
+//        }
+//    }
 }
 

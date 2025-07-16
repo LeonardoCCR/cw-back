@@ -44,16 +44,16 @@ public class VeiculoService {
         return Optional.empty();
     }
 
-    public void addAcessorios(VeiculoDTO veiculoDTO)
-    {
-        List<VeiculoTemAcessorio> veiculosEAcessorios = veiculoTemAcessorioRepository.findByVeiculoId(veiculoDTO.getId());
-
-        List<Long> acessoriosIds = veiculosEAcessorios.stream()
-                .map(item -> item.getAcessorio().getId())
-                .toList();
-
-        veiculoDTO.setAcessoriosIds(acessoriosIds);
-    }
+//    public void addAcessorios(VeiculoDTO veiculoDTO)
+//    {
+//        List<VeiculoTemAcessorio> veiculosEAcessorios = veiculoTemAcessorioRepository.findByVeiculoId(veiculoDTO.getId());
+//
+//        List<Long> acessoriosIds = veiculosEAcessorios.stream()
+//                .map(item -> item.getAcessorio().getId())
+//                .toList();
+//
+//        veiculoDTO.setAcessoriosIds(acessoriosIds);
+//    }
 
     public Veiculo salvar(Veiculo veiculo) {
         if (veiculo instanceof VeiculoNovo) {

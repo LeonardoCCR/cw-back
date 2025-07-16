@@ -1,4 +1,3 @@
-// Request DTO (para receber dados do cliente)
 package com.example.concesswebapi.api.dto;
 
 import lombok.Data;

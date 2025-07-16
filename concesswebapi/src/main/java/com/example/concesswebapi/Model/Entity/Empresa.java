@@ -10,6 +10,4 @@ import javax.persistence.*;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Entity
-public class Empresa extends PessoaJuridica {
-
-}
+public class Empresa extends PessoaJuridica { }

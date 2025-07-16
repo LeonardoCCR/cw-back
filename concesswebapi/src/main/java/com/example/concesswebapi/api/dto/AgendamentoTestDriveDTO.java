@@ -1,6 +1,6 @@
 package com.example.concesswebapi.api.dto;
 
-import com.example.concesswebapi.Model.Entity.*;
+import com.example.concesswebapi.Model.Entity.AgendamentoTestDrive;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,13 +9,12 @@ import org.modelmapper.ModelMapper;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class AgendamentoTestDriveDTO {
 
     private long id;
     private String dataAgendada;
     private String horaAgendada;
-    private String dataEntegue;
+    private String dataEntregue;
     private String horaEntregue;
 
     private String modeloVeiculo;

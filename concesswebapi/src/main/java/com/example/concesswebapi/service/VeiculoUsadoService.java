@@ -21,7 +21,6 @@ public class VeiculoUsadoService {
     private VeiculoUsadoRepository repository;
 
     public VeiculoUsadoService(VeiculoUsadoRepository repository, ModeloRepository modeloRepository) {
-
         this.repository = repository;
     }
 
@@ -31,6 +30,18 @@ public class VeiculoUsadoService {
 
     public Optional<VeiculoUsado> getVeiculoUsadoById(Long id) {
         return repository.findById(id);
+    }
+
+    public Optional<VeiculoUsado> getVeiculoDisponivelPorModelo(String nomeModelo) {
+        return getVeiculosUsados().stream()
+                .filter(veiculo ->
+                        !veiculo.isVendido() &&
+                                veiculo.getModeloVeiculo() != null &&
+                                veiculo.getModeloVeiculo().getModelo() != null &&
+                                veiculo.getModeloVeiculo().getModelo().getNome() != null &&
+                                veiculo.getModeloVeiculo().getModelo().getNome().equalsIgnoreCase(nomeModelo)
+                )
+                .findFirst();
     }
 
     @Transactional

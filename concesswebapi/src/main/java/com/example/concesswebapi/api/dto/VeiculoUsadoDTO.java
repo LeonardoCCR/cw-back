@@ -49,6 +49,9 @@ public class VeiculoUsadoDTO {
         dto.dataUltimaRevisao = veiculo.getDataUltimaRevisao();
         dto.sinistroAcidente = veiculo.getSinistroAcidente();
 
+        // LINHA ADICIONADA PARA CORRIGIR O ERRO
+        dto.contatoProprietario = veiculo.getContatoProprietario();
+
         return dto;
     }
 }

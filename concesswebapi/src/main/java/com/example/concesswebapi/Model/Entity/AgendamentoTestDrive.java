@@ -18,12 +18,12 @@ public class AgendamentoTestDrive {
 
     private String dataAgendada;
     private String horaAgendada;
-    private String dataEntegue;
+    private String dataEntregue;
     private String horaEntregue;
 
     @ManyToOne
     private Vendedor vendedor;
-    
+
     @ManyToOne
     private Cliente cliente;
 

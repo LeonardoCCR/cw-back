@@ -25,12 +25,15 @@ public class ConcessionariaListagemDTO {
     private String cep;
     private String uf;
 
+    private Long empresaId;
     private String razaoSocialEmpresa;
 
     public static ConcessionariaListagemDTO create(Concessionaria concessionaria) {
         ModelMapper modelMapper = new ModelMapper();
         ConcessionariaListagemDTO dto = modelMapper.map(concessionaria, ConcessionariaListagemDTO.class);
+
         if (concessionaria.getEmpresa() != null) {
+            dto.setEmpresaId(concessionaria.getEmpresa().getId());
             dto.setRazaoSocialEmpresa(concessionaria.getEmpresa().getRazaoSocial());
         }
         return dto;

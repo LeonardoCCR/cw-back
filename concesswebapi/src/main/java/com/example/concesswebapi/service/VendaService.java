@@ -1,8 +1,10 @@
 package com.example.concesswebapi.service;
 
+import com.example.concesswebapi.Model.Entity.ItensVenda;
 import com.example.concesswebapi.Model.Entity.Venda;
 import com.example.concesswebapi.Model.repository.VendaRepository;
 import com.example.concesswebapi.exception.RegraNegocioException;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,9 +16,11 @@ import java.util.Optional;
 public class VendaService {
 
     private final VendaRepository repository;
+    private final ItensVendaService itensVendaService;
 
-    public VendaService(VendaRepository repository) {
+    public VendaService(VendaRepository repository, @Lazy ItensVendaService itensVendaService) {
         this.repository = repository;
+        this.itensVendaService = itensVendaService;
     }
 
     public List<Venda> getVendas() {
@@ -46,14 +50,17 @@ public class VendaService {
         if (venda.getFormaPag() == null || venda.getFormaPag().trim().isEmpty()) {
             throw new RegraNegocioException("Forma de pagamento inválida.");
         }
-        if (venda.getDescontoTotal() == null || venda.getDescontoTotal() < 0) {
-            throw new RegraNegocioException("Desconto inválido.");
-        }
         if (venda.getCliente() == null || venda.getCliente().getId() == null) {
             throw new RegraNegocioException("Cliente inválido.");
         }
         if (venda.getVendedor() == null || venda.getVendedor().getId() == null) {
             throw new RegraNegocioException("Vendedor inválido.");
+        }
+        if (venda.getItens() == null || venda.getItens().isEmpty()) {
+            throw new RegraNegocioException("A venda precisa conter um veículo.");
+        }
+        for (ItensVenda item : venda.getItens()) {
+            itensVendaService.validar(item);
         }
     }
 }

@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class VeiculoListagemDTO {
 
+    private Long id;
     private String tipo;
     private String chassi;
     private String nomeModelo;
@@ -25,6 +26,8 @@ public class VeiculoListagemDTO {
     {
         ModelMapper modelMapper = new ModelMapper();
         VeiculoListagemDTO dto = modelMapper.map(veiculo, VeiculoListagemDTO.class);
+
+        dto.setId(veiculo.getId());
         dto.nomeModelo = veiculo.getModeloVeiculo().getModelo().getNome();
         dto.nomeFabricante = veiculo.getModeloVeiculo().getModelo().getFabricante().getNome();
         dto.nomeConcessioaria = veiculo.getConcessionaria().getRazaoSocial();

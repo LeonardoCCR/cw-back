@@ -3,16 +3,14 @@ package com.example.concesswebapi.api.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.util.List;
+import java.math.BigDecimal;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class VendaDTO {
+public class ItensVendaDTO {
     private Long id;
-    private String data;
-    private String formaPag;
-    private Long clienteId;
-    private Long vendedorId;
-    private List<ItensVendaDTO> itens;
+    private Long modeloVeiculoId;
+    private Long veiculoId;
+    private BigDecimal descontoParcial;
 }

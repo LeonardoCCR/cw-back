@@ -46,9 +46,10 @@ public class AdmEmpresaService {
     public void validar(AdmEmpresa admEmpresa){
 
         validadorPessoaFisica.validarCamposPessoaFisica(admEmpresa);
+    //por conta da ser uma relação com atributo inverso não podemos cadastrar de forma fácil apenas uma empresa
 
-        if(admEmpresa.getEmpresa() == null || admEmpresa.getEmpresa().getId() == null || admEmpresa.getEmpresa().getId() == 0) {
-            throw new RegraNegocioException("Campo empresa inválido");
-        }
+       // if(admEmpresa.getEmpresa() == null || admEmpresa.getEmpresa().getId() == null || admEmpresa.getEmpresa().getId() == 0) {
+       //     throw new RegraNegocioException("Campo empresa inválido");
+       // }
     }
 }

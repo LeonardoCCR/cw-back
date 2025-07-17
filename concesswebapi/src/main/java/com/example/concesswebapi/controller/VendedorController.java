@@ -105,8 +105,8 @@ public class VendedorController {
             vendedor.setConcessionaria(null);
         }
 
-        if(dto.getIdEmpresa() != null){
-            Optional<Empresa> empresa = empresaService.getEmpresaById(dto.getIdEmpresa());
+        if(dto.getEmpresaId() != null){
+            Optional<Empresa> empresa = empresaService.getEmpresaById(dto.getEmpresaId());
             empresa.ifPresent(vendedor::setEmpresa);
         } else {
             vendedor.setEmpresa(null);

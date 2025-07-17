@@ -20,7 +20,7 @@ public class ClienteService {
     private ClienteRepository repository;
 
     public ClienteService(ClienteRepository repository){
-        this.repository = repository; //acesso ao banco de dados
+        this.repository = repository;
     }
 
     public List<Cliente> getClientes(){
@@ -29,6 +29,12 @@ public class ClienteService {
 
     public Optional<Cliente> getClienteById(Long id){
         return repository.findById(id);
+    }
+
+    public Optional<Cliente> getClienteByCpf(String cpf) {
+        return getClientes().stream()
+                .filter(cliente -> cliente.getCpf().equals(cpf))
+                .findFirst();
     }
 
     @Transactional

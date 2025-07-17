@@ -31,6 +31,18 @@ public class VeiculoNovoService {
         return repository.findById(id);
     }
 
+    public Optional<VeiculoNovo> getVeiculoDisponivelPorModelo(String nomeModelo) {
+        return getVeiculosNovos().stream()
+                .filter(veiculo ->
+                        !veiculo.isVendido() &&
+                                veiculo.getModeloVeiculo() != null &&
+                                veiculo.getModeloVeiculo().getModelo() != null &&
+                                veiculo.getModeloVeiculo().getModelo().getNome() != null &&
+                                veiculo.getModeloVeiculo().getModelo().getNome().equalsIgnoreCase(nomeModelo)
+                )
+                .findFirst();
+    }
+
     @Transactional
     public VeiculoNovo salvar(VeiculoNovo veiculoNovo) {
         validadorVeiculo.validarCamposVeiculo(veiculoNovo);

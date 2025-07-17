@@ -1,3 +1,4 @@
+
 package com.example.concesswebapi.Model.Entity;
 
 import lombok.*;

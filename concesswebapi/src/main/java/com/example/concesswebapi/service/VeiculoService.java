@@ -1,8 +1,9 @@
 package com.example.concesswebapi.service;
 
-import com.example.concesswebapi.Model.Entity.*;
+import com.example.concesswebapi.Model.Entity.Veiculo;
+import com.example.concesswebapi.Model.Entity.VeiculoNovo;
+import com.example.concesswebapi.Model.Entity.VeiculoUsado;
 import com.example.concesswebapi.Model.repository.VeiculoTemAcessorioRepository;
-import com.example.concesswebapi.api.dto.VeiculoDTO;
 import com.example.concesswebapi.exception.RegraNegocioException;
 import org.springframework.stereotype.Service;
 
@@ -44,16 +45,19 @@ public class VeiculoService {
         return Optional.empty();
     }
 
-//    public void addAcessorios(VeiculoDTO veiculoDTO)
-//    {
-//        List<VeiculoTemAcessorio> veiculosEAcessorios = veiculoTemAcessorioRepository.findByVeiculoId(veiculoDTO.getId());
-//
-//        List<Long> acessoriosIds = veiculosEAcessorios.stream()
-//                .map(item -> item.getAcessorio().getId())
-//                .toList();
-//
-//        veiculoDTO.setAcessoriosIds(acessoriosIds);
-//    }
+    public Optional<Veiculo> getVeiculoDisponivelPorModelo(String nomeModelo) {
+        Optional<VeiculoNovo> veiculoNovo = veiculoNovoService.getVeiculoDisponivelPorModelo(nomeModelo);
+        if (veiculoNovo.isPresent()) {
+            return Optional.of(veiculoNovo.get());
+        }
+
+        Optional<VeiculoUsado> veiculoUsado = veiculoUsadoService.getVeiculoDisponivelPorModelo(nomeModelo);
+        if (veiculoUsado.isPresent()) {
+            return Optional.of(veiculoUsado.get());
+        }
+
+        return Optional.empty();
+    }
 
     public Veiculo salvar(Veiculo veiculo) {
         if (veiculo instanceof VeiculoNovo) {
@@ -68,7 +72,7 @@ public class VeiculoService {
         if (veiculo instanceof VeiculoNovo) {
             veiculoNovoService.excluir((VeiculoNovo) veiculo);
         } else if (veiculo instanceof VeiculoUsado) {
-           veiculoUsadoService.excluir((VeiculoUsado) veiculo);
+            veiculoUsadoService.excluir((VeiculoUsado) veiculo);
         }
     }
 }

@@ -1,7 +1,10 @@
 package com.example.concesswebapi.service;
 
 import com.example.concesswebapi.Model.Entity.Acessorio;
+import com.example.concesswebapi.Model.Entity.Veiculo;
+import com.example.concesswebapi.Model.Entity.VeiculoTemAcessorio;
 import com.example.concesswebapi.Model.repository.AcessorioRepository;
+import com.example.concesswebapi.api.dto.VeiculoDTO;
 import com.example.concesswebapi.exception.RegraNegocioException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,8 +18,11 @@ public class AcessorioService {
 
     private AcessorioRepository repository;
 
-    public AcessorioService(AcessorioRepository repository) {
+    private final VeiculoTemAcessorioService veiculoTemAcessorioService;
+
+    public AcessorioService(AcessorioRepository repository, VeiculoTemAcessorioService veiculoTemAcessorioService) {
         this.repository = repository;
+        this.veiculoTemAcessorioService = veiculoTemAcessorioService;
     }
 
     public List<Acessorio> getAcessorios() {
@@ -28,9 +34,9 @@ public class AcessorioService {
     }
 
     public List<Acessorio> getAcessoriosByIds(List<Long> ids) {
-//        if (ids == null) {
-//            throw new RegraNegocioException("Pelo menos um acessório é obrigatório");
-//        }
+        if (ids.isEmpty()) {
+            throw new RegraNegocioException("Pelo menos um acessório é obrigatório");
+        }
         return repository.findAllById(ids);
     }
 
@@ -53,6 +59,38 @@ public class AcessorioService {
 
         if (verificaNumero(acessorio.getDescricao())) {
             throw new RegraNegocioException("O valor não pode ser um número");
+        }
+    }
+
+    public void sincronizarVeiculoTemAcessorio(VeiculoDTO dto, Veiculo veiculo) {
+        List<Acessorio> acessorios = this.getAcessoriosByIds(dto.getAcessoriosIds());
+        List<VeiculoTemAcessorio> veiculosTemAcessorio = veiculoTemAcessorioService.getVeiculoTemAcessorioById(veiculo.getId());
+
+        int i = 0;
+        if (!veiculosTemAcessorio.isEmpty()) {
+
+            for (VeiculoTemAcessorio item : veiculosTemAcessorio) {
+                if (i >= acessorios.size()) {
+                    //DELETE
+                    veiculoTemAcessorioService.excluir(item);
+                } else {
+                    item.setAcessorio(acessorios.get(i));
+                    //UPDATE
+                    veiculoTemAcessorioService.salvar(item);
+                }
+                i++;
+            }
+        }
+
+        if (i < acessorios.size()) {
+            int j = 0;
+            for (j = i; j < acessorios.size(); j++) {
+                VeiculoTemAcessorio novoVeiculoTemAcessorio = new VeiculoTemAcessorio();
+                novoVeiculoTemAcessorio.setVeiculo(veiculo);
+                novoVeiculoTemAcessorio.setAcessorio(acessorios.get(j));
+                //CREATE
+                veiculoTemAcessorioService.salvar(novoVeiculoTemAcessorio);
+            }
         }
     }
 

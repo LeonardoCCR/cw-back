@@ -1,9 +1,8 @@
 package com.example.concesswebapi.service;
 
-import com.example.concesswebapi.Model.Entity.Veiculo;
-import com.example.concesswebapi.Model.Entity.VeiculoNovo;
-import com.example.concesswebapi.Model.Entity.VeiculoUsado;
+import com.example.concesswebapi.Model.Entity.*;
 import com.example.concesswebapi.Model.repository.VeiculoTemAcessorioRepository;
+import com.example.concesswebapi.api.dto.VeiculoDTO;
 import com.example.concesswebapi.exception.RegraNegocioException;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +21,40 @@ public class VeiculoService {
         this.veiculoNovoService = novoService;
         this.veiculoUsadoService = usadoService;
         this.veiculoTemAcessorioRepository = vtRepository;
+    }
+
+        public void addAcessorios(VeiculoDTO veiculoDTO, Long idVeiculo)
+    {
+        List<VeiculoTemAcessorio> veiculosEAcessorios = veiculoTemAcessorioRepository.findByVeiculoId(idVeiculo);
+
+        List<Long> acessoriosIds = veiculosEAcessorios.stream()
+                .map(item -> item.getAcessorio().getId())
+                .toList();
+
+        veiculoDTO.setAcessoriosIds(acessoriosIds);
+    }
+
+    public void verificaInconsistenciasDados(Long id, VeiculoDTO dto, Veiculo veiculo) {
+
+        if (veiculo instanceof VeiculoUsado) {
+            if (dto.getVeiculoUsado() == null) {
+                throw new RegraNegocioException("Um veículo usado deve conter atributos de veículo usado, e não de veículo novo");
+            }
+        } else if (veiculo instanceof VeiculoNovo) {
+            if (dto.getVeiculoUsado() != null) {
+                throw new RegraNegocioException("Um veículo novo deve conter atributos de veículo novo, e não de veículo usado");
+            }
+        }
+
+        if (veiculo.getModeloVeiculo().getTipoVeiculo() instanceof Carro) {
+            if (dto.getModeloVeiculo().getTipoVeiculo().getCarro() == null) {
+                throw new RegraNegocioException("Um carro deve conter atributos de carro, e não de moto");
+            }
+        } else if (veiculo.getModeloVeiculo().getTipoVeiculo() instanceof Moto) {
+            if (dto.getModeloVeiculo().getTipoVeiculo().getMoto() == null) {
+                throw new RegraNegocioException("Uma moto deve conter atributos de moto, e não de carro");
+            }
+        }
     }
 
     public List<Veiculo> listarTodos() {

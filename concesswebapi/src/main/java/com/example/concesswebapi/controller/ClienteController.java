@@ -90,8 +90,8 @@ public class ClienteController {
 
         cliente.setNome(dto.getNome());
         cliente.setCpf(dto.getCpf());
-        cliente.setLogin(dto.getLogin());
-        cliente.setSenha(dto.getSenha());
+        //cliente.setLogin(dto.getLogin());
+        //cliente.setSenha(dto.getSenha());
 
         cliente.setDataNascimento(dto.getDataNascimento());
 

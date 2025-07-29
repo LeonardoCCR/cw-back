@@ -45,8 +45,8 @@ public class AdmSuporteDTO {
 
         dto.setNome(admSuporte.getNome());
         dto.setCpf(admSuporte.getCpf());
-        dto.setLogin(admSuporte.getLogin());
-        dto.setSenha(admSuporte.getSenha());
+//        dto.setLogin(admSuporte.getLogin());
+//        dto.setSenha(admSuporte.getSenha());
 
         return dto;
     }

@@ -28,13 +28,13 @@ public class ValidadorPessoaFisica {
             throw new RegraNegocioException("Campo CPF inválido");
         }
 
-        if( verificaNullVazio(pessoa.getLogin())){
-            throw new RegraNegocioException("Campo Login inválido");
-        }
+//        if( verificaNullVazio(pessoa.getLogin())){
+//            throw new RegraNegocioException("Campo Login inválido");
+//        }
 
-        if( verificaNullVazio(pessoa.getSenha())){
-            throw new RegraNegocioException("Campo Senha inválido");
-        }
+//        if( verificaNullVazio(pessoa.getSenha())){
+//            throw new RegraNegocioException("Campo Senha inválido");
+//        }
     }
 
     public boolean verificaNumero(String campo)

@@ -96,8 +96,8 @@ public class AdmEmpresaController {
 
         admEmpresa.setNome(dto.getNome());
         admEmpresa.setCpf(dto.getCpf());
-        admEmpresa.setLogin(dto.getLogin());
-        admEmpresa.setSenha(dto.getSenha());
+        //admEmpresa.setLogin(dto.getLogin());
+        //admEmpresa.setSenha(dto.getSenha());
 
         if(dto.getEmpresaId() != null){
             Optional<Empresa> empresa = empresaService.getEmpresaById(dto.getEmpresaId());

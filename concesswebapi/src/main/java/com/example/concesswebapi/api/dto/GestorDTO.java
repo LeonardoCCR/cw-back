@@ -36,8 +36,8 @@ public class GestorDTO {
         dto.setId(gestor.getId());
         dto.setNome(gestor.getNome());
         dto.setCpf(gestor.getCpf());
-        dto.setLogin(gestor.getLogin());
-        dto.setSenha(gestor.getSenha());
+        //dto.setLogin(gestor.getLogin());
+        //dto.setSenha(gestor.getSenha());
 
         dto.setTelefone1(gestor.getTelefone1());
         dto.setTelefone2(gestor.getTelefone2());

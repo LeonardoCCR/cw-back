@@ -95,8 +95,8 @@ public class GestorController {
 
         gestor.setNome(dto.getNome());
         gestor.setCpf(dto.getCpf());
-        gestor.setLogin(dto.getLogin());
-        gestor.setSenha(dto.getSenha());
+        //gestor.setLogin(dto.getLogin());
+        //gestor.setSenha(dto.getSenha());
 
         gestor.setCargo(dto.getCargo());
 

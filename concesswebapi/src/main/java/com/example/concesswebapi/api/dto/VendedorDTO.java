@@ -28,7 +28,7 @@ public class VendedorDTO {
     private String cargo;
     private Long idConcessionaria;
     private String concessionaria;
-    private Long idEmpresa; // Campo ID Empresa adicionado aqui
+    private Long empresaId; // Campo ID Empresa adicionado aqui
 
     public static VendedorDTO create(Vendedor vendedor){
         VendedorDTO dto = new VendedorDTO();
@@ -55,8 +55,8 @@ public class VendedorDTO {
             dto.setConcessionaria(vendedor.getConcessionaria().getRazaoSocial());
         }
 
-        if (vendedor.getEmpresa() != null) {
-            dto.setIdEmpresa(vendedor.getEmpresa().getId());
+        if (vendedor.getConcessionaria() != null) {
+            dto.setEmpresaId(vendedor.getConcessionaria().getEmpresa().getId());
         }
         return dto;
     }

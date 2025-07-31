@@ -47,7 +47,7 @@ public class GestorConcessionariaService {
         }
 
         if( gestorConcessionaria.getConcessionaria() == null || gestorConcessionaria.getConcessionaria().getId() == null || gestorConcessionaria.getConcessionaria().getId() == 0){
-            throw new RegraNegocioException("Campo gestor inválido");
+            throw new RegraNegocioException("Campo concessionaria inválido");
         }
     }
 

@@ -52,6 +52,7 @@ public class GestorDTO {
         dto.setUf(gestor.getUf());
 
         dto.setCargo(gestor.getCargo());
+
         if (gestor.getEmpresa() != null) {
             dto.setIdEmpresa(gestor.getEmpresa().getId());
         }

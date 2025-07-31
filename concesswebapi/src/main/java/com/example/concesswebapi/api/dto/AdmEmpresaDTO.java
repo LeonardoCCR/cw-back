@@ -29,14 +29,14 @@ public class AdmEmpresaDTO {
     private String cep;
     private String uf;
     private String razaoSocialEmpresa;
-    private Long idEmpresa;
+    private Long empresaId;
 
     public static AdmEmpresaDTO create(AdmEmpresa admEmpresa){
 
         ModelMapper modelMapper = new ModelMapper();
         AdmEmpresaDTO dto = modelMapper.map(admEmpresa , AdmEmpresaDTO.class);
         dto.razaoSocialEmpresa = admEmpresa.getEmpresa().getRazaoSocial();
-        dto.idEmpresa = admEmpresa.getEmpresa().getId();
+        dto.empresaId = admEmpresa.getEmpresa().getId();
         return dto;
     }
 }

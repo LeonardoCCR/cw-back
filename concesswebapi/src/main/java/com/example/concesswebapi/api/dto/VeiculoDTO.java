@@ -24,7 +24,7 @@ public class VeiculoDTO {
     private String condicao;
     private VeiculoUsadoDTO veiculoUsado;
     private ModeloVeiculoDTO modeloVeiculo;
-    //private List<Long> acessoriosIds;
+    private List<Long> acessoriosIds;
 
     public Veiculo converter(VeiculoDTO dto) {
 

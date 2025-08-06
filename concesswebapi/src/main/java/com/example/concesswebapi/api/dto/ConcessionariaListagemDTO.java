@@ -1,10 +1,13 @@
 package com.example.concesswebapi.api.dto;
 
+import com.example.concesswebapi.Model.Entity.AdmEmpresa;
 import com.example.concesswebapi.Model.Entity.Concessionaria;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.modelmapper.ModelMapper;
+
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -27,6 +30,8 @@ public class ConcessionariaListagemDTO {
 
     private Long empresaId;
     private String razaoSocialEmpresa;
+
+    List<AdmEmpresa> admsEmpresaIds;
 
     public static ConcessionariaListagemDTO create(Concessionaria concessionaria) {
         ModelMapper modelMapper = new ModelMapper();

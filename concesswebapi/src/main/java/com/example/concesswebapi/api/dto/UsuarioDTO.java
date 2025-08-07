@@ -9,4 +9,5 @@ public class UsuarioDTO {
 
     private String login;
     private String senha;
+    private boolean isAdmin;
 }

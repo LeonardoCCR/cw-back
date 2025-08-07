@@ -36,8 +36,8 @@ public class VendedorDTO {
         dto.setId(vendedor.getId());
         dto.setNome(vendedor.getNome());
         dto.setCpf(vendedor.getCpf());
-        dto.setLogin(vendedor.getLogin());
-        dto.setSenha(vendedor.getSenha());
+        //dto.setLogin(vendedor.getLogin());
+        //dto.setSenha(vendedor.getSenha());
         dto.setTelefone1(vendedor.getTelefone1());
         dto.setTelefone2(vendedor.getTelefone2());
         dto.setEmail1(vendedor.getEmail1());

@@ -92,8 +92,8 @@ public class AdmSuporteController {
 
         admSuporte.setNome(dto.getNome());
         admSuporte.setCpf(dto.getCpf());
-        admSuporte.setLogin(dto.getLogin());
-        admSuporte.setSenha(dto.getSenha());
+        //admSuporte.setLogin(dto.getLogin());
+        //admSuporte.setSenha(dto.getSenha());
 
         return admSuporte;
     }

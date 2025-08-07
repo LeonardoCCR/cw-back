@@ -94,8 +94,8 @@ public class VendedorController {
 
         vendedor.setNome(dto.getNome());
         vendedor.setCpf(dto.getCpf());
-        vendedor.setLogin(dto.getLogin());
-        vendedor.setSenha(dto.getSenha());
+        //vendedor.setLogin(dto.getLogin());
+        //vendedor.setSenha(dto.getSenha());
         vendedor.setCargo(dto.getCargo());
 
         if(dto.getIdConcessionaria() != null){

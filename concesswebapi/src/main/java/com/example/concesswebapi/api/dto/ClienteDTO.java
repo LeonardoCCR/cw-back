@@ -35,8 +35,8 @@ public class ClienteDTO {
         dto.setId(cliente.getId());
         dto.setNome(cliente.getNome());
         dto.setCpf(cliente.getCpf());
-        dto.setLogin(cliente.getLogin());
-        dto.setSenha(cliente.getSenha());
+        //dto.setLogin(cliente.getLogin());
+        //dto.setSenha(cliente.getSenha());
         dto.setDataNascimento(cliente.getDataNascimento());
 
         dto.setTelefone1(cliente.getTelefone1());

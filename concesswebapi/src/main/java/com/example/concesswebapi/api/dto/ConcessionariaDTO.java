@@ -1,8 +1,13 @@
 package com.example.concesswebapi.api.dto;
 
+import com.example.concesswebapi.Model.Entity.AdmEmpresa;
+import com.example.concesswebapi.Model.Entity.Concessionaria;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
+
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -24,4 +29,15 @@ public class ConcessionariaDTO {
     private String uf;
 
     private Long empresaId;
+
+
+    public static ConcessionariaDTO create(Concessionaria concessionaria) {
+        //create parcial, pois falta o admsEmpresaIds
+
+        ModelMapper modelMapper = new ModelMapper();
+        ConcessionariaDTO dto = modelMapper.map(concessionaria, ConcessionariaDTO.class);
+        dto.empresaId = concessionaria.getEmpresa().getId();
+        return dto;
+    }
+
 }

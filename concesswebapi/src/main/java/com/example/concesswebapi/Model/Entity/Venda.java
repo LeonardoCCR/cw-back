@@ -3,8 +3,9 @@ package com.example.concesswebapi.Model.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -28,5 +29,7 @@ public class Venda {
     @ManyToOne
     @JoinColumn(name = "vendedor_id")
     private Vendedor vendedor;
-}
 
+    @OneToMany(mappedBy = "venda", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ItensVenda> itensVenda = new ArrayList<>();
+}

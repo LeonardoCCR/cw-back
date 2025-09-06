@@ -19,7 +19,7 @@ public class GestorConcessionariaService {
         this.repository = repository;
     }
 
-    public List<GestorConcessionaria> getTodosGestoresConcessionarias() {
+    public List<GestorConcessionaria> getGestoresConcessionarias() {
         return repository.findAll();
     }
 

@@ -18,6 +18,7 @@ public class VendaListagemDTO {
     private String nomeCliente;
     private String cpfCliente;
     private String nomeVendedor;
+    private String cpfVendedor;
 
     public static VendaListagemDTO create(Venda venda) {
         VendaListagemDTO dto = new VendaListagemDTO();
@@ -35,6 +36,7 @@ public class VendaListagemDTO {
 
         if (venda.getVendedor() != null) {
             dto.setNomeVendedor(venda.getVendedor().getNome());
+            dto.setCpfVendedor(venda.getVendedor().getCpf());
         }
 
         return dto;

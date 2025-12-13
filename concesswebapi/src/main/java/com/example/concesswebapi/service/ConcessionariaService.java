@@ -1,13 +1,10 @@
-
 package com.example.concesswebapi.service;
 
 import com.example.concesswebapi.Model.Entity.*;
 import com.example.concesswebapi.Model.repository.ConcessionariaRepository;
 import com.example.concesswebapi.api.dto.AdmEmpresaDTO;
-import com.example.concesswebapi.api.dto.ConcessionariaDTO;
 import com.example.concesswebapi.exception.RegraNegocioException;
 import com.example.concesswebapi.util.ValidadorPessoaJuridica;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,14 +15,16 @@ import java.util.Optional;
 @Service
 public class ConcessionariaService {
 
-    @Autowired
-    ValidadorPessoaJuridica validadorPessoaJuridica;
+    private final ValidadorPessoaJuridica validadorPessoaJuridica;
     private final ConcessionariaRepository repository;
     private final AdmEmpresaGerenciaConcessionariaService admEmpresaGerenciaConcessionariaService;
 
-    public ConcessionariaService(ConcessionariaRepository repository, AdmEmpresaGerenciaConcessionariaService admEmpresaGerenciaConcessionariaService) {
+    public ConcessionariaService(ConcessionariaRepository repository,
+                                 AdmEmpresaGerenciaConcessionariaService admEmpresaGerenciaConcessionariaService,
+                                 ValidadorPessoaJuridica validadorPessoaJuridica) {
         this.repository = repository;
         this.admEmpresaGerenciaConcessionariaService = admEmpresaGerenciaConcessionariaService;
+        this.validadorPessoaJuridica = validadorPessoaJuridica;
     }
 
     public List<Concessionaria> getConcessionaria() {
@@ -66,7 +65,7 @@ public class ConcessionariaService {
 
                 if (i >= concessionarias.size()) {
                     admEmpresaGerenciaConcessionariaService.excluir(item);
-                }else{
+                } else {
                     item.setConcessionaria(concessionarias.get(i));
                     admEmpresaGerenciaConcessionariaService.salvar(item);
                 }
@@ -75,18 +74,16 @@ public class ConcessionariaService {
             }
         }
 
-        if (i<concessionarias.size()){
+        if (i < concessionarias.size()) {
             int j = 0;
-            for(j = i ; j < concessionarias.size(); j++){
+            for (j = i; j < concessionarias.size(); j++) {
                 AdmEmpresaGerenciaConcessionaria novoAdmEmpresaGerenciaConcessionaria = new AdmEmpresaGerenciaConcessionaria();
                 novoAdmEmpresaGerenciaConcessionaria.setAdmEmpresa(admEmpresa);
                 novoAdmEmpresaGerenciaConcessionaria.setConcessionaria(concessionarias.get(j));
                 admEmpresaGerenciaConcessionariaService.salvar(novoAdmEmpresaGerenciaConcessionaria);
             }
         }
-
     }
-
 
     public void validar(Concessionaria concessionaria) {
         validadorPessoaJuridica.validarCamposPessoaJuridica(concessionaria);

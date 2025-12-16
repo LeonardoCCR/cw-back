@@ -40,7 +40,7 @@ public class GestorConcessionariaService {
     }
 
 
-    private void validar(GestorConcessionaria gestorConcessionaria){
+    public void validar(GestorConcessionaria gestorConcessionaria){
 
         if( gestorConcessionaria.getGestor() == null || gestorConcessionaria.getGestor().getId() == null || gestorConcessionaria.getGestor().getId() == 0){
             throw new RegraNegocioException("Campo gestor inválido ");

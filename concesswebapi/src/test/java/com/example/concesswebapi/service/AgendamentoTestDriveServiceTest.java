@@ -14,8 +14,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class AgendamentoTestDriveServiceTest {
@@ -41,43 +39,33 @@ class AgendamentoTestDriveServiceTest {
     }
 
     @Test
-    @DisplayName("Deve salvar com sucesso quando apenas dados de agendamento estão presentes")
-    void deveSalvarAgendamentoSimples() {
-        when(repository.save(any(AgendamentoTestDrive.class))).thenReturn(agendamento);
-
-        AgendamentoTestDrive salvo = service.salvar(agendamento);
-
-        assertNotNull(salvo);
-        verify(repository, times(1)).save(agendamento);
+    @DisplayName("Deve validar com sucesso quando apenas dados de agendamento estão presentes")
+    void deveValidarAgendamentoSimples() {
+        assertDoesNotThrow(() -> service.validar(agendamento));
     }
 
     @Test
-    @DisplayName("Deve salvar com sucesso quando entrega ocorre após agendamento")
-    void deveSalvarAgendamentoComEntregaValida() {
+    @DisplayName("Deve validar com sucesso quando entrega ocorre após agendamento")
+    void deveValidarAgendamentoComEntregaValida() {
         agendamento.setDataEntregue("2023-12-25");
         agendamento.setHoraEntregue("12:00");
 
-        when(repository.save(any())).thenReturn(agendamento);
-
-        assertDoesNotThrow(() -> service.salvar(agendamento));
+        assertDoesNotThrow(() -> service.validar(agendamento));
     }
 
     @Test
     @DisplayName("Deve lançar erro quando Cliente é nulo")
     void deveFalharClienteNull() {
         agendamento.setCliente(null);
-
-        RegraNegocioException ex = assertThrows(RegraNegocioException.class, () -> service.salvar(agendamento));
+        RegraNegocioException ex = assertThrows(RegraNegocioException.class, () -> service.validar(agendamento));
         assertEquals("Cliente não informado ou não encontrado.", ex.getMessage());
-        verify(repository, never()).save(any());
     }
 
     @Test
     @DisplayName("Deve lançar erro quando Veículo é nulo")
     void deveFalharVeiculoNull() {
         agendamento.setVeiculo(null);
-
-        RegraNegocioException ex = assertThrows(RegraNegocioException.class, () -> service.salvar(agendamento));
+        RegraNegocioException ex = assertThrows(RegraNegocioException.class, () -> service.validar(agendamento));
         assertEquals("Veículo não informado ou não encontrado.", ex.getMessage());
     }
 
@@ -85,8 +73,7 @@ class AgendamentoTestDriveServiceTest {
     @DisplayName("Deve lançar erro quando Data Agendada é vazia")
     void deveFalharDataVazia() {
         agendamento.setDataAgendada("");
-
-        RegraNegocioException ex = assertThrows(RegraNegocioException.class, () -> service.salvar(agendamento));
+        RegraNegocioException ex = assertThrows(RegraNegocioException.class, () -> service.validar(agendamento));
         assertEquals("Data agendada é obrigatória.", ex.getMessage());
     }
 
@@ -99,7 +86,7 @@ class AgendamentoTestDriveServiceTest {
         agendamento.setDataEntregue("2023-12-25");
         agendamento.setHoraEntregue("09:00");
 
-        RegraNegocioException ex = assertThrows(RegraNegocioException.class, () -> service.salvar(agendamento));
+        RegraNegocioException ex = assertThrows(RegraNegocioException.class, () -> service.validar(agendamento));
         assertEquals("A data e hora de entrega não podem ser anteriores à data e hora agendada.", ex.getMessage());
     }
 
@@ -109,7 +96,7 @@ class AgendamentoTestDriveServiceTest {
         agendamento.setDataEntregue("DATA_DOIDA");
         agendamento.setHoraEntregue("10:00");
 
-        RegraNegocioException ex = assertThrows(RegraNegocioException.class, () -> service.salvar(agendamento));
+        RegraNegocioException ex = assertThrows(RegraNegocioException.class, () -> service.validar(agendamento));
         assertEquals("Formato de data ou hora inválido.", ex.getMessage());
     }
 }

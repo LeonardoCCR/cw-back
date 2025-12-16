@@ -14,9 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -97,11 +95,9 @@ class VeiculoUsadoServiceTest {
         assertEquals("Sinistro de acidente inválido", ex.getMessage());
     }
 
-
     @Test
     @DisplayName("Deve encontrar veículo disponível pelo nome do modelo")
     void deveEncontrarVeiculoPorModelo() {
-
         VeiculoUsado v1 = new VeiculoUsado();
         v1.setVendido(false);
 

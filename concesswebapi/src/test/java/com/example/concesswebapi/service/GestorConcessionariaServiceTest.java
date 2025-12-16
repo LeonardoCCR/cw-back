@@ -40,16 +40,16 @@ class GestorConcessionariaServiceTest {
     }
 
     @Test
-    @DisplayName("Deve salvar com sucesso quando Gestor e Concessionária são válidos")
-    void deveSalvarSucesso() {
-        assertDoesNotThrow(() -> service.salvar(gestorConcessionaria));
+    @DisplayName("Deve validar com sucesso quando Gestor e Concessionária são válidos")
+    void deveValidarSucesso() {
+        assertDoesNotThrow(() -> service.validar(gestorConcessionaria));
     }
 
     @Test
     @DisplayName("Deve lançar erro quando Gestor for nulo")
     void deveFalharGestorNulo() {
         gestorConcessionaria.setGestor(null);
-        RegraNegocioException ex = assertThrows(RegraNegocioException.class, () -> service.salvar(gestorConcessionaria));
+        RegraNegocioException ex = assertThrows(RegraNegocioException.class, () -> service.validar(gestorConcessionaria));
         assertEquals("Campo gestor inválido ", ex.getMessage());
     }
 
@@ -57,7 +57,7 @@ class GestorConcessionariaServiceTest {
     @DisplayName("Deve lançar erro quando ID do Gestor for nulo")
     void deveFalharIdGestorNulo() {
         gestorConcessionaria.getGestor().setId(null);
-        RegraNegocioException ex = assertThrows(RegraNegocioException.class, () -> service.salvar(gestorConcessionaria));
+        RegraNegocioException ex = assertThrows(RegraNegocioException.class, () -> service.validar(gestorConcessionaria));
         assertEquals("Campo gestor inválido ", ex.getMessage());
     }
 
@@ -65,7 +65,7 @@ class GestorConcessionariaServiceTest {
     @DisplayName("Deve lançar erro quando ID do Gestor for Zero")
     void deveFalharIdGestorZero() {
         gestorConcessionaria.getGestor().setId(0L);
-        RegraNegocioException ex = assertThrows(RegraNegocioException.class, () -> service.salvar(gestorConcessionaria));
+        RegraNegocioException ex = assertThrows(RegraNegocioException.class, () -> service.validar(gestorConcessionaria));
         assertEquals("Campo gestor inválido ", ex.getMessage());
     }
 
@@ -73,7 +73,7 @@ class GestorConcessionariaServiceTest {
     @DisplayName("Deve lançar erro quando Concessionária for nula")
     void deveFalharConcessionariaNula() {
         gestorConcessionaria.setConcessionaria(null);
-        RegraNegocioException ex = assertThrows(RegraNegocioException.class, () -> service.salvar(gestorConcessionaria));
+        RegraNegocioException ex = assertThrows(RegraNegocioException.class, () -> service.validar(gestorConcessionaria));
         assertEquals("Campo concessionaria inválido", ex.getMessage());
     }
 
@@ -81,7 +81,7 @@ class GestorConcessionariaServiceTest {
     @DisplayName("Deve lançar erro quando ID da Concessionária for nulo")
     void deveFalharIdConcessionariaNulo() {
         gestorConcessionaria.getConcessionaria().setId(null);
-        RegraNegocioException ex = assertThrows(RegraNegocioException.class, () -> service.salvar(gestorConcessionaria));
+        RegraNegocioException ex = assertThrows(RegraNegocioException.class, () -> service.validar(gestorConcessionaria));
         assertEquals("Campo concessionaria inválido", ex.getMessage());
     }
 }

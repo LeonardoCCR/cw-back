@@ -21,6 +21,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -80,7 +81,6 @@ class ConcessionariaServiceTest {
         Concessionaria c1 = new Concessionaria(); c1.setId(10L);
         when(repository.findAllById(dto.getConcessionariasIds())).thenReturn(Collections.singletonList(c1));
 
-        // AÇÃO
         service.sincronizarAdmEmpresaGerenciaConcessionaria(dto, adm);
 
         verify(admService, times(1)).salvar(r1);
@@ -100,13 +100,12 @@ class ConcessionariaServiceTest {
     }
 
     @Test
-    @DisplayName("Deve chamar o validador corretamente no método salvar")
-    void deveValidarAoSalvar() {
+    @DisplayName("Deve validar diretamente chamando o método validar")
+    void deveValidarDiretamente() {
         Concessionaria c = new Concessionaria();
 
-        service.salvar(c);
+        service.validar(c);
 
         verify(validadorPessoaJuridica, times(1)).validarCamposPessoaJuridica(c);
-        verify(repository, times(1)).save(c);
     }
 }

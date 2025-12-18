@@ -43,7 +43,7 @@ public class AgendamentoTestDriveService {
         repository.delete(agendamento);
     }
 
-    private void validar(AgendamentoTestDrive agendamento) {
+    public void validar(AgendamentoTestDrive agendamento) {
         if (agendamento.getCliente() == null) {
             throw new RegraNegocioException("Cliente não informado ou não encontrado.");
         }

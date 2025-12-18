@@ -12,7 +12,4 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 public class Empresa extends PessoaJuridica {
-
-    @OneToMany
-    private List<AdmEmpresa> admsEmpresa;
 }

@@ -46,7 +46,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/auth")
-    public TokenDTO autenticar(@RequestBody UsuarioDTO credenciais) {
+    public ResponseEntity<String> autenticar(@RequestBody UsuarioDTO credenciais) {
         try {
             Usuario usuario = Usuario.builder()
                     .login(credenciais.getLogin())
@@ -56,14 +56,16 @@ public class UsuarioController {
             UserDetails usuarioAutenticado = usuarioService.autenticar(usuario);
 
             // Extrair as roles (já estão em array/collection)
-            List<String> roles = usuarioAutenticado.getAuthorities()
-                    .stream()
-                    .map(GrantedAuthority::getAuthority)
-                    .collect(Collectors.toList());
+//            List<String> roles = usuarioAutenticado.getAuthorities()
+//                    .stream()
+//                    .map(GrantedAuthority::getAuthority)
+//                    .collect(Collectors.toList());
+//
+//            String token = jwtService.gerarToken(usuarioAutenticado); // use o UserDetails aqui!
 
-            String token = jwtService.gerarToken(usuarioAutenticado); // use o UserDetails aqui!
-
-            return new TokenDTO(usuario.getLogin(), token, roles); // envia a lista pro frontend
+            return ResponseEntity.ok().build();
+//
+//            return new TokenDTO(usuario.getLogin(), token, roles); // envia a lista pro frontend
         } catch (UsernameNotFoundException | SenhaInvalidaException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }

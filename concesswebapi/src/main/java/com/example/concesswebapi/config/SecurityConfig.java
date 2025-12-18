@@ -5,6 +5,8 @@ import com.example.concesswebapi.security.JwtService;
 import com.example.concesswebapi.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,6 +25,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.util.List;
 
 @EnableWebSecurity
+@Configuration
+@Profile("!test")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -110,12 +114,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers(
-                "/v2/api-docs",
-                "/configuration/ui",
-                "/swagger-resources/**",
-                "/configuration/security",
-                "/swagger-ui.html",
-                "/webjars/**");
+//        web.ignoring().antMatchers(
+//                "/v2/api-docs",
+//                "/configuration/ui",
+//                "/swagger-resources/**",
+//                "/configuration/security",
+//                "/swagger-ui.html",
+//                "/webjars/**");
+
     }
 }

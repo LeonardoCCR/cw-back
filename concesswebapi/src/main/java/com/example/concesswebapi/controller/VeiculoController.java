@@ -147,14 +147,16 @@ public class VeiculoController {
     }
 
     private void converteConcessionaria(Long idConcessionaria, Veiculo veiculo) {
-        if (idConcessionaria != null) {
-            Concessionaria concessionaria = concessionariaService.getConcessionariaById(idConcessionaria)
-                    .orElseThrow(() -> new RegraNegocioException("Concessionária não encontrada"));
+//        if (idConcessionaria != null) {
+//            Concessionaria concessionaria = concessionariaService.getConcessionariaById(idConcessionaria)
+//                    .orElseThrow(() -> new RegraNegocioException("Concessionária não encontrada"));
+//
+//            veiculo.setConcessionaria(concessionaria);
+//        } else {
+//            throw new RegraNegocioException("Concessionária inválida");
+//        }
+        veiculo.setConcessionaria(null);
 
-            veiculo.setConcessionaria(concessionaria);
-        } else {
-            throw new RegraNegocioException("Concessionária inválida");
-        }
     }
 
     private void converteModeloVeiculo(ModeloVeiculoDTO dto, Veiculo veiculo) {

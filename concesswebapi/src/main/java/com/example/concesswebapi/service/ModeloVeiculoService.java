@@ -57,9 +57,7 @@ public class ModeloVeiculoService {
         if (Objects.equals(modeloVeiculo.getPermiteTestDrive(), "Sim") && verificaValor((modeloVeiculo.getQtdEstoqueVenda()))) {
             throw new RegraNegocioException("Quantidade de estoque para venda inválido");
         }
-//        if (verificaNullVazio(modeloVeiculo.getFotoModelo())) {
-//            throw new RegraNegocioException("Foto inválida");
-//        }
+
         if (modeloVeiculo.getTipoVeiculo() == null) {
             throw new RegraNegocioException("Tipo de veículo inválido");
         }

@@ -1,5 +1,6 @@
 package com.example.concesswebapi.security;
 import com.example.concesswebapi.service.UsuarioService;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@Profile("!test")
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     private JwtService jwtService;
